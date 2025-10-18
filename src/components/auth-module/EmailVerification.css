@@ -1,0 +1,419 @@
+/* Email Verification Component Styles */
+.email-verification-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Left Brand Section */
+.brand-section {
+  width: 475px;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.brand-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.brand-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #1F32D6 0%, #4B5EF5 100%);
+}
+
+.brand-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 471px;
+  background: linear-gradient(180deg, rgba(219, 223, 255, 1) 0%, rgba(219, 223, 255, 0.6) 60%, rgba(219, 223, 255, 0) 100%);
+}
+
+.brand-content {
+  position: relative;
+  z-index: 2;
+  padding: 56px 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.logo-image {
+  width: 32px;
+  height: 32px;
+}
+
+.brand-name {
+  font-family: 'SF Pro';
+  font-weight: 870;
+  font-size: 32px;
+  line-height: 1.2;
+  color: #4B5EF5;
+}
+
+.brand-description {
+  margin-top: 442px;
+}
+
+.description-card {
+  width: 411px;
+  height: 92px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.1), 0px 4px 4px 0px rgba(0, 0, 0, 0.05), 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.description-text {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.2;
+  color: #FFFFFF;
+}
+
+/* Right Content Section */
+.content-section {
+  flex: 1;
+  padding: 40px;
+  background: #FFFFFF;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  top: 176px;
+  left: 713px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 5px;
+  cursor: pointer;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 14px;
+  color: #1C1C1C;
+}
+
+.back-icon {
+  width: 10px;
+  height: 10px;
+  transform: rotate(180deg);
+}
+
+.language-selector {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  border: 1px solid #EDEEF3;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.language-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.global-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.language-text {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-size: 12px;
+  color: #1C1C1C;
+}
+
+.dropdown-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.main-content {
+  max-width: 480px;
+  margin: 230px auto 0;
+}
+
+.title {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 0.89;
+  color: #1C1C1C;
+  margin-bottom: 72px;
+}
+
+.subtitle {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1C1C1C;
+  margin-bottom: 36px;
+}
+
+/* Email Input Styles */
+.email-input-container {
+  margin-bottom: 55px;
+}
+
+.email-input {
+  width: 100%;
+  height: 56px;
+  border: 2px solid #EDEEF3;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 16px;
+  color: #1C1C1C;
+  background: #FFFFFF;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.email-input:focus {
+  border-color: #4B5EF5;
+  box-shadow: 0px 0px 0px 4px rgba(31, 50, 214, 0.15);
+}
+
+.email-input::placeholder {
+  color: #73798B;
+}
+
+/* Send Code Button Styles */
+.send-code-button {
+  width: 100%;
+  height: 56px;
+  background: #4B5EF5;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 16px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 40px;
+}
+
+.send-code-button:hover:not(:disabled) {
+  background: #3A4CD4;
+}
+
+.send-code-button:disabled {
+  background: #EDEEF3;
+  color: #73798B;
+  cursor: not-allowed;
+}
+
+.send-code-button.loading {
+  opacity: 0.7;
+}
+
+.email-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 55px;
+}
+
+.email-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.email-address {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #1C1C1C;
+}
+
+.verification-code-container {
+  margin-bottom: 96px;
+}
+
+.code-inputs {
+  display: flex;
+  gap: 24px;
+  justify-content: stretch;
+}
+
+.code-input {
+  width: 100%;
+  height: 56px;
+  border: 2px solid #EDEEF3;
+  border-radius: 10px;
+  text-align: center;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 24px;
+  color: #1C1C1C;
+  background: #FFFFFF;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.code-input:focus {
+  border-color: #4B5EF5;
+  box-shadow: 0px 0px 0px 4px rgba(31, 50, 214, 0.15);
+}
+
+.code-input::placeholder {
+  color: #73798B;
+}
+
+.resend-code {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.resend-text {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #73798B;
+}
+
+.resend-link {
+  color: #4B5EF5;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.resend-link:hover {
+  opacity: 0.8;
+}
+
+.verify-button {
+  width: 100%;
+  height: 56px;
+  background: #4B5EF5;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 16px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.verify-button:hover:not(:disabled) {
+  background: #3A4CD4;
+}
+
+.verify-button:disabled {
+  background: #EDEEF3;
+  color: #73798B;
+  cursor: not-allowed;
+}
+
+.verify-button.loading {
+  opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .brand-section {
+    width: 300px;
+  }
+  
+  .description-card {
+    width: 280px;
+  }
+  
+  .description-text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .email-verification-container {
+    flex-direction: column;
+  }
+  
+  .brand-section {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .brand-content {
+    padding: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .brand-description {
+    margin-top: 0;
+  }
+  
+  .description-card {
+    width: 200px;
+    height: 60px;
+  }
+  
+  .description-text {
+    font-size: 16px;
+  }
+  
+  .main-content {
+    margin-top: 60px;
+  }
+  
+  .title {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+  
+  .code-inputs {
+    gap: 16px;
+  }
+  
+  .code-input {
+    height: 48px;
+    font-size: 20px;
+  }
+}

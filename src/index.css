@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-[#F8FAFF] text-[#1c1c1c];
+  }
+}
+
+@layer components {
+  /* 主色按钮 */
+  .btn-primary {
+    @apply bg-[#4B5EF5] hover:bg-[#3A4BE5] text-white font-medium py-3 px-6 rounded-xl transition-all duration-200;
+  }
+  
+  /* 次要按钮 */
+  .btn-secondary {
+    @apply bg-white border border-[#E5E7EB] hover:border-[#D1D5DB] text-[#1c1c1c] font-medium py-3 px-6 rounded-xl transition-all duration-200;
+  }
+  
+  /* 卡片样式 */
+  .card {
+    @apply bg-white rounded-2xl shadow-lg border border-[#F0F2F5];
+  }
+  
+  /* 输入框样式 */
+  .input-field {
+    @apply w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent transition-all duration-200;
+  }
+  
+  /* 标签样式 */
+  .tag {
+    @apply inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium;
+  }
+  
+  .tag-primary {
+    @apply bg-[#4B5EF5]/10 text-[#4B5EF5];
+  }
+  
+  .tag-success {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .tag-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  /* 分割线 */
+  .divider {
+    @apply border-t border-[#F0F2F5];
+  }
+  
+  /* 图标容器 */
+  .icon-container {
+    @apply w-10 h-10 rounded-lg flex items-center justify-center;
+  }
+  
+  .icon-container-primary {
+    @apply bg-[#4B5EF5]/10 text-[#4B5EF5];
+  }
+  
+  .icon-container-gray {
+    @apply bg-[#F8FAFF] text-[#73798B];
+  }
+}

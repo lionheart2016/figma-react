@@ -1,0 +1,293 @@
+/* Authentication组件样式 */
+.authentication-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+
+
+/* 右侧认证区域 */
+.auth-section {
+  flex: 1;
+  padding: 40px;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 语言选择器 */
+.language-selector {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+
+.language-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #EDEEF3;
+  border-radius: 6px;
+  background: #FFFFFF;
+  cursor: pointer;
+}
+
+.global-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.language-text {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  color: #1C1C1C;
+}
+
+.arrow-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* 返回按钮 */
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.back-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  border-radius: 6px;
+}
+
+.back-arrow {
+  width: 10px;
+  height: 10px;
+  transform: rotate(180deg);
+}
+
+.back-text {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #1C1C1C;
+}
+
+/* 主标题 */
+.authentication-title {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 0.89;
+  color: #1C1C1C;
+  margin: 0 0 8px 0;
+}
+
+/* 欢迎文本 */
+.welcome-text {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1C1C1C;
+  margin: 0 0 60px 0;
+}
+
+/* 步骤容器 */
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+/* 步骤项 */
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.step-item.active {
+  opacity: 1;
+}
+
+.step-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F8F9FC;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.step-icon-img {
+  width: 24px;
+  height: 24px;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-number {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #1C1C1C;
+  margin-bottom: 4px;
+}
+
+.step-title {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #73798B;
+  margin-bottom: 4px;
+}
+
+.step-description {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+  color: #73798B;
+}
+
+/* 继续按钮 */
+.continue-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #4B5EF5;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.43;
+  cursor: pointer;
+  width: 390px;
+  height: 40px;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
+}
+
+.continue-button:hover {
+  background: #3A4BD4;
+}
+
+.continue-button:active {
+  background: #2A3BC3;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .authentication-container {
+    flex-direction: column;
+  }
+  
+  .authentication-brand-section {
+    width: 100%;
+    height: 300px;
+  }
+  
+  .brand-content {
+    padding: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo-section {
+    margin-bottom: 0;
+  }
+  
+  .brand-description {
+    margin-top: 0;
+  }
+  
+  .description-card {
+    padding: 15px 20px;
+  }
+  
+  .description-card p {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .authentication-content-section {
+    padding: 20px;
+  }
+  
+  .language-selector {
+    position: static;
+    margin-bottom: 20px;
+    align-self: flex-end;
+  }
+  
+  .back-button {
+    margin-bottom: 20px;
+  }
+  
+  .authentication-title {
+    font-size: 28px;
+  }
+  
+  .welcome-text {
+    font-size: 14px;
+    margin-bottom: 40px;
+  }
+  
+  .steps-container {
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .step-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .step-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .step-icon-img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .continue-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
