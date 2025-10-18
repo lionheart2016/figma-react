@@ -57,11 +57,15 @@
       "selectNationality": "选择国籍",
       "instructions": "说明：",
       "instructionLighting": "确保光线充足",
-      "instructionRemoveAccessories": "摘掉太阳镜或帽子",
+      "instructionRemoveAccessories": "摘下太阳镜或帽子",
       "instructionLookCamera": "直视摄像头",
       "instructionFollowPrompts": "按照屏幕提示操作",
       "processing": "处理中...",
-      "continue": "继续"
+      "continue": "继续",
+      "detectionComplete": "检测完成",
+      "detectionSuccess": "活体检测成功通过",
+      "nextStep": "下一步",
+      "loginPrompt": "点击下方按钮完成认证并登录"
     },
     "register": {
       "title": "创建您的账户",

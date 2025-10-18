@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePrivy } from '@privy-io/react-auth';
 import { useTranslation } from 'react-i18next';
-import Header from './Header';
+import Layout from '../Layout';
 
 function Reports() {
   const { t } = useTranslation();
@@ -55,13 +55,10 @@ function Reports() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFF]">
-      <Header user={user} onLogout={logout} />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <Layout activeMenu="reports" pageTitle="reports.title" breadcrumbItems={['sidebar.dashboard', 'sidebar.reports']}>
+      <div className="reports-content">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#1c1c1c]">{t('reports.title')}</h1>
-          <p className="text-sm sm:text-base text-[#73798B] mt-2">
+          <p className="text-sm sm:text-base text-[#73798B]">
             {t('reports.description')}
           </p>
         </div>
@@ -227,8 +224,8 @@ function Reports() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }
 

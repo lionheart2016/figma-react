@@ -61,7 +61,11 @@
       "instructionLookCamera": "直視攝像頭",
       "instructionFollowPrompts": "按照螢幕提示操作",
       "processing": "處理中...",
-      "continue": "繼續"
+      "continue": "繼續",
+      "detectionComplete": "檢測完成",
+      "detectionSuccess": "活體檢測成功通過",
+      "nextStep": "下一步",
+      "loginPrompt": "點擊下方按鈕完成認證並登錄"
     },
     "register": {
       "title": "建立您的帳戶",

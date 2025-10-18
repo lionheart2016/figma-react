@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { useTranslation } from 'react-i18next';
-import Header from './Header';
+import Layout from '../Layout';
 import WalletCard from './WalletCard';
 
 function Wallets() {
@@ -10,12 +10,9 @@ function Wallets() {
   const { wallets } = useWallets();
 
   return (
-    <div className="min-h-screen bg-[#F8FAFF]">
-      <Header user={user} onLogout={logout} />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <Layout activeMenu="wallets" pageTitle="wallets.title" breadcrumbItems={['sidebar.dashboard', 'sidebar.wallets']}>
+      <div className="wallets-content">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#1c1c1c]">{t('wallets.title')}</h1>
           <p className="text-sm sm:text-base text-[#73798B] mt-2">
             {t('wallets.description')}
           </p>
@@ -114,8 +111,8 @@ function Wallets() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }
 

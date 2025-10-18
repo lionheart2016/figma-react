@@ -7,11 +7,11 @@ import Authentication from './auth-module/Authentication';
 import InvestmentTypeSelection from './auth-module/InvestmentTypeSelection';
 import Register from './auth-module/Register';
 import EmailVerification from './auth-module/EmailVerification';
-import Dashboard from './Dashboard';
-import TradeView from './TradeView';
-import Wallets from './Wallets';
-import Reports from './Reports';
-import Settings from './Settings';
+import Dashboard from './core/dashboard/Dashboard';
+import TradeView from './core/trading/TradeView';
+import Wallets from './core/wallets/Wallets';
+import Reports from './core/reports/Reports';
+import Settings from './core/settings/Settings';
 import { ROUTES } from '../config/routes';
 
 // 路由守卫组件

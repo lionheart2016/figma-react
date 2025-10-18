@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { usePrivy } from '@privy-io/react-auth';
 import { useTranslation } from 'react-i18next';
-import Header from './Header';
+import Layout from '../Layout';
 
 function Settings() {
   const { user, logout } = usePrivy();
@@ -406,13 +406,10 @@ function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFF]">
-      <Header user={user} onLogout={logout} />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <Layout activeMenu="settings" pageTitle="settings.title" breadcrumbItems={['sidebar.dashboard', 'sidebar.settings']}>
+      <div className="settings-content">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#1c1c1c]">{t('settings.title')}</h1>
-          <p className="text-sm sm:text-base text-[#73798B] mt-2">
+          <p className="text-sm sm:text-base text-[#73798B]">
             {t('settings.description')}
           </p>
         </div>
@@ -447,8 +444,8 @@ function Settings() {
             {renderTabContent()}
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }
 
