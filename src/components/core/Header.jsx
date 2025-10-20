@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 import { useTranslation } from 'react-i18next'
-import { useLanguage } from '../contexts/LanguageContext'
+import { useLanguage } from "../../contexts/LanguageContext";
 
 function Header({ user, onLogout }) {
   const { user: privyUser } = usePrivy()
@@ -25,6 +25,7 @@ function Header({ user, onLogout }) {
   }, [])
   
   const displayName = user?.email?.address || 
+                     user?.email || 
                      user?.google?.name || 
                      user?.wallet?.address?.slice(0, 8) + '...' || 
                      t('common.user')

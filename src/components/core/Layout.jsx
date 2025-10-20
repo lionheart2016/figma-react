@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Sidebar from '../Sidebar';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
-const Layout = ({ children, activeMenu, pageTitle, breadcrumbItems = [] }) => {
+const Layout = ({ children, activeMenu, pageTitle, breadcrumbItems = [], user, onLogout }) => {
   const { t } = useTranslation();
   const [currentActiveMenu, setCurrentActiveMenu] = useState(activeMenu);
 
@@ -18,22 +19,7 @@ const Layout = ({ children, activeMenu, pageTitle, breadcrumbItems = [] }) => {
       {/* Main Content Area */}
       <div className="main-layout">
         {/* Header - Positioned at top right */}
-        <header className="header-menu">
-          <div className="header-left">
-            <div className="admin-section">
-              <div className="admin-info">
-                <img src="/profile-icon.svg" alt="Profile" className="profile-icon" />
-                <span className="admin-name">{t('trade.admin')}</span>
-                <img src="/chevron-down.svg" alt="Dropdown" className="chevron-down" />
-              </div>
-            </div>
-          </div>
-          
-          <div className="header-right">
-            <img src="/notification-icon.svg" alt="Notifications" className="notification-icon" />
-            <img src="/setting-icon.svg" alt="Settings" className="setting-icon" />
-          </div>
-        </header>
+        <Header user={user} onLogout={onLogout} />
 
         {/* Content Area */}
         <main className="main-content">

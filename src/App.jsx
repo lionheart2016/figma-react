@@ -14,7 +14,7 @@ function App() {
         appearance: {
           theme: "light",
           accentColor: "#4B5EF5",
-          logo: "/logo.svg",
+          logo: "/alphatoken-logo.svg",
           logoStyle: "rounded",
           showWalletLoginFirst: false
         },

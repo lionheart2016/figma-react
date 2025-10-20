@@ -105,6 +105,7 @@
       "subtitle": "Please select your investment type"
     },
     "register": "Register",
+    "logout": "Logout",
     "emailVerification": {
       "title": "Verify your email",
       "subtitle": "We've sent a verification code to {{email}}",
@@ -158,7 +159,16 @@
     "complete": "Complete",
     "recentTransactions": "Recent Transactions",
     "profile": "Profile",
-    "investmentProfile": "Investment Profile"
+    "investmentProfile": "Investment Profile",
+    "buyCrypto": "Buy Crypto",
+    "buyCryptoSubtitle": "Purchase cryptocurrency",
+    "buyCryptoDescription": "Buy your favorite cryptocurrencies with fiat currency",
+    "sellCrypto": "Sell Crypto",
+    "sellCryptoSubtitle": "Sell cryptocurrency",
+    "sellCryptoDescription": "Sell your cryptocurrencies for fiat currency",
+    "swap": "Swap",
+    "swapSubtitle": "Exchange cryptocurrencies",
+    "swapDescription": "Swap one cryptocurrency for another"
   },
   "wallets": {
     "title": "Wallets",
@@ -353,5 +363,30 @@
     "wallets": "Wallets",
     "reports": "Reports",
     "settings": "Settings"
+  },
+  "tradeMain": {
+    "title": "Trade",
+    "subtitle": "Discover and invest in premium trading products",
+    "completeProfile": "Complete your investment profile",
+    "completeProfileDesc": "In order to unlock some offerings you need to give us some information",
+    "complete": "Complete",
+    "minInvestment": "Min. Investment",
+    "view": "View"
+  },
+  "tradeDetail": {
+    "investNow": "Invest Now",
+    "investmentAmount": "Investment Amount",
+    "tokenDetails": "Token Details",
+    "priceHistory": "Price History",
+    "investmentRisk": "Investment Risk",
+    "investmentRiskDesc": "Cryptocurrency investments are subject to market risks. Please invest responsibly and only what you can afford to lose.",
+    "currentPrice": "Current Price",
+    "tokenType": "Token Type",
+    "totalSupply": "Total Supply",
+    "circulatingSupply": "Circulating Supply",
+    "marketCap": "Market Cap",
+    "allTimeHigh": "All-Time High",
+    "allTimeLow": "All-Time Low",
+    "enterAmount": "Enter amount"
   }
 }
