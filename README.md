@@ -1,4 +1,4 @@
-# Figma React Crypto Trading Platform
+# alpha token Crypto Trading Platform
 
 基于Figma设计的加密货币交易平台，使用React开发，集成Privy认证和国际化功能。
 
