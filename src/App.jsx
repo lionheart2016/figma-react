@@ -22,11 +22,11 @@ function App() {
         }
       }}
     >
-      <LanguageProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <LanguageProvider>
           <AppRouter />
-        </AuthProvider>
-      </LanguageProvider>
+        </LanguageProvider>
+      </AuthProvider>
     </PrivyProvider>
   )
 }

@@ -13,79 +13,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.brand-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, #1F32D6 0%, #4B5EF5 100%);
-}
-
-.brand-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, 
-    rgba(219, 223, 255, 1) 0%, 
-    rgba(219, 223, 255, 0.6) 50%, 
-    transparent 100%);
-}
-
-.brand-content {
-  position: relative;
-  z-index: 10;
-  height: 100%;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.brand-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 224px; /* 对应设计稿中的mb-56 */
-}
-
-.logo-image {
-  width: 32px;
-  height: 32px;
-}
-
-.brand-name {
-  color: white;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.brand-description {
-  margin-top: auto;
-}
-
-.description-card {
-  background: linear-gradient(180deg, 
-    rgba(255, 255, 255, 0.6) 0%, 
-    rgba(255, 255, 255, 0.5) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.description-text {
-  color: white;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.4;
-  margin: 0;
+  object-position: center;
 }
 
 /* 响应式设计 */
@@ -93,30 +21,6 @@
   .brand-section {
     width: 100%;
     height: 300px;
-  }
-  
-  .brand-content {
-    padding: 24px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .brand-logo {
-    margin-bottom: 0;
-  }
-  
-  .brand-description {
-    margin-top: 0;
-    max-width: 300px;
-  }
-  
-  .description-card {
-    padding: 16px;
-  }
-  
-  .description-text {
-    font-size: 16px;
   }
 }
 

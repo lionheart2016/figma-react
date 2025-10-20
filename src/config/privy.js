@@ -1,19 +1,18 @@
 // Privy Configuration
 export const privyConfig = {
-  appId: 'cm2v3q9g2000qk90f7f8q9q9q', // 这是一个示例appId，实际使用时需要替换为真实的appId
+  appId: 'cmgkk8drf001lk00cob8vgj4e', // 使用环境变量中的正确appId
   appearance: {
     theme: 'light',
     accentColor: '#1F32D6',
     logo: '/alpha-privy-logo.svg'
   },
   embeddedWallets: {
-    createOnLogin: 'users-without-wallets'
+    createOnLogin: 'off' // 暂时禁用嵌入式钱包以解决跨域问题
   },
   loginMethods: [
     'email',
-    'wallet',
-    'google',
-    'apple'
+    'google'
+    // 暂时禁用钱包登录以解决跨域问题
   ],
   mfa: {
     deviceShareFactor: {

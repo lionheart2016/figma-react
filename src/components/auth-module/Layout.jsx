@@ -1,6 +1,6 @@
 import React from 'react';
 import BrandSection from './BrandSection';
-import LanguageSwitcher from './LanguageSwitcher';
+import { LanguageSwitcher } from '../global';
 import { useTranslation } from 'react-i18next';
 import './Layout.css';
 
