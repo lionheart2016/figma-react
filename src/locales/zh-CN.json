@@ -69,20 +69,30 @@
     },
     "register": {
       "title": "创建您的账户",
-      "subtitle": "输入您的详细信息开始使用",
-      "emailRequired": "邮箱是必填项",
-      "emailInvalid": "邮箱格式无效",
-      "passwordRequired": "密码是必填项",
-      "passwordMinLength": "密码至少8个字符",
-      "confirmPasswordRequired": "请确认密码",
-      "passwordsNotMatch": "密码不匹配",
-      "agreeToTermsRequired": "您必须同意条款和条件",
-      "agreeToTerms": "我同意服务条款和隐私政策",
+      "subtitle": "加入我们，开始您的加密货币交易之旅",
+      "emailLabel": "邮箱",
+      "emailPlaceholder": "请输入您的邮箱",
+      "passwordLabel": "密码",
+      "passwordPlaceholder": "请输入您的密码",
+      "confirmPasswordLabel": "确认密码",
+      "confirmPasswordPlaceholder": "请确认您的密码",
+      "registerButton": "创建账户",
+      "hasAccount": "已有账户？",
+      "signIn": "登录",
+      "agreeToTerms": "我同意",
       "termsOfService": "服务条款",
+      "and": "和",
       "privacyPolicy": "隐私政策",
-      "creatingAccount": "创建账户中...",
-      "createAccountButton": "创建账户",
-      "registrationFailed": "注册失败，请重试"
+      "validation": {
+        "emailRequired": "邮箱是必填项",
+        "emailInvalid": "邮箱格式无效",
+        "passwordRequired": "密码是必填项",
+        "passwordMinLength": "密码至少8个字符",
+        "confirmPasswordRequired": "请确认密码",
+        "passwordMismatch": "密码不匹配",
+        "termsRequired": "您必须同意服务条款",
+        "registrationFailed": "注册失败"
+      }
     },
     "layout": {
       "back": "返回",
@@ -102,9 +112,9 @@
     },
     "investmentSelection": {
       "title": "欢迎 👋🏼",
-      "subtitle": "请选择您的投资类型"
+      "subtitle": "请选择您的投资类型",
+      "selectedType": "选中的投资类型："
     },
-    "register": "注册",
     "emailVerification": {
       "title": "验证您的邮箱",
       "subtitle": "我们已向{{email}}发送了验证码",
@@ -115,7 +125,8 @@
       "verify": "验证",
       "didntReceiveCode": "没有收到验证码？",
       "resendCode": "重新发送验证码",
-      "resendIn": "{{timer}}秒后重新发送"
+      "resendIn": "{{timer}}秒后重新发送",
+      "resendingCode": "正在重新发送验证码到："
     }
   },
   "dashboard": {

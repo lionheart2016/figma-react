@@ -38,7 +38,7 @@ const InvestmentTypeSelection = ({ onRegister }) => {
 
   const handleRegister = () => {
     if (selectedType) {
-      console.log('Selected investment type:', selectedType);
+      console.log(t('auth.investmentSelection.selectedType'), selectedType);
       
       // 保存投资类型到localStorage
       localStorage.setItem('selectedInvestmentType', selectedType);
@@ -104,7 +104,7 @@ const InvestmentTypeSelection = ({ onRegister }) => {
             : 'bg-[#D9D9D9] text-[#73798B] cursor-not-allowed'
         }`}
       >
-        {t('auth.register')}
+        {t('auth.register.registerButton')}
       </button>
     </Layout>
   );

@@ -56,7 +56,7 @@ const Authentication = () => {
         // 登录成功后导航到主页面
         navigate(ROUTES.HOME);
       } catch (error) {
-        console.error('Login failed:', error);
+        console.error(t('auth.authentication.loginFailed'), error);
         // 如果登录失败，仍然导航到主页面（用于测试）
         navigate(ROUTES.HOME);
       } finally {

@@ -5,7 +5,7 @@ import Layout from '../Layout';
 
 function Reports() {
   const { t } = useTranslation();
-  const { user, logout } = usePrivy();
+  const { user } = usePrivy();
 
   // 模拟报告数据
   const reports = [
@@ -55,7 +55,7 @@ function Reports() {
   };
 
   return (
-    <Layout activeMenu="reports" pageTitle="reports.title" breadcrumbItems={['sidebar.dashboard', 'sidebar.reports']}>
+    <Layout activeMenu="reports" pageTitle="sidebar.reports" breadcrumbItems={['sidebar.reports']}>
       <div className="reports-content">
         <div className="mb-6 sm:mb-8">
           <p className="text-sm sm:text-base text-[#73798B]">

@@ -27,22 +27,40 @@ const resources = {
   }
 };
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: getSavedLanguage(), // 使用保存的语言设置
-    fallbackLng: 'en',
-    debug: process.env.NODE_ENV === 'development',
-    interpolation: {
-      escapeValue: false
-    },
-    detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage']
-    }
-  });
+// 初始化 i18next
+const initI18n = async () => {
+  await i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      resources,
+      lng: getSavedLanguage(), // 使用保存的语言设置
+      fallbackLng: 'en',
+      debug: process.env.NODE_ENV === 'development',
+      interpolation: {
+        escapeValue: false
+      },
+      detection: {
+        order: ['localStorage', 'navigator', 'htmlTag'],
+        caches: ['localStorage']
+      },
+      react: {
+        useSuspense: false // 禁用 suspense 避免加载问题
+      }
+    });
+  
+  console.log('i18n initialized with language:', i18n.language);
+  
+  // 暴露 i18n 实例到全局，便于调试
+  if (typeof window !== 'undefined') {
+    window.i18next = i18n;
+  }
+  
+  return i18n;
+};
+
+// 导出初始化函数
+export { initI18n };
 
 // 导出语言切换函数
 export const changeLanguage = (lng) => {

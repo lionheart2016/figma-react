@@ -3,7 +3,6 @@ import { PrivyProvider } from '@privy-io/react-auth'
 import { AuthProvider } from './contexts/AuthContext'
 import { LanguageProvider } from './contexts/LanguageContext'
 import AppRouter from './components/AppRouter'
-import './config/i18n' // 导入国际化配置
 
 function App() {
   return (

@@ -68,21 +68,32 @@
       "loginPrompt": "Click the button below to complete authentication and login"
     },
     "register": {
-      "title": "Create your account",
+      "title": "Create Your Account",
       "subtitle": "Enter your details to get started",
-      "emailRequired": "Email is required",
-      "emailInvalid": "Email is invalid",
-      "passwordRequired": "Password is required",
-      "passwordMinLength": "Password must be at least 8 characters",
-      "confirmPasswordRequired": "Please confirm your password",
-      "passwordsNotMatch": "Passwords do not match",
-      "agreeToTermsRequired": "You must agree to the terms and conditions",
-      "agreeToTerms": "I agree to the Terms of Service and Privacy Policy",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "Enter your email address",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "registerButton": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "registrationFailed": "Registration failed",
+      "agreeToTerms": "I agree to the",
       "termsOfService": "Terms of Service",
+      "and": "and",
       "privacyPolicy": "Privacy Policy",
-      "creatingAccount": "Creating Account...",
-      "createAccountButton": "Create Account",
-      "registrationFailed": "Registration failed. Please try again."
+      "validation": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "confirmPasswordRequired": "Please confirm your password",
+        "passwordMismatch": "Passwords do not match",
+        "termsRequired": "You must agree to the terms of service",
+        "registrationFailed": "Registration failed"
+      }
     },
     "layout": {
       "back": "back",
@@ -98,25 +109,27 @@
     },
     "investmentTypes": {
       "individual": "Individual investors",
-      "corporate": "Corporate investors"
+      "corporate": "Corporate Investment",
+      "description": "Suitable for companies, institutions, and organizations"
     },
     "investmentSelection": {
       "title": "Welcome 👋🏼",
-      "subtitle": "Please select your investment type"
+      "subtitle": "Please select your investment type",
+      "selectedType": "Selected investment type:"
     },
-    "register": "Register",
     "logout": "Logout",
     "emailVerification": {
-      "title": "Verify your email",
-      "subtitle": "We've sent a verification code to {{email}}",
-      "yourEmail": "your email",
-      "incompleteCode": "Please enter the complete 6-digit code",
-      "verificationFailed": "Verification failed. Please try again.",
-      "verifying": "Verifying...",
-      "verify": "Verify",
+      "title": "Email Verification",
+      "subtitle": "Please enter the verification code sent to your email",
+      "codeLabel": "Verification Code",
+      "codePlaceholder": "Enter verification code",
+      "verifyButton": "Verify Email",
+      "resendButton": "Resend Code",
+      "resendingCode": "Resending verification code to:",
+      "verify": "Verify Email",
       "didntReceiveCode": "Didn't receive the code?",
-      "resendCode": "Resend code",
-      "resendIn": "Resend in {{timer}}s"
+      "resendIn": "Resend in {{timer}} seconds",
+      "resendCode": "Resend Code"
     }
   },
   "dashboard": {

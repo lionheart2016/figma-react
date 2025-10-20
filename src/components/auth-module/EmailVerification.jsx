@@ -116,7 +116,7 @@ const EmailVerification = () => {
     setError('');
     
     // 模拟重新发送逻辑
-    console.log('Resending verification code to:', userEmail);
+    console.log(t('auth.emailVerification.resendingCode'), userEmail);
   };
 
   // 返回上一页

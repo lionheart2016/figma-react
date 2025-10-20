@@ -68,21 +68,31 @@
       "loginPrompt": "點擊下方按鈕完成認證並登錄"
     },
     "register": {
-      "title": "建立您的帳戶",
-      "subtitle": "輸入您的詳細資訊開始使用",
-      "emailRequired": "電子郵件是必填項",
-      "emailInvalid": "電子郵件格式無效",
-      "passwordRequired": "密碼是必填項",
-      "passwordMinLength": "密碼至少8個字符",
-      "confirmPasswordRequired": "請確認密碼",
-      "passwordsNotMatch": "密碼不匹配",
-      "agreeToTermsRequired": "您必須同意條款和條件",
-      "agreeToTerms": "我同意服務條款和隱私政策",
+      "title": "創建賬戶",
+      "subtitle": "加入我們，開始您的加密貨幣交易之旅",
+      "emailLabel": "郵箱",
+      "emailPlaceholder": "請輸入郵箱",
+      "passwordLabel": "密碼",
+      "passwordPlaceholder": "請輸入密碼",
+      "confirmPasswordLabel": "確認密碼",
+      "confirmPasswordPlaceholder": "請確認密碼",
+      "registerButton": "創建賬戶",
+      "hasAccount": "已有賬戶？",
+      "signIn": "登錄",
+      "agreeToTerms": "我同意",
       "termsOfService": "服務條款",
+      "and": "和",
       "privacyPolicy": "隱私政策",
-      "creatingAccount": "建立帳戶中...",
-      "createAccountButton": "建立帳戶",
-      "registrationFailed": "註冊失敗，請重試"
+      "validation": {
+        "emailRequired": "郵箱不能為空",
+        "emailInvalid": "請輸入有效的郵箱地址",
+        "passwordRequired": "密碼不能為空",
+        "passwordMinLength": "密碼長度至少為8位",
+        "confirmPasswordRequired": "請確認密碼",
+        "passwordMismatch": "兩次輸入的密碼不一致",
+        "termsRequired": "您必須同意服務條款",
+        "registrationFailed": "註冊失敗"
+      }
     },
     "layout": {
       "back": "返回",
@@ -102,9 +112,9 @@
     },
     "investmentSelection": {
       "title": "歡迎 👋🏼",
-      "subtitle": "請選擇您的投資類型"
+      "subtitle": "請選擇您的投資類型",
+      "selectedType": "選中的投資類型："
     },
-    "register": "註冊",
     "emailVerification": {
       "title": "驗證您的郵箱",
       "subtitle": "我們已向{{email}}發送了驗證碼",
@@ -115,7 +125,8 @@
       "verify": "驗證",
       "didntReceiveCode": "沒有收到驗證碼？",
       "resendCode": "重新發送驗證碼",
-      "resendIn": "{{timer}}秒後重新發送"
+      "resendIn": "{{timer}}秒後重新發送",
+      "resendingCode": "正在重新發送驗證碼到："
     }
   },
   "dashboard": {

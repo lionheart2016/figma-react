@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 import { useTranslation } from 'react-i18next'
 import { useLanguage } from "../../contexts/LanguageContext";
+import { useAuth } from "../../contexts/AuthContext";
 
-function Header({ user, onLogout }) {
+function Header({ user }) {
   const { user: privyUser } = usePrivy()
   const { t } = useTranslation()
   const { currentLanguage, switchLanguage, getAvailableLanguages } = useLanguage()
+  const { logout } = useAuth()
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
   const dropdownRef = useRef(null)
   
@@ -103,7 +105,7 @@ function Header({ user, onLogout }) {
             </div>
             
             <button
-              onClick={onLogout}
+              onClick={logout}
               className="btn-secondary text-xs sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2"
             >
               {t('auth.logout')}

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Layout from '../Layout';
 
 function Settings() {
-  const { user, logout } = usePrivy();
+  const { user } = usePrivy();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('general');
   const [settings, setSettings] = useState({
@@ -407,7 +407,7 @@ function Settings() {
 
   return (
     <Layout activeMenu="settings" pageTitle="settings.title" breadcrumbItems={['sidebar.dashboard', 'sidebar.settings']}>
-      <div className="settings-content">
+      <div className="settings-container">
         <div className="mb-6 sm:mb-8">
           <p className="text-sm sm:text-base text-[#73798B]">
             {t('settings.description')}

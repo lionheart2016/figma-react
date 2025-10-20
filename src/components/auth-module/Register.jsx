@@ -37,28 +37,28 @@ const Register = () => {
 
     // 邮箱验证
     if (!formData.email) {
-      newErrors.email = t('auth.register.emailRequired');
+      newErrors.email = t('auth.register.validation.emailRequired');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = t('auth.register.emailInvalid');
+      newErrors.email = t('auth.register.validation.emailInvalid');
     }
 
     // 密码验证
     if (!formData.password) {
-      newErrors.password = t('auth.register.passwordRequired');
+      newErrors.password = t('auth.register.validation.passwordRequired');
     } else if (formData.password.length < 8) {
-      newErrors.password = t('auth.register.passwordMinLength');
+      newErrors.password = t('auth.register.validation.passwordMinLength');
     }
 
     // 确认密码验证
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = t('auth.register.confirmPasswordRequired');
+      newErrors.confirmPassword = t('auth.register.validation.confirmPasswordRequired');
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = t('auth.register.passwordsNotMatch');
+      newErrors.confirmPassword = t('auth.register.validation.passwordMismatch');
     }
 
     // 条款同意验证
     if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = t('auth.register.agreeToTermsRequired');
+      newErrors.agreeToTerms = t('auth.register.validation.termsRequired');
     }
 
     setErrors(newErrors);
@@ -84,8 +84,8 @@ const Register = () => {
       // 导航到邮箱验证页面
       navigate(ROUTES.EMAIL_VERIFICATION);
     } catch (error) {
-      console.error('Registration failed:', error);
-      setErrors({ submit: t('auth.register.registrationFailed') });
+      console.error(t('auth.register.registrationError'), error);
+      setErrors({ submit: t('auth.register.validation.registrationFailed') || t('auth.register.registrationFailed') });
     } finally {
       setIsLoading(false);
     }
@@ -97,8 +97,8 @@ const Register = () => {
 
   return (
     <Layout
-      title={t('auth.register.createAccount')}
-      subtitle={t('auth.register.enterDetails')}
+      title={t('auth.register.registerButton')}
+      subtitle={t('auth.register.subtitle')}
       showBackButton={true}
       onBack={handleBack}
     >
@@ -106,7 +106,7 @@ const Register = () => {
         {/* 邮箱输入 */}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-[#1C1C1C] mb-2">
-            {t('auth.register.email')}
+            {t('auth.register.emailLabel')}
           </label>
           <input
             type="email"
@@ -117,7 +117,7 @@ const Register = () => {
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
               errors.email ? 'border-red-500' : 'border-[#EDEEF3]'
             }`}
-            placeholder={t('auth.register.email')}
+            placeholder={t('auth.register.emailPlaceholder')}
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-500">{errors.email}</p>
@@ -127,7 +127,7 @@ const Register = () => {
         {/* 密码输入 */}
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-[#1C1C1C] mb-2">
-            {t('auth.register.password')}
+            {t('auth.register.passwordLabel')}
           </label>
           <input
             type="password"
@@ -138,7 +138,7 @@ const Register = () => {
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
               errors.password ? 'border-red-500' : 'border-[#EDEEF3]'
             }`}
-            placeholder={t('auth.register.createPassword')}
+            placeholder={t('auth.register.passwordPlaceholder')}
           />
           {errors.password && (
             <p className="mt-1 text-sm text-red-500">{errors.password}</p>
@@ -148,7 +148,7 @@ const Register = () => {
         {/* 确认密码输入 */}
         <div>
           <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#1C1C1C] mb-2">
-            {t('auth.register.confirmPassword')}
+            {t('auth.register.confirmPasswordLabel')}
           </label>
           <input
             type="password"
@@ -159,7 +159,7 @@ const Register = () => {
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
               errors.confirmPassword ? 'border-red-500' : 'border-[#EDEEF3]'
             }`}
-            placeholder={t('auth.register.confirmPassword')}
+            placeholder={t('auth.register.confirmPasswordPlaceholder')}
           />
           {errors.confirmPassword && (
             <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>
@@ -197,13 +197,27 @@ const Register = () => {
               : 'bg-[#4B5EF5] text-white hover:bg-[#3A4BD4] active:bg-[#2A3AB3]'
           }`}
         >
-          {isLoading ? t('auth.register.creatingAccount') : t('auth.register.createAccount')}
+          {isLoading ? t('common.loading') : t('auth.register.registerButton')}
         </button>
 
         {/* 提交错误 */}
         {errors.submit && (
           <p className="text-sm text-red-500 text-center">{errors.submit}</p>
         )}
+
+        {/* 已有账户链接 */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-[#6B6E7A]">
+            {t('auth.register.hasAccount')} {' '}
+            <button
+              type="button"
+              onClick={() => navigate(ROUTES.LOGIN)}
+              className="text-[#4B5EF5] hover:text-[#3D4FD0] font-medium focus:outline-none focus:underline transition-colors"
+            >
+              {t('auth.register.signIn')}
+            </button>
+          </p>
+        </div>
       </form>
     </Layout>
   );

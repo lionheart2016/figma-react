@@ -6,7 +6,7 @@ import WalletCard from './WalletCard';
 
 function Wallets() {
   const { t } = useTranslation();
-  const { user, logout } = usePrivy();
+  const { user } = usePrivy();
   const { wallets } = useWallets();
 
   return (
