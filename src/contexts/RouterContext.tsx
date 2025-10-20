@@ -1,6 +1,4 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useAuth } from './AuthContext';
-import { useUserState } from '../services/userState';
 import { ROUTES, routeMeta } from '../config/routes';
 
 // 定义路由元信息类型

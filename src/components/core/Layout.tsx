@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Breadcrumb from './Breadcrumb';
-import { PrivyUser } from '@privy-io/react-auth';
 
 // 定义Breadcrumb项接口
 interface BreadcrumbItem {
@@ -12,13 +11,21 @@ interface BreadcrumbItem {
   isActive?: boolean;
 }
 
+// 定义User接口替代PrivyUser
+interface User {
+  id?: string;
+  email?: string | { address: string; verified: boolean };
+  phone?: string;
+  name?: string;
+}
+
 // 定义Layout组件接口
 interface LayoutProps {
   children: React.ReactNode;
   activeMenu?: string;
   pageTitle?: string;
   breadcrumbItems?: BreadcrumbItem[];
-  user?: PrivyUser | null;
+  user?: User | null;
 }
 
 const Layout: React.FC<LayoutProps> = ({ 

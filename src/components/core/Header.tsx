@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
   }
   
   // 安全地处理用户显示名称
-  const displayName: string = user?.email?.address || 
+  const displayName: string = typeof user?.email === 'object' ? user.email.address : user?.email ||
                      user?.email || 
                      (user?.google && 'name' in user.google ? user.google.name : undefined) || 
                      (user?.wallet && 'address' in user.wallet ? 
