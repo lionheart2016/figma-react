@@ -9,7 +9,7 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 100;
+  z-index: 40; /* 降低z-index，确保在header之下 */
 }
 
 .logo-section {
@@ -96,16 +96,46 @@
   background-color: #F1F5F9;
 }
 
+/* Main Layout Styles - 确保主内容区域不与侧边栏重叠 */
+.main-layout {
+  margin-left: 240px; /* 为固定侧边栏留出空间 */
+  margin-top: 64px; /* 为固定header留出空间 */
+  min-height: calc(100vh - 64px); /* 减去header高度 */
+  background-color: #F8FAFF;
+}
+
+/* Header Styles - 确保导航栏在正确的层级 */
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 240px; /* 与sidebar宽度一致 */
+  z-index: 50; /* 确保导航栏在侧边栏之上但低于其他重要元素 */
+  height: 64px; /* 固定高度 */
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .sidebar {
     width: 200px;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
+    z-index: 100; /* 移动端保持较高的z-index */
   }
   
   .sidebar.open {
     transform: translateX(0);
+  }
+  
+  .main-layout {
+    margin-left: 0; /* 移动端不需要左边距 */
+    margin-top: 64px; /* 移动端也需要为header留出空间 */
+    min-height: calc(100vh - 64px);
+  }
+  
+  header {
+    left: 0; /* 移动端header占满全屏 */
+    z-index: 50;
   }
   
   .logo-text {

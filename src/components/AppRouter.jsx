@@ -100,7 +100,7 @@ const AppRouter = () => {
         />
         
         <Route 
-          path={ROUTES.TRADE} 
+          path={`${ROUTES.TRADE}/*`} 
           element={
             <ProtectedRoute>
               <TradeView />

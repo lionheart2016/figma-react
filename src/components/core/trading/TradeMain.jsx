@@ -40,11 +40,6 @@ const TradeMain = () => {
 
   return (
     <div className="flex-1 p-6 bg-gray-50">
-      {/* 页面标题 */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('tradeMain.title')}</h1>
-        <p className="text-gray-600">{t('tradeMain.subtitle')}</p>
-      </div>
 
       {/* 投资配置提示 */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">

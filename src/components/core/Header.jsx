@@ -40,18 +40,9 @@ function Header({ user, onLogout }) {
   }
 
   return (
-    <header className="bg-white shadow-lg border-b border-[#F0F2F5]">
+    <header className="bg-white shadow-lg border-b border-[#F0F2F5] fixed top-0 left-0 right-0 z-50 ml-[240px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <img src="/alphatoken-logo.svg" alt={t('auth.brand.altText')} className="h-6 sm:h-8" />
-            </div>
-            <div className="ml-2 sm:ml-3">
-              <h1 className="text-lg sm:text-xl font-semibold text-[#1c1c1c]">{t('auth.brand.name')}</h1>
-            </div>
-          </div>
-
+        <div className="flex justify-end items-center h-16">
           <div className="flex items-center space-x-2 sm:space-x-4">
             {/* 语言切换器 */}
             <div className="relative" ref={dropdownRef}>

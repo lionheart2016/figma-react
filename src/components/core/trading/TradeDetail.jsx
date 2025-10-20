@@ -82,17 +82,6 @@ const TradeDetail = () => {
 
   return (
     <div className="flex-1 p-6 bg-gray-50">
-      {/* 面包屑导航 */}
-      <div className="mb-6">
-        <div className="flex items-center space-x-2 text-sm text-gray-600">
-          <button onClick={handleBack} className="hover:text-blue-600 transition-colors">
-            {t('tradeMain.title')}
-          </button>
-          <span>/</span>
-          <span className="text-gray-900">{product.name}</span>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* 左侧：产品信息 */}
         <div className="space-y-6">
@@ -117,7 +106,7 @@ const TradeDetail = () => {
                 <div className="text-2xl font-bold text-blue-900">{product.details.currentPrice}</div>
               </div>
               <div className="bg-green-50 rounded-lg p-4">
-                <div className="text-sm text-green-600 mb-1">{t('tradeMain.minInvestment')}</div>
+                <div className="text-sm text-green-600 mb-1">{t('tradeDetail.minInvestment')}</div>
                 <div className="text-2xl font-bold text-green-900">{product.minInvestment}</div>
               </div>
             </div>
