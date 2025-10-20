@@ -18,7 +18,8 @@
     "alphatoken": "Alphatoken",
     "dropdown": "下拉",
     "notification": "通知",
-    "pageNotFound": "404 - 页面未找到"
+    "pageNotFound": "404 - 页面未找到",
+    "close": "关闭"
   },
   "auth": {
     "login": "登录",

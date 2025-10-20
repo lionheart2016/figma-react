@@ -18,7 +18,8 @@
     "alphatoken": "Alphatoken",
     "dropdown": "Dropdown",
     "notification": "Notification",
-    "pageNotFound": "404 - Page Not Found"
+    "pageNotFound": "404 - Page Not Found",
+    "close": "Close"
   },
   "auth": {
     "login": "Login",

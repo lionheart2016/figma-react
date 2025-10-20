@@ -13,7 +13,8 @@ export class UserStateService {
       wallet: null,
       lastLoginTime: null,
       sessionExpiry: null,
-      isLoading: false
+      isLoading: false,
+      investmentTipClosed: false // 新增：投资配置提示关闭状态
     };
     
     // 从本地存储恢复状态
@@ -57,7 +58,8 @@ export class UserStateService {
       wallet: null,
       lastLoginTime: null,
       sessionExpiry: null,
-      isLoading: false
+      isLoading: false,
+      investmentTipClosed: false
     };
     localStorage.removeItem('userState');
   }
@@ -109,6 +111,13 @@ export class UserStateService {
     }
   }
 
+  // 设置投资配置提示关闭状态
+  setInvestmentTipClosed(isClosed) {
+    this.state.investmentTipClosed = isClosed;
+    this.saveToStorage();
+    this.notifyListeners();
+  }
+
   // 检查会话是否有效
   isSessionValid() {
     return this.state.isLoggedIn && 
@@ -155,6 +164,7 @@ export const useUserState = () => {
     setLoadingState: (isLoading) => userStateService.setLoadingState(isLoading),
     updateUserInfo: (userData) => userStateService.updateUserInfo(userData),
     updateWalletInfo: (walletData) => userStateService.updateWalletInfo(walletData),
+    setInvestmentTipClosed: (isClosed) => userStateService.setInvestmentTipClosed(isClosed),
     isSessionValid: () => userStateService.isSessionValid()
   };
 };
@@ -178,6 +188,7 @@ export const UserStateProvider = ({ children }) => {
     setLoadingState: (isLoading) => userStateService.setLoadingState(isLoading),
     updateUserInfo: (userData) => userStateService.updateUserInfo(userData),
     updateWalletInfo: (walletData) => userStateService.updateWalletInfo(walletData),
+    setInvestmentTipClosed: (isClosed) => userStateService.setInvestmentTipClosed(isClosed),
     isSessionValid: () => userStateService.isSessionValid()
   };
 
