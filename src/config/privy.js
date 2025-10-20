@@ -1,6 +1,6 @@
 // Privy Configuration
 export const privyConfig = {
-  appId: 'cmgkk8drf001lk00cob8vgj4e', // 使用环境变量中的正确appId
+  appId: import.meta.env.VITE_PRIVY_APP_ID, // 从环境变量中读取appId
   appearance: {
     theme: 'light',
     accentColor: '#1F32D6',

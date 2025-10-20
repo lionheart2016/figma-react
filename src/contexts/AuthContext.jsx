@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { usePrivy, useWallets } from '@privy-io/react-auth';
+import { usePrivy, useWallets, PrivyProvider as RealPrivyProvider } from '@privy-io/react-auth';
 import { privyConfig } from '../config/privy';
 import userStateService from '../services/userState.jsx';
 
@@ -17,8 +17,9 @@ const mockUseWallets = () => ({
   wallets: []
 });
 
-// 在非浏览器环境中使用模拟组件
-const PrivyProvider = ({ children }) => <div>{children}</div>;
+// 根据环境条件选择使用真实或模拟的PrivyProvider
+const isBrowser = typeof window !== 'undefined';
+const PrivyProvider = isBrowser ? RealPrivyProvider : ({ children }) => <div>{children}</div>;
 
 // 创建认证上下文
 const AuthContext = createContext();
