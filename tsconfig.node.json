@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.js"],
+  // 确保指定的文件存在，若项目根目录下无 vite.config.js 文件，需创建或修正路径
+  "exclude": [] 
+}

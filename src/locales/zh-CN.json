@@ -62,11 +62,12 @@
       "instructionLookCamera": "直视摄像头",
       "instructionFollowPrompts": "按照屏幕提示操作",
       "processing": "处理中...",
-      "continue": "继续",
-      "detectionComplete": "检测完成",
-      "detectionSuccess": "活体检测成功通过",
-      "nextStep": "下一步",
-      "loginPrompt": "点击下方按钮完成认证并登录"
+    "continue": "继续",
+    "detectionComplete": "检测完成",
+    "detectionSuccess": "活体检测成功通过",
+    "nextStep": "下一步",
+    "loginPrompt": "点击下方按钮完成认证并登录",
+    "completeLogin": "完成登录"
     },
     "register": {
       "title": "创建您的账户",

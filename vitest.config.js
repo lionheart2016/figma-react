@@ -35,7 +35,7 @@ export default defineConfig({
   },
   // 基本的esbuild配置
   esbuild: {
-    loader: 'jsx',
+    // 移除固定的loader配置，让Vite自动根据文件扩展名选择合适的loader
     include: /src\/.*\.[jt]sx?$/,
     exclude: []
   }

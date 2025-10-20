@@ -62,11 +62,12 @@
       "instructionLookCamera": "Look directly at the camera",
       "instructionFollowPrompts": "Follow the on-screen prompts",
       "processing": "Processing...",
-      "continue": "Continue",
-      "detectionComplete": "Detection Complete",
-      "detectionSuccess": "Liveness detection passed successfully",
-      "nextStep": "Next Step",
-      "loginPrompt": "Click the button below to complete authentication and login"
+    "continue": "Continue",
+    "detectionComplete": "Detection Complete",
+    "detectionSuccess": "Liveness detection passed successfully",
+    "nextStep": "Next Step",
+    "loginPrompt": "Click the button below to complete authentication and login",
+    "completeLogin": "Complete Login"
     },
     "register": {
       "title": "Create Your Account",

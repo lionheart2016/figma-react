@@ -6,5 +6,8 @@ export default defineConfig({
   server: {
     port: 4000,
     host: true
+  },
+  resolve: {
+    extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
   }
 })
