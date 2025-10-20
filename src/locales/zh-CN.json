@@ -174,6 +174,7 @@
   },
   "wallets": {
     "title": "钱包",
+    "description": "管理您的加密货币钱包和资产",
     "connectWallet": "连接钱包",
     "disconnect": "断开连接",
     "send": "发送",
@@ -191,7 +192,17 @@
     "loading": "加载中...",
     "network": "网络",
     "ethereumMainnet": "以太坊主网",
-    "connectWalletToTrade": "请连接钱包以开始交易"
+    "connectWalletToTrade": "请连接钱包以开始交易",
+    "connectedWallets": "已连接钱包",
+    "noWallets": "暂无钱包",
+    "connectToStart": "请连接钱包以开始使用",
+    "unknownWallet": "未知钱包",
+    "usageGuide": "使用指南",
+    "connectWalletDesc": "连接您的加密货币钱包以访问功能",
+    "manageAssets": "管理资产",
+    "manageAssetsDesc": "查看和管理您的加密货币资产",
+    "secureTrading": "安全交易",
+    "secureTradingDesc": "进行安全的加密货币交易"
   },
   "reports": {
     "title": "报告",

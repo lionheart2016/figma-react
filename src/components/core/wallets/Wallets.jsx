@@ -19,12 +19,12 @@ function Wallets() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-          {/* 钱包信息卡片 */}
+          {/* Wallet Info Cards */}
           <div className="lg:col-span-1">
             <WalletCard />
           </div>
 
-          {/* 钱包列表 */}
+          {/* Wallet List */}
           <div className="lg:col-span-1">
             <div className="card p-4 sm:p-6">
               <h2 className="text-lg sm:text-xl font-semibold text-[#1c1c1c] mb-4 sm:mb-6">
@@ -73,7 +73,7 @@ function Wallets() {
           </div>
         </div>
 
-        {/* 钱包操作指南 */}
+        {/* Wallet Usage Guide */}
         <div className="mt-6 sm:mt-8">
           <div className="card p-4 sm:p-6">
             <h3 className="text-lg font-semibold text-[#1c1c1c] mb-4">{t('wallets.usageGuide')}</h3>

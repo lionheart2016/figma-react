@@ -185,7 +185,8 @@
     "swapDescription": "Swap one cryptocurrency for another"
   },
   "wallets": {
-    "title": "Wallets",
+    "title": "Wallet",
+    "description": "Manage your cryptocurrency wallets and assets",
     "connectWallet": "Connect Wallet",
     "disconnect": "Disconnect",
     "send": "Send",
@@ -194,15 +195,25 @@
     "walletAddress": "Wallet Address",
     "copyAddress": "Copy Address",
     "transactionHistory": "Transaction History",
-    "walletInfo": "Wallet Information",
+    "walletInfo": "Wallet Info",
     "connected": "Connected",
     "notConnected": "Not Connected",
-    "noWalletConnected": "No wallet connected",
+    "noWalletConnected": "No Wallet Connected",
     "balance": "Balance",
     "loading": "Loading...",
     "network": "Network",
     "ethereumMainnet": "Ethereum Mainnet",
-    "connectWalletToTrade": "Connect wallet to start trading"
+    "connectWalletToTrade": "Connect wallet to start trading",
+    "connectedWallets": "Connected Wallets",
+    "noWallets": "No Wallets",
+    "connectToStart": "Please connect a wallet to start using",
+    "unknownWallet": "Unknown Wallet",
+    "usageGuide": "Usage Guide",
+    "connectWalletDesc": "Connect your cryptocurrency wallet to access features",
+    "manageAssets": "Manage Assets",
+    "manageAssetsDesc": "View and manage your cryptocurrency assets",
+    "secureTrading": "Secure Trading",
+    "secureTradingDesc": "Conduct secure cryptocurrency transactions"
   },
   "reports": {
     "title": "Reports",
