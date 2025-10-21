@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '../../config/routes';
@@ -29,21 +29,117 @@ const Register: React.FC = () => {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showEmailSuggestions, setShowEmailSuggestions] = useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  // 常用邮箱后缀列表
+  const commonEmailSuffixes = [
+    '@gmail.com',
+    '@outlook.com',
+    '@hotmail.com',
+    '@yahoo.com',
+    '@icloud.com',
+    '@163.com',
+    '@126.com',
+    '@qq.com',
+    '@sina.com',
+    '@sohu.com',
+    '@aliyun.com',
+    '@tencent.com',
+    '@foxmail.com'
+  ];
+
+  // 处理邮箱输入变化，同时过滤后缀列表
+  const handleEmailChange = (value: string) => {
+    setFormData(prev => ({ ...prev, email: value }));
+    
+    // 清除对应字段的错误
+    if (errors.email) {
+      setErrors(prev => ({ ...prev, email: '' }));
+    }
+
+    // 检查是否需要显示建议列表
+    if (value && !value.includes('@')) {
+      // 如果没有@符号，显示所有后缀
+      setFilteredSuggestions(commonEmailSuffixes);
+      setShowEmailSuggestions(true);
+    } else if (value && value.includes('@')) {
+      // 如果有@符号，根据@后面的内容过滤
+      const prefix = value.split('@')[0];
+      const suffixPart = value.split('@')[1] || '';
+      
+      // 过滤包含suffixPart的后缀
+      const filtered = commonEmailSuffixes.filter(suffix => 
+        suffix.slice(1).includes(suffixPart)
+      );
+      
+      if (filtered.length > 0) {
+        setFilteredSuggestions(filtered);
+        setShowEmailSuggestions(true);
+      } else {
+        setShowEmailSuggestions(false);
+      }
+    } else {
+      setShowEmailSuggestions(false);
+    }
+  };
+
+  // 处理选择邮箱后缀
+  const handleSelectSuffix = (suffix: string) => {
+    const prefix = formData.email.includes('@') 
+      ? formData.email.split('@')[0]
+      : formData.email;
+    
+    setFormData(prev => ({ ...prev, email: prefix + suffix }));
+    setShowEmailSuggestions(false);
+    
+    // 保持输入框焦点
+    if (emailInputRef.current) {
+      emailInputRef.current.focus();
+    }
+  };
+
+  // 点击外部关闭建议列表
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node) &&
+        emailInputRef.current &&
+        !emailInputRef.current.contains(event.target as Node)
+      ) {
+        setShowEmailSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
     
-    // 清除对应字段的错误
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({
+    // 特殊处理邮箱输入
+    if (name === 'email') {
+      handleEmailChange(value);
+    } else {
+      setFormData(prev => ({
         ...prev,
-        [name]: ''
+        [name]: type === 'checkbox' ? checked : value
       }));
+      
+      // 清除对应字段的错误
+      if (errors[name as keyof FormErrors]) {
+        setErrors(prev => ({
+          ...prev,
+          [name]: ''
+        }));
+      }
     }
   };
 
@@ -100,14 +196,14 @@ const Register: React.FC = () => {
       navigate(ROUTES.EMAIL_VERIFICATION);
     } catch (error) {
       console.error(t('auth.register.registrationError'), error);
-      setErrors({ submit: t('auth.register.validation.registrationFailed') || t('auth.register.registrationFailed') });
+      setErrors({ submit: t('auth.register.registrationFailed') });
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleBack = () => {
-    navigate(ROUTES.INVESTMENT_TYPE_SELECTION);
+    navigate(ROUTES.INVESTMENT_SELECTION);
   };
 
   return (
@@ -119,7 +215,7 @@ const Register: React.FC = () => {
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* 邮箱输入 */}
-        <div>
+        <div className="relative">
           <label htmlFor="email" className="block text-sm font-medium text-[#1C1C1C] mb-2">
             {t('auth.register.emailLabel')}
           </label>
@@ -129,11 +225,45 @@ const Register: React.FC = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
+            ref={emailInputRef}
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
               errors.email ? 'border-red-500' : 'border-[#EDEEF3]'
             }`}
             placeholder={t('auth.register.emailPlaceholder')}
+            aria-autocomplete="list"
+            aria-expanded={showEmailSuggestions}
+            aria-haspopup={showEmailSuggestions}
           />
+          
+          {/* 邮箱后缀建议列表 */}
+          {showEmailSuggestions && filteredSuggestions.length > 0 && (
+            <div
+              ref={suggestionsRef}
+              className="absolute z-10 w-full mt-1 bg-white border border-[#EDEEF3] rounded-lg shadow-lg max-h-60 overflow-y-auto"
+              role="listbox"
+              aria-labelledby="email"
+            >
+              {filteredSuggestions.map((suffix, index) => {
+                const displayText = formData.email.includes('@')
+                  ? formData.email.split('@')[0] + suffix
+                  : formData.email + suffix;
+                
+                return (
+                  <div
+                    key={index}
+                    className="px-4 py-2 hover:bg-[#F5F7FF] cursor-pointer text-sm text-[#1C1C1C] transition-colors"
+                    onClick={() => handleSelectSuffix(suffix)}
+                    role="option"
+                    id={`email-suggestion-${index}`}
+                    aria-selected="false"
+                  >
+                    {displayText}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          
           {errors.email && (
             <p className="mt-1 text-sm text-red-500">{errors.email}</p>
           )}
@@ -226,7 +356,7 @@ const Register: React.FC = () => {
             {t('auth.register.hasAccount')} {' '}
             <button
               type="button"
-              onClick={() => navigate(ROUTES.LOGIN)}
+              onClick={() => navigate(ROUTES.AUTHENTICATION)}
               className="text-[#4B5EF5] hover:text-[#3D4FD0] font-medium focus:outline-none focus:underline transition-colors"
             >
               {t('auth.register.signIn')}
