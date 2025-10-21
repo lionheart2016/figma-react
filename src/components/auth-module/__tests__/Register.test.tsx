@@ -291,25 +291,105 @@ describe('Register Component', () => {
       expect(termsCheckbox.checked).toBe(true);
     });
 
-    it('handles form submission', () => {
+    it('handles form submission with validation', () => {
       render(<TestRegister />);
       
       const submitButton = screen.getByTestId('register-button');
-      // 确保按钮可以点击
-      expect(submitButton).toBeDefined();
       fireEvent.click(submitButton);
-      // 简单测试提交功能可以执行
-      expect(true).toBe(true);
+      
+      // 检查是否显示了必填字段的错误信息
+      const errorMessages = screen.getAllByTestId('error-message');
+      expect(errorMessages.length).toBeGreaterThan(0);
+      
+      // 检查是否包含特定的错误信息
+      const errorTexts = errorMessages.map(el => el.textContent);
+      expect(errorTexts.some(text => text?.includes('Email is required'))).toBe(true);
+      expect(errorTexts.some(text => text?.includes('Password is required'))).toBe(true);
+    });
+
+    it('renders form elements correctly', () => {
+      render(<TestRegister />);
+      
+      // 只验证表单元素存在
+      expect(screen.getByTestId('email-input')).toBeDefined();
+      expect(screen.getByTestId('password-input')).toBeDefined();
+      expect(screen.getByTestId('confirm-password-input')).toBeDefined();
+      expect(screen.getByTestId('terms-checkbox')).toBeDefined();
+      expect(screen.getByTestId('register-button')).toBeDefined();
+      expect(screen.getByTestId('back-button')).toBeDefined();
+    });
+    
+    it('handles form submission without crashing', () => {
+      render(<TestRegister />);
+      
+      const emailInput = screen.getByTestId('email-input') as HTMLInputElement;
+      const passwordInput = screen.getByTestId('password-input') as HTMLInputElement;
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input') as HTMLInputElement;
+      const termsCheckbox = screen.getByTestId('terms-checkbox') as HTMLInputElement;
+      const submitButton = screen.getByTestId('register-button');
+      
+      // 填入表单
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+      fireEvent.change(passwordInput, { target: { value: 'secure123' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'secure123' } });
+      fireEvent.change(termsCheckbox, { target: { checked: true } });
+      
+      // 验证表单提交不会导致崩溃
+      expect(() => fireEvent.click(submitButton)).not.toThrow();
+    });
+
+    it('shows validation error when terms are not accepted', () => {
+      render(<TestRegister />);
+      
+      const submitButton = screen.getByTestId('register-button');
+      fireEvent.click(submitButton);
+      
+      const errorMessages = screen.getAllByTestId('error-message');
+      const errorTexts = errorMessages.map(el => el.textContent);
+      expect(errorTexts.some(text => text?.includes('terms and conditions'))).toBe(true);
+    });
+
+    it('handles special characters in password field', () => {
+      render(<TestRegister />);
+      
+      const passwordInput = screen.getByTestId('password-input') as HTMLInputElement;
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input') as HTMLInputElement;
+      
+      const specialPassword = 'Pass!@#$%^&*123';
+      fireEvent.change(passwordInput, { target: { value: specialPassword } });
+      fireEvent.change(confirmPasswordInput, { target: { value: specialPassword } });
+      
+      expect(passwordInput.value).toBe(specialPassword);
+      expect(confirmPasswordInput.value).toBe(specialPassword);
+    });
+
+    it('handles clear errors when input changes', () => {
+      render(<TestRegister />);
+      
+      const emailInput = screen.getByTestId('email-input') as HTMLInputElement;
+      const submitButton = screen.getByTestId('register-button');
+      
+      // 先触发错误
+      fireEvent.click(submitButton);
+      
+      // 然后修改输入应该清除相关错误
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+      
+      // 重新提交
+      fireEvent.click(submitButton);
+      
+      // 检查是否还有邮箱相关的错误
+      const errorMessages = screen.getAllByTestId('error-message');
+      const errorTexts = errorMessages.map(el => el.textContent);
+      expect(errorTexts.some(text => text?.includes('Email is required') || text?.includes('Invalid email format'))).toBe(false);
     });
 
     it('handles back button click', () => {
       render(<TestRegister />);
       
       const backButton = screen.getByTestId('back-button');
-      // 确保按钮可以点击
       expect(backButton).toBeDefined();
       fireEvent.click(backButton);
-      expect(true).toBe(true);
+      // 这里可以扩展更多的断言，如果有导航逻辑
     });
-
   });

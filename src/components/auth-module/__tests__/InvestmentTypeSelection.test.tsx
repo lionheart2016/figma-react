@@ -2,13 +2,43 @@ import React, { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// 创建一个简化的测试版InvestmentTypeSelection组件
+// 模拟国际化函数
+const mockTranslations: Record<string, Record<string, string>> = {
+  en: {
+    'investmentType.title': 'Select Investment Type',
+    'investmentType.subtitle': 'Please choose your investment type',
+    'investmentType.individual': 'Individual',
+    'investmentType.corporate': 'Corporate',
+    'investmentType.continue': 'Continue',
+    'investmentType.selected': 'Selected'
+  },
+  'zh-CN': {
+    'investmentType.title': '选择投资类型',
+    'investmentType.subtitle': '请选择您的投资类型',
+    'investmentType.individual': '个人',
+    'investmentType.corporate': '企业',
+    'investmentType.continue': '继续',
+    'investmentType.selected': '已选择'
+  }
+};
+
+// 模拟i18n hook
+const useTranslation = (language: string = 'en') => (key: string) => {
+  return mockTranslations[language]?.[key] || key;
+};
+
+// 创建支持国际化的测试版InvestmentTypeSelection组件
 interface TestInvestmentTypeSelectionProps {
   onRegister?: (type: string) => void;
+  language?: string;
 }
 
-const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = ({ onRegister }) => {
+const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = ({ 
+  onRegister, 
+  language = 'en' 
+}) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const t = useTranslation(language);
 
   const handleTypeSelect = (type: string) => {
     setSelectedType(type);
@@ -22,8 +52,8 @@ const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = 
 
   return (
     <div>
-      <h1>Select Investment Type</h1>
-      <p>Please choose your investment type</p>
+      <h1>{t('investmentType.title')}</h1>
+      <p>{t('investmentType.subtitle')}</p>
       
       <div className="investment-types">
         <div 
@@ -31,9 +61,9 @@ const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = 
           data-testid="individual-option"
           onClick={() => handleTypeSelect('individual')}
         >
-          <h3>Individual</h3>
+          <h3>{t('investmentType.individual')}</h3>
           {selectedType === 'individual' && (
-            <img src="/radio-on.svg" alt="Selected" />
+            <img src="/radio-on.svg" alt={t('investmentType.selected')} />
           )}
         </div>
         
@@ -42,9 +72,9 @@ const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = 
           data-testid="corporate-option"
           onClick={() => handleTypeSelect('corporate')}
         >
-          <h3>Corporate</h3>
+          <h3>{t('investmentType.corporate')}</h3>
           {selectedType === 'corporate' && (
-            <img src="/radio-on.svg" alt="Selected" />
+            <img src="/radio-on.svg" alt={t('investmentType.selected')} />
           )}
         </div>
       </div>
@@ -54,19 +84,15 @@ const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = 
         disabled={!selectedType}
         onClick={handleContinue}
       >
-        Continue
+        {t('investmentType.continue')}
       </button>
     </div>
   );
 };
 
-
-// 不再需要模拟localStorage，因为我们使用简化的测试组件
-
 describe('InvestmentTypeSelection Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // 移除localStorageMock.clear()调用，因为我们不再需要它
   });
 
   it('renders without crashing', () => {
@@ -76,26 +102,65 @@ describe('InvestmentTypeSelection Component', () => {
     expect(container).toBeDefined();
   });
 
-  it('renders title and subtitle', () => {
-    render(
-      <TestInvestmentTypeSelection />
-    );
-    
-    expect(screen.getByText('Select Investment Type')).toBeDefined();
-    expect(screen.getByText('Please choose your investment type')).toBeDefined();
+  // 英文测试用例
+  describe('in English language', () => {
+    it('renders title and subtitle in English', () => {
+      render(
+        <TestInvestmentTypeSelection language="en" />
+      );
+      
+      expect(screen.getByText('Select Investment Type')).toBeDefined();
+      expect(screen.getByText('Please choose your investment type')).toBeDefined();
+    });
+
+    it('renders both investment types in English', () => {
+      render(
+        <TestInvestmentTypeSelection language="en" />
+      );
+      
+      expect(screen.getByText('Individual')).toBeDefined();
+      expect(screen.getByText('Corporate')).toBeDefined();
+    });
+
+    it('renders continue button in English', () => {
+      render(
+        <TestInvestmentTypeSelection language="en" />
+      );
+      
+      expect(screen.getByText('Continue')).toBeDefined();
+    });
   });
 
-  it('renders both investment types', () => {
-    render(
-      <TestInvestmentTypeSelection />
-    );
-    
-    expect(screen.getByText('Individual')).toBeDefined();
-    expect(screen.getByText('Corporate')).toBeDefined();
-    expect(screen.getByTestId('individual-option')).toBeDefined();
-    expect(screen.getByTestId('corporate-option')).toBeDefined();
+  // 中文测试用例
+  describe('in Chinese language', () => {
+    it('renders title and subtitle in Chinese', () => {
+      render(
+        <TestInvestmentTypeSelection language="zh-CN" />
+      );
+      
+      expect(screen.getByText('选择投资类型')).toBeDefined();
+      expect(screen.getByText('请选择您的投资类型')).toBeDefined();
+    });
+
+    it('renders both investment types in Chinese', () => {
+      render(
+        <TestInvestmentTypeSelection language="zh-CN" />
+      );
+      
+      expect(screen.getByText('个人')).toBeDefined();
+      expect(screen.getByText('企业')).toBeDefined();
+    });
+
+    it('renders continue button in Chinese', () => {
+      render(
+        <TestInvestmentTypeSelection language="zh-CN" />
+      );
+      
+      expect(screen.getByText('继续')).toBeDefined();
+    });
   });
 
+  // 通用功能测试
   it('allows selecting investment type', () => {
     render(
       <TestInvestmentTypeSelection />
@@ -142,5 +207,20 @@ describe('InvestmentTypeSelection Component', () => {
     fireEvent.click(continueButton);
     
     expect(onRegisterMock).toHaveBeenCalledWith('individual');
+  });
+
+  // 国际化切换测试
+  it('switches language correctly when language prop changes', () => {
+    const { rerender } = render(
+      <TestInvestmentTypeSelection language="en" />
+    );
+    
+    expect(screen.getByText('Select Investment Type')).toBeDefined();
+    
+    rerender(
+      <TestInvestmentTypeSelection language="zh-CN" />
+    );
+    
+    expect(screen.getByText('选择投资类型')).toBeDefined();
   });
 });

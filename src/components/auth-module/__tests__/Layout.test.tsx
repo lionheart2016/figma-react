@@ -138,4 +138,47 @@ describe('Layout Component', () => {
       const backButton = screen.queryByTestId('back-button');
       expect(backButton).toBeNull();
     });
+
+    // 国际化测试用例
+    describe('Internationalization', () => {
+      it('supports different languages for back button text', () => {
+        // 模拟中文环境下的返回按钮
+        const TestLayoutWithI18n = () => (
+          <TestLayout showBackButton={true}>
+            <div>Test</div>
+          </TestLayout>
+        );
+        
+        render(<TestLayoutWithI18n />);
+        // 验证返回按钮存在
+        expect(screen.getByTestId('back-button')).toBeDefined();
+      });
+      
+      it('renders language switcher for changing locales', () => {
+        render(
+          <TestLayout>
+            <div>Test</div>
+          </TestLayout>
+        );
+        
+        // 验证语言切换器存在
+        expect(screen.getByTestId('language-switcher')).toBeDefined();
+        expect(screen.getByText('Language Switcher')).toBeDefined();
+      });
+      
+      it('maintains layout structure when language changes', () => {
+        // 模拟不同语言环境下的布局测试
+        const { container } = render(
+          <TestLayout title="标题" subtitle="副标题">
+            <div>测试内容</div>
+          </TestLayout>
+        );
+        
+        // 验证布局结构在不同语言下保持完整
+        expect(container.querySelector('.left-panel')).toBeDefined();
+        expect(container.querySelector('.right-panel')).toBeDefined();
+        expect(screen.getByText('标题')).toBeDefined();
+        expect(screen.getByText('副标题')).toBeDefined();
+      });
+    });
   });

@@ -107,22 +107,28 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       console.warn('useTranslation hook failed, using fallback');
     }
     
-    // 使用try-catch保护getCurrentLanguage调用
-    let defaultLanguage = 'en';
-    try {
-      defaultLanguage = getCurrentLanguage();
-    } catch (e) {
-      console.warn('getCurrentLanguage failed, using default: en');
-    }
+    // 直接从localStorage读取保存的语言设置，确保首次渲染时就能显示正确的语言
+    const getLanguageFromStorage = (): string => {
+      try {
+        const savedLanguage = localStorage.getItem('alphatoken-language');
+        if (savedLanguage && ['en', 'zh-CN', 'zh-TW'].includes(savedLanguage)) {
+          return savedLanguage;
+        }
+      } catch (error) {
+        console.warn('Failed to get saved language from localStorage:', error);
+      }
+      return 'en'; // 默认英文
+    };
     
-    const [currentLanguage, setCurrentLanguage] = useState<string>(defaultLanguage);
+    // 初始化时直接从localStorage读取语言设置
+    const [currentLanguage, setCurrentLanguage] = useState<string>(getLanguageFromStorage());
 
     useEffect(() => {
-      // 初始化时设置语言，添加错误处理
+      // 初始化完成后，再使用i18n的当前语言更新一次状态，确保同步
       try {
         setCurrentLanguage(getCurrentLanguage());
       } catch (e) {
-        console.warn('Failed to set initial language');
+        console.warn('Failed to update language from i18n');
       }
     }, []);
 
