@@ -1,6 +1,6 @@
 {
   "common": {
-    "dashboard": "仪表板",
+    "dashboard": "仪表盘",
     "trade": "交易",
     "wallets": "钱包",
     "reports": "报告",
@@ -16,10 +16,12 @@
     "warning": "警告",
     "info": "信息",
     "alphatoken": "Alphatoken",
-    "dropdown": "下拉",
+    "dropdown": "下拉菜单",
     "notification": "通知",
-    "pageNotFound": "404 - 页面未找到",
-    "close": "关闭"
+    "pageNotFound": "404 - 页面不存在",
+    "close": "关闭",
+    "user": "用户",
+    "no_wallets": "未连接钱包"
   },
   "login": {
     "title": "登录",

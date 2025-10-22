@@ -19,7 +19,9 @@
     "dropdown": "Dropdown",
     "notification": "Notification",
     "pageNotFound": "404 - Page Not Found",
-    "close": "Close"
+    "close": "Close",
+    "user": "User",
+    "no_wallets": "No wallets connected"
   },
   "login": {
     "title": "Sign In",

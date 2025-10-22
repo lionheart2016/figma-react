@@ -13,6 +13,18 @@ import Wallets from './core/wallets/Wallets';
 import Reports from './core/reports/Reports';
 import Settings from './core/settings/Settings';
 import { ROUTES } from '../config/routes';
+import { useUser } from '../contexts/UserContext';
+
+// 条件重定向组件 - 根据用户认证状态决定跳转目标
+const ConditionalRedirect: React.FC = () => {
+  const { isAuthenticated } = useUser();
+  
+  // 如果用户已登录，重定向到交易页面
+  // 如果用户未登录，重定向到登录页面
+  return isAuthenticated ? 
+    <Navigate to={ROUTES.TRADE} replace /> : 
+    <Navigate to={ROUTES.LOGIN} replace />;
+};
 
 const AppRouter: React.FC = () => {
   const { t } = useTranslation();
@@ -74,10 +86,10 @@ const AppRouter: React.FC = () => {
           />
         </Route>
         
-        {/* 默认路由 */}
+        {/* 默认路由 - 根据认证状态条件重定向 */}
         <Route 
           path={ROUTES.HOME} 
-          element={<Navigate to={ROUTES.LOGIN} replace />} 
+          element={<ConditionalRedirect />} 
         />
         
         {/* 404路由 */}

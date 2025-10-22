@@ -124,11 +124,20 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     const [currentLanguage, setCurrentLanguage] = useState<string>(getLanguageFromStorage());
 
     useEffect(() => {
-      // 初始化完成后，再使用i18n的当前语言更新一次状态，确保同步
+      // 初始化完成后，尝试从i18n获取当前语言，但优先使用localStorage中的设置
       try {
-        setCurrentLanguage(getCurrentLanguage());
+        const savedLang = getLanguageFromStorage();
+        const i18nLang = getCurrentLanguage();
+        
+        // 如果localStorage中有保存的语言，使用它；否则使用i18n的当前语言
+        const finalLang = savedLang || i18nLang;
+        
+        if (finalLang !== currentLanguage) {
+          setCurrentLanguage(finalLang);
+          console.log('Language initialized to:', finalLang);
+        }
       } catch (e) {
-        console.warn('Failed to update language from i18n');
+        console.warn('Failed to update language from i18n, using localStorage value');
       }
     }, []);
 
@@ -137,6 +146,13 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       if (i18nInstance) {
         await i18nInstance.changeLanguage(lng);
         setCurrentLanguage(lng);
+        // 保存语言设置到localStorage，确保刷新页面后语言状态保持不变
+        try {
+          localStorage.setItem('alphatoken-language', lng);
+          console.log('Language saved to localStorage:', lng);
+        } catch (storageError) {
+          console.warn('Failed to save language to localStorage:', storageError);
+        }
         return true;
       }
       return false;
