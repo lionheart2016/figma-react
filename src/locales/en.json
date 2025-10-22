@@ -198,7 +198,7 @@
     "swapDescription": "Swap one cryptocurrency for another"
   },
   "wallets": {
-    "title": "Wallet",
+    "title": "Wallets",
     "description": "Manage your cryptocurrency wallets and assets",
     "connectWallet": "Connect Wallet",
     "disconnect": "Disconnect",
@@ -226,7 +226,14 @@
     "manageAssets": "Manage Assets",
     "manageAssetsDesc": "View and manage your cryptocurrency assets",
     "secureTrading": "Secure Trading",
-    "secureTradingDesc": "Conduct secure cryptocurrency transactions"
+    "secureTradingDesc": "Conduct secure cryptocurrency transactions",
+    "loginToManage": "Please login to manage your wallets",
+    "createNew": "Create New Wallet",
+    "ethereum": "Ethereum",
+    "create": "Create",
+    "external": "External",
+    "connect": "Connect",
+    "connectWalletMessage": "Connect or create a wallet to start managing your digital assets"
   },
   "reports": {
     "title": "Reports",

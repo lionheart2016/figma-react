@@ -4,9 +4,13 @@
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "noEmit": false,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "outDir": "./node_modules/.tsbuildinfo"
   },
   "include": ["vite.config.js"],
-  // 确保指定的文件存在，若项目根目录下无 vite.config.js 文件，需创建或修正路径
-  "exclude": [] 
+  "exclude": ["node_modules", "src"]
 }

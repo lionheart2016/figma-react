@@ -74,12 +74,12 @@
       "instructionLookCamera": "直视摄像头",
       "instructionFollowPrompts": "按照屏幕提示操作",
       "processing": "处理中...",
-    "continue": "继续",
-    "detectionComplete": "检测完成",
-    "detectionSuccess": "活体检测成功通过",
-    "nextStep": "下一步",
-    "loginPrompt": "点击下方按钮完成认证并登录",
-    "completeLogin": "完成登录"
+      "continue": "继续",
+      "detectionComplete": "检测完成",
+      "detectionSuccess": "活体检测成功通过",
+      "nextStep": "下一步",
+      "loginPrompt": "点击下方按钮完成认证并登录",
+      "completeLogin": "完成登录"
     },
     "register": {
       "title": "创建您的账户",
@@ -97,6 +97,7 @@
       "termsOfService": "服务条款",
       "and": "和",
       "privacyPolicy": "隐私政策",
+      "registrationFailed": "注册失败",
       "validation": {
         "emailRequired": "邮箱是必填项",
         "emailInvalid": "邮箱格式无效",
@@ -122,8 +123,10 @@
     },
     "investmentTypes": {
       "individual": "个人投资者",
-      "corporate": "企业投资者"
+      "corporate": "企业投资者",
+      "description": "适用于公司、机构和组织"
     },
+    "logout": "登出",
     "investmentSelection": {
       "title": "欢迎 👋🏼",
       "subtitle": "请选择您的投资类型",
@@ -131,7 +134,11 @@
     },
     "emailVerification": {
       "title": "验证您的邮箱",
-      "subtitle": "我们已向{{email}}发送了验证码",
+      "subtitle": "请输入发送至您邮箱的验证码",
+      "codeLabel": "验证码",
+      "codePlaceholder": "输入验证码",
+      "verifyButton": "验证电子邮箱",
+      "resendButton": "重新发送验证码",
       "yourEmail": "您的邮箱",
       "incompleteCode": "请输入完整的6位验证码",
       "verificationFailed": "验证失败，请重试。",
@@ -183,7 +190,16 @@
     "complete": "完成",
     "recentTransactions": "最近交易",
     "profile": "个人主页",
-    "investmentProfile": "投资档案"
+    "investmentProfile": "投资档案",
+    "buyCrypto": "购买加密货币",
+    "buyCryptoSubtitle": "购买加密货币",
+    "buyCryptoDescription": "使用法定货币购买您喜欢的加密货币",
+    "sellCrypto": "出售加密货币",
+    "sellCryptoSubtitle": "出售加密货币",
+    "sellCryptoDescription": "将您的加密货币出售为法定货币",
+    "swap": "兑换",
+    "swapSubtitle": "交换加密货币",
+    "swapDescription": "将一种加密货币兑换为另一种"
   },
   "wallets": {
     "title": "钱包",
@@ -215,7 +231,14 @@
     "manageAssets": "管理资产",
     "manageAssetsDesc": "查看和管理您的加密货币资产",
     "secureTrading": "安全交易",
-    "secureTradingDesc": "进行安全的加密货币交易"
+    "secureTradingDesc": "进行安全的加密货币交易",
+    "loginToManage": "请登录以管理您的钱包",
+    "createNew": "创建新钱包",
+    "ethereum": "以太坊",
+    "create": "创建",
+    "external": "外部钱包",
+    "connect": "连接",
+    "connectWalletMessage": "连接或创建钱包以开始管理您的数字资产"
   },
   "reports": {
     "title": "报告",
@@ -390,5 +413,30 @@
     "wallets": "钱包",
     "reports": "报告",
     "settings": "设置"
+  },
+  "tradeMain": {
+    "title": "交易",
+    "subtitle": "发现并投资优质交易产品",
+    "completeProfile": "完成您的投资档案",
+    "completeProfileDesc": "为了解锁部分产品，您需要提供一些信息",
+    "complete": "完成",
+    "minInvestment": "最低投资额",
+    "view": "查看"
+  },
+  "tradeDetail": {
+    "investNow": "立即投资",
+    "investmentAmount": "投资金额",
+    "tokenDetails": "代币详情",
+    "priceHistory": "价格历史",
+    "investmentRisk": "投资风险",
+    "investmentRiskDesc": "加密货币投资受市场风险影响。请负责任地投资，并仅投入您能承受损失的金额。",
+    "currentPrice": "当前价格",
+    "tokenType": "代币类型",
+    "totalSupply": "总供应量",
+    "circulatingSupply": "流通供应量",
+    "marketCap": "市值",
+    "allTimeHigh": "历史最高价",
+    "allTimeLow": "历史最低价",
+    "enterAmount": "输入金额"
   }
 }

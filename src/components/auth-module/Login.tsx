@@ -8,8 +8,8 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { loginWithEmail, verifyEmail, isLoading, error } = useUser();
-  const [email, setEmail] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
+  const [email, setEmail] = useState('test-1143@privy.io');
+  const [verificationCode, setVerificationCode] = useState('894575');
   const [step, setStep] = useState<'email' | 'verification'>('email');
   const [, setEmailSubmitted] = useState(false);
 
@@ -32,7 +32,7 @@ const Login: React.FC = () => {
     
     try {
       await verifyEmail(email, verificationCode);
-      navigate(ROUTES.DASHBOARD);
+      navigate(ROUTES.TRADE);
     } catch (err) {
       // 错误已在context中处理
     }

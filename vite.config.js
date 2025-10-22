@@ -9,5 +9,13 @@ export default defineConfig({
   },
   resolve: {
     extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
+  },
+  // 排除测试文件的监视和加载
+  watchOptions: {
+    ignore: [
+      '**/__tests__/**',
+      '**/*.test.*',
+      '**/*.spec.*'
+    ]
   }
 })

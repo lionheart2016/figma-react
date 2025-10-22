@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import Breadcrumb from './Breadcrumb';
 
 // 移除未使用的BreadcrumbItem接口
 
@@ -42,8 +43,9 @@ const Layout: React.FC<LayoutProps> = ({
 
         {/* Content Area - Remove top padding since header margin is handled by CSS */}
         <main className="main-content">
-          {/* Breadcrumb Navigation - Removed */}
-
+          {/* Breadcrumb Navigation */}
+          <Breadcrumb />
+          
           {/* Dynamic Content */}
           {children}
         </main>
