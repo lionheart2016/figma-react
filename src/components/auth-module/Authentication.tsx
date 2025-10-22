@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '../../config/routes';
 import Layout from './Layout.jsx';
+import { useTheme } from '../../contexts/ThemeContext';
 
 // 定义步骤接口
 interface Step {
@@ -18,6 +19,7 @@ const Authentication: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
 
   const steps: Step[] = [
     {
@@ -94,21 +96,21 @@ const Authentication: React.FC = () => {
         return (
           <div className="space-y-6">
             {/* 上传区域 */}
-            <div className="border-2 border-dashed border-[#EDEEF3] rounded-lg p-8 text-center">
+            <div className={`border-2 border-dashed rounded-lg p-8 text-center ${isDarkMode ? 'border-[#2C2C2C]' : 'border-[#EDEEF3]'}`}>
               <div className="w-16 h-16 bg-[#4B5EF5]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <img src={currentStepData?.icon} alt="Upload" className="w-8 h-8" />
               </div>
-              <p className="text-[#73798B] text-sm mb-2">{t('auth.authentication.dragAndDrop')}</p>
-              <p className="text-[#B9BCC5] text-xs">or</p>
+              <p className={`text-sm mb-2 ${isDarkMode ? 'text-[#9CA3AF]' : 'text-[#73798B]'}`}>{t('auth.authentication.dragAndDrop')}</p>
+              <p className={`text-xs ${isDarkMode ? 'text-[#6B6E7A]' : 'text-[#B9BCC5]'}`}>or</p>
               <button className="mt-2 text-[#4B5EF5] text-sm font-medium hover:underline">
                 {t('auth.authentication.browseFiles')}
               </button>
             </div>
             
             {/* 要求说明 */}
-            <div className="bg-[#F8FAFF] rounded-lg p-4">
-              <h4 className="text-sm font-medium text-[#1C1C1C] mb-2">{t('auth.authentication.requirements')}</h4>
-              <ul className="text-xs text-[#73798B] space-y-1">
+            <div className={`rounded-lg p-4 ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-[#F8FAFF]'}`}>
+              <h4 className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{t('auth.authentication.requirements')}</h4>
+              <ul className={`text-xs space-y-1 ${isDarkMode ? 'text-[#9CA3AF]' : 'text-[#73798B]'}`}>
                 <li>• {t('auth.authentication.requirementClear')}</li>
                 <li>• {t('auth.authentication.requirementCorners')}</li>
                 <li>• {t('auth.authentication.requirementNoGlare')}</li>
@@ -123,34 +125,34 @@ const Authentication: React.FC = () => {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[#1C1C1C] mb-2">{t('auth.authentication.firstName')}</label>
+                <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{t('auth.authentication.firstName')}</label>
                 <input 
                   type="text" 
-                  className="w-full px-3 py-2 border border-[#EDEEF3] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5]"
+                  className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'}`}
                   placeholder={t('auth.authentication.firstName')}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#1C1C1C] mb-2">{t('auth.authentication.lastName')}</label>
+                <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{t('auth.authentication.lastName')}</label>
                 <input 
                   type="text" 
-                  className="w-full px-3 py-2 border border-[#EDEEF3] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5]"
+                  className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'}`}
                   placeholder={t('auth.authentication.lastName')}
                 />
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-[#1C1C1C] mb-2">{t('auth.authentication.dateOfBirth')}</label>
+              <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{t('auth.authentication.dateOfBirth')}</label>
               <input 
                 type="date" 
-                className="w-full px-3 py-2 border border-[#EDEEF3] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5]"
+                className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'}`}
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-[#1C1C1C] mb-2">{t('auth.authentication.nationality')}</label>
-              <select className="w-full px-3 py-2 border border-[#EDEEF3] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5]">
+              <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{t('auth.authentication.nationality')}</label>
+              <select className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'}`}>
                 <option value="">{t('auth.authentication.selectNationality')}</option>
                 <option value="us">United States</option>
                 <option value="uk">United Kingdom</option>
@@ -165,26 +167,26 @@ const Authentication: React.FC = () => {
         return (
           <div className="space-y-6">
             {/* 活体检测预览 */}
-            <div className="bg-[#F8FAFF] rounded-lg p-8 text-center">
+            <div className={`rounded-lg p-8 text-center ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-[#F8FAFF]'}`}>
               <div className="w-32 h-32 bg-[#4B5EF5]/10 border-2 border-dashed border-[#4B5EF5] rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-12 h-12 text-[#4B5EF5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-[#1C1C1C] mb-2">{t('auth.authentication.detectionComplete')}</h3>
-              <p className="text-[#73798B] text-sm">{t('auth.authentication.detectionSuccess')}</p>
+              <h3 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{t('auth.authentication.detectionComplete')}</h3>
+              <p className={`text-sm ${isDarkMode ? 'text-[#9CA3AF]' : 'text-[#73798B]'}`}>{t('auth.authentication.detectionSuccess')}</p>
             </div>
             
             {/* 检测说明 */}
-            <div className="bg-[#F8FAFF] rounded-lg p-4">
-              <h4 className="text-sm font-medium text-[#1C1C1C] mb-2">{t('auth.authentication.nextStep')}</h4>
-              <p className="text-xs text-[#73798B]">{t('auth.authentication.loginPrompt')}</p>
+            <div className={`rounded-lg p-4 ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-[#F8FAFF]'}`}>
+              <h4 className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{t('auth.authentication.nextStep')}</h4>
+              <p className={`text-xs ${isDarkMode ? 'text-[#9CA3AF]' : 'text-[#73798B]'}`}>{t('auth.authentication.loginPrompt')}</p>
             </div>
             
             {/* 登录错误信息 */}
             {loginError && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-xs text-red-600">{loginError}</p>
+              <div className={`border rounded-lg p-4 ${isDarkMode ? 'bg-red-900/20 border-red-800/30' : 'bg-red-50 border-red-200'}`}>
+                <p className={`text-xs ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>{loginError}</p>
               </div>
             )}
           </div>
@@ -207,11 +209,11 @@ const Authentication: React.FC = () => {
         <div className="flex items-center space-x-2">
           {steps.map((step, index) => (
             <React.Fragment key={step.id}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step.id <= currentStep ? 'bg-[#4B5EF5] text-white' : 'bg-[#EDEEF3] text-[#73798B]'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step.id <= currentStep ? 'bg-[#4B5EF5] text-white' : isDarkMode ? 'bg-[#2C2C2C] text-[#9CA3AF]' : 'bg-[#EDEEF3] text-[#73798B]'}`}>
                 {step.id}
               </div>
               {index < steps.length - 1 && (
-                <div className={`w-12 h-0.5 ${step.id < currentStep ? 'bg-[#4B5EF5]' : 'bg-[#EDEEF3]'}`} />
+                <div className={`w-12 h-0.5 ${step.id < currentStep ? 'bg-[#4B5EF5]' : isDarkMode ? 'bg-[#2C2C2C]' : 'bg-[#EDEEF3]'}`} />
               )}
             </React.Fragment>
           ))}

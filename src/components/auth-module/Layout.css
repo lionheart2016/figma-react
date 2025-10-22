@@ -21,6 +21,7 @@
   flex-direction: column;
   background: #FFFFFF;
   position: relative;
+  transition: background-color 0.3s ease;
 }
 
 /* 右上角导航栏 */
@@ -69,11 +70,12 @@
   color: #1C1C1C;
 }
 
-/* 语言切换器区域 */
+/* 语言和主题切换器区域 */
 .auth-layout-language {
   flex: 1;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 
 /* 右下角内容区域 */
@@ -97,6 +99,40 @@
   line-height: 0.89;
   color: #1C1C1C;
   margin: 0 0 8px 0;
+  transition: color 0.3s ease;
+}
+
+/* 暗黑主题样式 */
+.dark-theme .auth-layout-right {
+  background: #0A0A0A;
+}
+
+.dark-theme .back-text {
+  color: #F8FAFF;
+}
+
+.dark-theme .back-button:hover {
+  background: #1C1C1C;
+}
+
+.dark-theme .auth-layout-title {
+  color: #F8FAFF;
+}
+
+.dark-theme .auth-layout-subtitle {
+  color: #9CA3AF;
+}
+
+/* 暗黑主题下的表单元素和其他组件 */
+.dark-theme .auth-layout-content {
+  background: #0A0A0A;
+}
+
+/* 响应式暗黑主题样式 */
+@media (max-width: 768px) {
+  .dark-theme .auth-layout-right {
+    background: #0A0A0A;
+  }
 }
 
 .auth-layout-subtitle {

@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import BrandSection from './BrandSection.tsx';
 import LanguageSwitcher from "../global/LanguageSwitcher";
+import ThemeSwitcher from "../global/ThemeSwitcher";
 import { useTranslation } from 'react-i18next';
 import './Layout.css';
 
@@ -48,9 +49,10 @@ const Layout: React.FC<LayoutProps> = ({
             </div>
           )}
           
-          {/* 右侧：语言切换器 */}
+          {/* 右侧：语言切换器和主题切换器 */}
           <div className="auth-layout-language">
             <LanguageSwitcher />
+            <ThemeSwitcher />
           </div>
         </div>
 

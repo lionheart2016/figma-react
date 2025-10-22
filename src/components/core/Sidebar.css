@@ -10,7 +10,7 @@
   left: 0;
   top: 0;
   z-index: 40; /* 降低z-index，确保在header之下 */
-  transition: width 0.3s ease-in-out; /* 添加宽度过渡动画 */
+  transition: width 0.3s ease-in-out, background-color 0.3s ease, border-color 0.3s ease; /* 添加过渡动画 */
 }
 
 .logo-section {
@@ -35,6 +35,7 @@
   height: 1px;
   background-color: #E2E8F0;
   margin: 16px 0;
+  transition: background-color 0.3s ease;
 }
 
 .menu {
@@ -94,8 +95,8 @@
 }
 
 .menu-item:hover:not(.active) {
-  background-color: #F1F5F9;
-}
+    background-color: #F1F5F9;
+  }
 
 /* Main Layout Styles - 确保主内容区域不与侧边栏重叠 */
 .main-layout {
@@ -103,7 +104,44 @@
   margin-top: 64px; /* 为固定header留出空间 */
   min-height: calc(100vh - 64px); /* 减去header高度 */
   background-color: #F8FAFF;
-  transition: margin-left 0.3s ease-in-out; /* 添加margin-left过渡动画 */
+  transition: margin-left 0.3s ease-in-out, background-color 0.3s ease; /* 添加过渡动画 */
+}
+
+/* 暗黑主题下的Main Layout */
+.dark-theme .main-layout {
+  background-color: #0A0A0A;
+}
+
+/* ========== 暗黑主题样式 ========== */
+.dark-theme .sidebar {
+  background-color: #121212;
+  border-right: 1px solid #2A2A2A;
+}
+
+.dark-theme .divider {
+  background-color: #2A2A2A;
+}
+
+.dark-theme .logo-text {
+  color: #FFFFFF;
+}
+
+.dark-theme .menu-item:not(.active) .menu-label {
+  color: #9CA3AF;
+}
+
+.dark-theme .menu-item:hover:not(.active) {
+  background-color: #1C1C1C;
+}
+
+/* 暗色模式下确保图标颜色正确 */
+.dark-theme .menu-item:not(.active) .menu-icon path {
+  fill: #9CA3AF;
+}
+
+.dark-theme .menu-item:not(.active) .menu-icon circle,
+.dark-theme .menu-item:not(.active) .menu-icon rect {
+  stroke: #9CA3AF;
 }
 
 /* Header Styles - 确保导航栏在正确的层级 */
@@ -114,7 +152,15 @@ header {
   left: 240px; /* 与sidebar宽度一致 */
   z-index: 50; /* 确保导航栏在侧边栏之上但低于其他重要元素 */
   height: 64px; /* 固定高度 */
-  transition: left 0.3s ease-in-out; /* 添加left过渡动画 */
+  background-color: #FFFFFF;
+  transition: left 0.3s ease-in-out, background-color 0.3s ease, border-color 0.3s ease; /* 添加过渡动画 */
+  border-bottom: 1px solid #F0F2F5;
+}
+
+/* 暗黑主题下的Header样式 */
+.dark-theme header {
+  background-color: #1A1A1A;
+  border-bottom: 1px solid #2A2A2A;
 }
 
 /* Responsive Design */
@@ -135,6 +181,13 @@ header {
   header {
     left: 60px; /* 窄屏模式下header左边距调整为60px */
     z-index: 50;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #F0F2F5;
+  }
+  
+  .dark-theme header {
+    background-color: #1A1A1A;
+    border-bottom: 1px solid #2A2A2A;
   }
   
   /* 窄屏环境下隐藏文字内容，只显示图标 */
@@ -178,5 +231,15 @@ header {
   
   header {
     left: 220px;
+  }
+  
+  .dark-theme header {
+    background-color: #1A1A1A;
+    border-bottom: 1px solid #2A2A2A;
+  }
+  
+  .dark-theme .sidebar {
+    background-color: #121212;
+    border-right: 1px solid #2A2A2A;
   }
 }

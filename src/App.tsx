@@ -7,12 +7,19 @@ interface ProviderProps {
 
 // 为测试环境提供默认的模拟组件
 let LanguageProvider: React.FC<ProviderProps> = ({ children }) => <div>{children}</div>;
+let ThemeProvider: React.FC<ProviderProps> = ({ children }) => <div>{children}</div>;
 let AppRouter: React.FC = () => <div>App Router</div>;
 
 // 使用React.lazy来动态导入组件
 const LazyLanguageProvider = lazy<React.FC<ProviderProps>>(() => 
   import('./contexts/LanguageContext').then((module: any) => ({
     default: module.LanguageProvider
+  }))
+);
+
+const LazyThemeProvider = lazy<React.FC<ProviderProps>>(() => 
+  import('./contexts/ThemeContext').then((module: any) => ({
+    default: module.ThemeProvider
   }))
 );
 
@@ -26,15 +33,19 @@ function App(): JSX.Element {
     <React.StrictMode>
       {isBrowser ? (
         <Suspense fallback={<div>Loading...</div>}>
-          <LazyLanguageProvider>
-            <LazyAppRouter />
-          </LazyLanguageProvider>
+          <LazyThemeProvider>
+            <LazyLanguageProvider>
+              <LazyAppRouter />
+            </LazyLanguageProvider>
+          </LazyThemeProvider>
         </Suspense>
       ) : (
         // 在非浏览器环境中使用静态组件
-        <LanguageProvider>
-          <AppRouter />
-        </LanguageProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <AppRouter />
+          </LanguageProvider>
+        </ThemeProvider>
       )}
     </React.StrictMode>
   );

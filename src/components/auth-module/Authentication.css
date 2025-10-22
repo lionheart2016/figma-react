@@ -291,3 +291,54 @@
     max-width: 300px;
   }
 }
+
+/* 暗黑主题样式 */
+.dark-theme .auth-section {
+  background: #0A0A0A;
+}
+
+.dark-theme .language-dropdown {
+  border-color: #2C2C2C;
+  background: #1A1A1A;
+}
+
+.dark-theme .language-text {
+  color: #F8FAFF;
+}
+
+.dark-theme .back-icon {
+  background: #1A1A1A;
+}
+
+.dark-theme .back-arrow {
+  filter: brightness(0) invert(1);
+}
+
+.dark-theme .back-text {
+  color: #F8FAFF;
+}
+
+.dark-theme .authentication-title {
+  color: #F8FAFF;
+}
+
+.dark-theme .welcome-text {
+  color: #9CA3AF;
+}
+
+.dark-theme .step-icon {
+  background: #1A1A1A;
+}
+
+.dark-theme .step-icon-img {
+  filter: brightness(0) invert(1);
+}
+
+.dark-theme .step-number {
+  color: #F8FAFF;
+}
+
+.dark-theme .step-title,
+.dark-theme .step-description {
+  color: #9CA3AF;
+}

@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '../../config/routes';
 import Layout from './Layout';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const EmailVerification: React.FC = () => {
   const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
   const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -148,7 +150,7 @@ const EmailVerification: React.FC = () => {
               onChange={(e) => handleInputChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               onPaste={handlePaste}
-              className={`w-12 h-12 text-center text-lg font-semibold border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${error ? 'border-red-500' : 'border-[#EDEEF3]'}`}
+              className={`w-12 h-12 text-center text-lg font-semibold border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${error ? 'border-red-500' : isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'}`}
             />
           ))}
         </div>
@@ -169,7 +171,7 @@ const EmailVerification: React.FC = () => {
 
         {/* 重新发送验证码 */}
         <div className="text-center">
-          <p className="text-sm text-[#73798B] mb-2">
+          <p className={`text-sm mb-2 ${isDarkMode ? 'text-[#9CA3AF]' : 'text-[#73798B]'}`}>
             {t('auth.emailVerification.didntReceiveCode')}{' '}
             <button
               onClick={handleResend}

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '../../config/routes';
 import Layout from './Layout';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface FormData {
   email: string;
@@ -21,6 +22,7 @@ interface FormErrors {
 
 const Register: React.FC = () => {
   const { t } = useTranslation();
+  const { isDarkMode } = useTheme();
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -216,7 +218,7 @@ const Register: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* 邮箱输入 */}
         <div className="relative">
-          <label htmlFor="email" className="block text-sm font-medium text-[#1C1C1C] mb-2">
+          <label htmlFor="email" className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
             {t('auth.register.emailLabel')}
           </label>
           <input
@@ -227,7 +229,9 @@ const Register: React.FC = () => {
             onChange={handleInputChange}
             ref={emailInputRef}
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
-              errors.email ? 'border-red-500' : 'border-[#EDEEF3]'
+              errors.email 
+                ? 'border-red-500' 
+                : isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'
             }`}
             placeholder={t('auth.register.emailPlaceholder')}
             aria-autocomplete="list"
@@ -239,7 +243,7 @@ const Register: React.FC = () => {
           {showEmailSuggestions && filteredSuggestions.length > 0 && (
             <div
               ref={suggestionsRef}
-              className="absolute z-10 w-full mt-1 bg-white border border-[#EDEEF3] rounded-lg shadow-lg max-h-60 overflow-y-auto"
+              className={`absolute z-10 w-full mt-1 border rounded-lg shadow-lg max-h-60 overflow-y-auto ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-white border-[#EDEEF3]'}`}
               role="listbox"
               aria-labelledby="email"
             >
@@ -251,7 +255,7 @@ const Register: React.FC = () => {
                 return (
                   <div
                     key={index}
-                    className="px-4 py-2 hover:bg-[#F5F7FF] cursor-pointer text-sm text-[#1C1C1C] transition-colors"
+                    className={`px-4 py-2 cursor-pointer text-sm transition-colors ${isDarkMode ? 'hover:bg-[#2C2C2C] text-white' : 'hover:bg-[#F5F7FF] text-[#1C1C1C]'}`}
                     onClick={() => handleSelectSuffix(suffix)}
                     role="option"
                     id={`email-suggestion-${index}`}
@@ -271,7 +275,7 @@ const Register: React.FC = () => {
 
         {/* 密码输入 */}
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-[#1C1C1C] mb-2">
+          <label htmlFor="password" className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
             {t('auth.register.passwordLabel')}
           </label>
           <input
@@ -281,7 +285,9 @@ const Register: React.FC = () => {
             value={formData.password}
             onChange={handleInputChange}
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
-              errors.password ? 'border-red-500' : 'border-[#EDEEF3]'
+              errors.password 
+                ? 'border-red-500' 
+                : isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'
             }`}
             placeholder={t('auth.register.passwordPlaceholder')}
           />
@@ -292,7 +298,7 @@ const Register: React.FC = () => {
 
         {/* 确认密码输入 */}
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#1C1C1C] mb-2">
+          <label htmlFor="confirmPassword" className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
             {t('auth.register.confirmPasswordLabel')}
           </label>
           <input
@@ -302,7 +308,9 @@ const Register: React.FC = () => {
             value={formData.confirmPassword}
             onChange={handleInputChange}
             className={`w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
-              errors.confirmPassword ? 'border-red-500' : 'border-[#EDEEF3]'
+              errors.confirmPassword 
+                ? 'border-red-500' 
+                : isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'
             }`}
             placeholder={t('auth.register.confirmPasswordPlaceholder')}
           />
@@ -319,9 +327,9 @@ const Register: React.FC = () => {
             name="agreeToTerms"
             checked={formData.agreeToTerms}
             onChange={handleInputChange}
-            className="mt-1 w-4 h-4 text-[#4B5EF5] bg-gray-100 border-gray-300 rounded focus:ring-[#4B5EF5] focus:ring-2"
+            className={`mt-1 w-4 h-4 text-[#4B5EF5] rounded focus:ring-[#4B5EF5] focus:ring-2 ${isDarkMode ? 'bg-[#1A1A1A] border-gray-600' : 'bg-gray-100 border-gray-300'}`}
           />
-          <label htmlFor="agreeToTerms" className="text-sm text-[#73798B] leading-5">
+          <label htmlFor="agreeToTerms" className={`text-sm leading-5 ${isDarkMode ? 'text-[#9CA3AF]' : 'text-[#73798B]'}`}>
             {t('auth.register.agreeToTerms')}{' '}
             <a href="#" className="text-[#4B5EF5] hover:underline">{t('auth.register.termsOfService')}</a>
             {' '}{t('auth.register.and')}{' '}
@@ -352,7 +360,7 @@ const Register: React.FC = () => {
 
         {/* 已有账户链接 */}
         <div className="mt-6 text-center">
-          <p className="text-sm text-[#6B6E7A]">
+          <p className={`text-sm ${isDarkMode ? 'text-[#9CA3AF]' : 'text-[#6B6E7A]'}`}>
             {t('auth.register.hasAccount')} {' '}
             <button
               type="button"
