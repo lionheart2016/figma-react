@@ -14,7 +14,7 @@ interface MenuItem {
 // 定义Sidebar组件接口
 interface SidebarProps {
   activeMenu: string;
-  onMenuClick: (menuId: string) => void;
+  onMenuClick?: (menuId: string) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ activeMenu, onMenuClick }) => {
@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeMenu, onMenuClick }) => {
   ];
 
   const handleMenuClick = (menuItem: MenuItem): void => {
-    onMenuClick(menuItem.id);
+    onMenuClick?.(menuItem.id);
     navigate(menuItem.route);
   };
 

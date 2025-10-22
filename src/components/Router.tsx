@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from '../contexts/RouterContext';
-import { useAuth } from '../contexts/AuthContext';
+import { useUser } from '../contexts/UserContext';
 import Authentication from './auth-module/Authentication';
 import InvestmentTypeSelection from './auth-module/InvestmentTypeSelection';
 import Register from './auth-module/Register';
@@ -10,7 +10,7 @@ import TradeMain from './core/trading/TradeMain';
 
 const Router: React.FC = () => {
   const { currentRoute, ROUTES } = useRouter();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user } = useUser();
 
   // 根据当前路由渲染对应的组件
   const renderRoute = (): React.ReactNode => {

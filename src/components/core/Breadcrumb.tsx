@@ -25,7 +25,7 @@ const Breadcrumb: React.FC = () => {
     ROUTES.WALLETS,
     ROUTES.REPORTS,
     ROUTES.SETTINGS
-  ].includes(currentPath);
+  ].some(route => route === currentPath);
 
   // 如果是一级页面，不显示面包屑
   if (isRootPage) {

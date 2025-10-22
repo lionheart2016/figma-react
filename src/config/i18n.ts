@@ -26,7 +26,7 @@ const getSavedLanguage = (): SupportedLanguage => {
 // 定义资源类型
 interface ResourcesType {
   [key: string]: {
-    translation: Record<string, string>;
+    translation: any; // 使用any类型避免类型不匹配问题
   };
 }
 
@@ -78,9 +78,9 @@ const initI18n = async () => {
 export { initI18n };
 
 // 导出语言切换函数
-export const changeLanguage = (lng: SupportedLanguage): Promise<void> => {
+export const changeLanguage = async (lng: SupportedLanguage): Promise<void> => {
   localStorage.setItem('alphatoken-language', lng);
-  return i18n.changeLanguage(lng);
+  await i18n.changeLanguage(lng);
 };
 
 // 导出获取当前语言的函数

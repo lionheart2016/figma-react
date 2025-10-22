@@ -5,6 +5,7 @@ export const ROUTES = {
   INVESTMENT_SELECTION: '/investment-selection',
   REGISTER: '/register',
   EMAIL_VERIFICATION: '/email-verification',
+  LOGIN: '/login',
   
   // 主应用路由
   DASHBOARD: '/dashboard',
@@ -46,7 +47,8 @@ export const routeGuards = {
     ROUTES.INVESTMENT_SELECTION,
     ROUTES.REGISTER,
     ROUTES.EMAIL_VERIFICATION,
-    ROUTES.HOME
+    ROUTES.HOME,
+    ROUTES.LOGIN
   ] as RoutePath[]
 };
 

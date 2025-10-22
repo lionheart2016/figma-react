@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+// 移除未使用的useNavigate导入
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 
 interface FeeData {
   totalManagementFee: string;
@@ -157,7 +158,7 @@ const tradingProducts: Record<string, TradingProduct> = {
 
 const TradeDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  // 移除未使用的navigate变量
   const { t } = useTranslation();
   const [fromAmount, setFromAmount] = useState<string>('0');
   const [fromCurrency, setFromCurrency] = useState<string>('USDT');
@@ -169,9 +170,7 @@ const TradeDetail: React.FC = () => {
     return <div className="p-6 text-center text-gray-500">{t('tradeDetail.productNotFound')}</div>;
   }
 
-  const handleBack = (): void => {
-    navigate('/trade');
-  };
+  // 移除未使用的handleBack函数
 
   const handleTrade = (): void => {
     // 处理交易逻辑

@@ -68,7 +68,7 @@ const Register: React.FC = () => {
       setShowEmailSuggestions(true);
     } else if (value && value.includes('@')) {
       // 如果有@符号，根据@后面的内容过滤
-      const prefix = value.split('@')[0];
+      // const prefix = value.split('@')[0];
       const suffixPart = value.split('@')[1] || '';
       
       // 过滤包含suffixPart的后缀

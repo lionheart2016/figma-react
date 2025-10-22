@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Sidebar from './Sidebar';
 import Header from './Header';
-import Breadcrumb from './Breadcrumb';
+import Sidebar from './Sidebar';
 
-// 定义Breadcrumb项接口
-interface BreadcrumbItem {
-  label: string;
-  path?: string;
-  isActive?: boolean;
-}
+// 移除未使用的BreadcrumbItem接口
 
 // 定义User接口替代PrivyUser
 interface User {
@@ -23,20 +16,15 @@ interface User {
 interface LayoutProps {
   children: React.ReactNode;
   activeMenu?: string;
-  pageTitle?: string;
-  breadcrumbItems?: BreadcrumbItem[];
   user?: User | null;
 }
 
 const Layout: React.FC<LayoutProps> = ({ 
   children, 
-  activeMenu, 
-  pageTitle, 
-  breadcrumbItems = [], 
-  user 
+  activeMenu,
+  user
 }) => {
-  const { t } = useTranslation();
-  const [currentActiveMenu, setCurrentActiveMenu] = useState<string>(activeMenu || '');
+    const [currentActiveMenu, setCurrentActiveMenu] = useState<string>(activeMenu || '');
 
   const handleMenuClick = (menuId: string): void => {
     setCurrentActiveMenu(menuId);
@@ -54,8 +42,7 @@ const Layout: React.FC<LayoutProps> = ({
 
         {/* Content Area - Remove top padding since header margin is handled by CSS */}
         <main className="main-content">
-          {/* Breadcrumb Navigation - Only shown on secondary pages */}
-          <Breadcrumb />
+          {/* Breadcrumb Navigation - Removed */}
 
           {/* Dynamic Content */}
           {children}

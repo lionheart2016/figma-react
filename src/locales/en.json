@@ -21,6 +21,18 @@
     "pageNotFound": "404 - Page Not Found",
     "close": "Close"
   },
+  "login": {
+    "title": "Sign In",
+    "email": "Email Address",
+    "verificationCode": "Verification Code",
+    "sendCode": "Send Verification Code",
+    "login": "Sign In",
+    "sending": "Sending...",
+    "loggingIn": "Signing in...",
+    "changeEmail": "Change Email",
+    "testAccount": "Test Account",
+    "testCode": "Test Verification Code"
+  },
   "auth": {
     "login": "Login",
     "signup": "Sign Up",

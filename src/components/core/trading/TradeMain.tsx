@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+// 移除未使用的useTranslation导入
 import ProductCard from './ProductCard';
 import InvestmentTip from './InvestmentTip';
 
@@ -42,7 +42,7 @@ const tradingProducts: TradingProduct[] = [
 ];
 
 const TradeMain: React.FC = () => {
-  const { t } = useTranslation();
+  // 移除未使用的t变量
   const navigate = useNavigate();
 
   const handleViewProduct = (productId: number) => {

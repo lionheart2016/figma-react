@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import TradeView from '../TradeView';
 
 // Mock all dependencies to prevent errors
 vi.mock('../../Layout', () => ({
-  default: ({ children }) => <div>{children}</div>
+  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
 }));
 
 vi.mock('../TradeMain', () => ({
@@ -19,7 +19,7 @@ vi.mock('../TradeDetail', () => ({
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key) => key
+    t: (key: string) => key
   })
 }));
 

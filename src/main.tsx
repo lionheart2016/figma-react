@@ -1,9 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
-import { initI18n } from './config/i18n';
-import './config/i18n'; // 确保i18n实例被创建
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
+import { initI18n } from './config/i18n'
+import { PrivyProvider } from './providers/PrivyProvider'
+import { UserProvider } from './contexts/UserContext'
 
 // 初始化i18n然后渲染React应用
 initI18n().then(() => {
@@ -11,7 +12,11 @@ initI18n().then(() => {
   if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
       <React.StrictMode>
-        <App />
+        <PrivyProvider>
+          <UserProvider>
+            <App />
+          </UserProvider>
+        </PrivyProvider>
       </React.StrictMode>,
     );
   }
@@ -22,7 +27,11 @@ initI18n().then(() => {
   if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
       <React.StrictMode>
-        <App />
+        <PrivyProvider>
+          <UserProvider>
+            <App />
+          </UserProvider>
+        </PrivyProvider>
       </React.StrictMode>,
     );
   }

@@ -5,6 +5,8 @@ import Authentication from './auth-module/Authentication';
 import InvestmentTypeSelection from './auth-module/InvestmentTypeSelection';
 import Register from './auth-module/Register';
 import EmailVerification from './auth-module/EmailVerification';
+import Login from './auth-module/Login';
+import ProtectedRoute from './auth-module/ProtectedRoute';
 import Dashboard from './core/dashboard/Dashboard';
 import TradeView from './core/trading/TradeView';
 import Wallets from './core/wallets/Wallets';
@@ -18,7 +20,7 @@ const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* 所有路由暂时设置为公开 */}
+        {/* 公开路由 */}
         <Route 
           path={ROUTES.AUTHENTICATION} 
           element={<Authentication />} 
@@ -40,34 +42,42 @@ const AppRouter: React.FC = () => {
         />
         
         <Route 
-          path={ROUTES.DASHBOARD} 
-          element={<Dashboard />} 
+          path={ROUTES.LOGIN} 
+          element={<Login />} 
         />
         
-        <Route 
-          path={`${ROUTES.TRADE}/*`} 
-          element={<TradeView />} 
-        />
-        
-        <Route 
-          path={ROUTES.WALLETS} 
-          element={<Wallets />} 
-        />
-        
-        <Route 
-          path={ROUTES.REPORTS} 
-          element={<Reports />} 
-        />
-        
-        <Route 
-          path={ROUTES.SETTINGS} 
-          element={<Settings />} 
-        />
+        {/* 需要认证的路由 */}
+        <Route element={<ProtectedRoute />}>
+          <Route 
+            path={ROUTES.DASHBOARD} 
+            element={<Dashboard />} 
+          />
+          
+          <Route 
+            path={`${ROUTES.TRADE}/*`} 
+            element={<TradeView />} 
+          />
+          
+          <Route 
+            path={ROUTES.WALLETS} 
+            element={<Wallets />} 
+          />
+          
+          <Route 
+            path={ROUTES.REPORTS} 
+            element={<Reports />} 
+          />
+          
+          <Route 
+            path={ROUTES.SETTINGS} 
+            element={<Settings />} 
+          />
+        </Route>
         
         {/* 默认路由 */}
         <Route 
           path={ROUTES.HOME} 
-          element={<Navigate to={ROUTES.INVESTMENT_SELECTION} replace />} 
+          element={<Navigate to={ROUTES.LOGIN} replace />} 
         />
         
         {/* 404路由 */}

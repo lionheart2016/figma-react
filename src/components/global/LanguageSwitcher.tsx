@@ -10,7 +10,7 @@ interface LanguageSwitcherProps {
 }
 
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { currentLanguage, switchLanguage, getAvailableLanguages, getLanguageName } = useLanguage();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

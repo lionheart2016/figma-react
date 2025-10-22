@@ -10,7 +10,7 @@ const TradeView: React.FC = () => {
       <Route 
         index 
         element={
-          <Layout activeMenu="trade" pageTitle="tradeMain.title" breadcrumbItems={['sidebar.dashboard', 'sidebar.trade']}>
+          <Layout activeMenu="trade">
             <TradeMain />
           </Layout>
         } 
@@ -18,7 +18,7 @@ const TradeView: React.FC = () => {
       <Route 
         path=":id" 
         element={
-          <Layout activeMenu="trade" pageTitle="tradeDetail.title" breadcrumbItems={['sidebar.dashboard', 'sidebar.trade', 'tradeDetail.product']}>
+          <Layout activeMenu="trade">
             <TradeDetail />
           </Layout>
         } 

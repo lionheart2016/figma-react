@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { useState } from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
@@ -71,7 +71,7 @@ const TestEmailVerification: React.FC<TestEmailVerificationProps> = ({ onVerify 
   const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
   const [error, setError] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
-  const email = localStorage.getItem('userEmail') || 'your email';
+  // const _email = localStorage.getItem('userEmail') || 'your email';
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length <= 1) {
@@ -147,14 +147,7 @@ const TestEmailVerification: React.FC<TestEmailVerificationProps> = ({ onVerify 
 };
 
 // 导入真实组件（用于国际化测试）
-let EmailVerification: React.ElementType;
-try {
-  // 尝试导入真实组件，但准备好处理可能的导入错误
-  EmailVerification = require('../EmailVerification').default;
-} catch (error) {
-  // 如果导入失败，使用测试组件代替
-  EmailVerification = TestEmailVerification;
-}
+// 测试组件将在测试用例中直接使用
 
 
 // 模拟localStorage
@@ -259,7 +252,7 @@ describe('EmailVerification Component', () => {
       
       // 填写验证码
       const inputs = screen.getAllByTestId(/^verification-input-/);
-      inputs.forEach((input, index) => {
+      inputs.forEach((input, _index) => {
         fireEvent.change(input, { target: { value: '1' } });
       });
       

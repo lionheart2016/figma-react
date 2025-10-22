@@ -2,11 +2,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Layout from '../Layout';
 
-type BreadcrumbItem = {
-  key: string;
-  label: string;
-};
-
 type NotificationSettings = {
   email: boolean;
   push: boolean;
@@ -39,11 +34,7 @@ const Settings: React.FC = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>('general');
   
-  // 修复面包屑类型
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { key: 'dashboard', label: t('sidebar.dashboard') },
-    { key: 'settings', label: t('sidebar.settings') }
-  ];
+  // 面包屑功能已移除
   
   const [settings, setSettings] = useState<UserSettings>({
     // 通用设置
@@ -444,7 +435,7 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <Layout activeMenu="settings" pageTitle="settings.title" breadcrumbItems={breadcrumbItems}>
+    <Layout activeMenu="settings">
       <div className="settings-container">
         <div className="mb-6 sm:mb-8">
           <p className="text-sm sm:text-base text-[#73798B]">

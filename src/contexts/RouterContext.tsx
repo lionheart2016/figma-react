@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ROUTES, routeMeta } from '../config/routes';
+import { useUser } from './UserContext';
 
 // 定义路由元信息类型
 interface RouteMeta {
@@ -35,15 +36,14 @@ interface RouterProviderProps {
 }
 
 export const RouterProvider: React.FC<RouterProviderProps> = ({ children }) => {
-  const { isAuthenticated, user } = useAuth();
-  const { isLoggedIn, user: userStateUser, isSessionValid } = useUserState();
+  const { isAuthenticated, user } = useUser();
   const [currentRoute, setCurrentRoute] = useState<string>(ROUTES.HOME);
   const [routeHistory, setRouteHistory] = useState<string[]>([ROUTES.HOME]);
 
   // 根据认证状态自动路由
   useEffect(() => {
-    // 使用userState服务来判断用户登录状态
-    const userIsLoggedIn = isLoggedIn && isSessionValid() && userStateUser;
+    // 使用isAuthenticated和user来判断用户登录状态
+    const userIsLoggedIn = isAuthenticated && user;
     
     if (userIsLoggedIn) {
       // 用户已登录，重定向到交易页面
@@ -58,14 +58,14 @@ export const RouterProvider: React.FC<RouterProviderProps> = ({ children }) => {
         navigate(ROUTES.AUTHENTICATION);
       }
     }
-  }, [isLoggedIn, isSessionValid, userStateUser, currentRoute, isAuthenticated, user]);
+  }, [isAuthenticated, user, currentRoute]);
 
   // 导航函数
   const navigate = (route: string, replace: boolean = false): void => {
     if (route === currentRoute) return;
 
-    // 检查路由权限 - 使用userState服务来判断登录状态
-    const userIsLoggedIn = isLoggedIn && isSessionValid() && userStateUser;
+    // 检查路由权限 - 使用useUser钩子来判断登录状态
+    const userIsLoggedIn = isAuthenticated && user;
     if (routeMeta[route]?.requiresAuth && !userIsLoggedIn) {
       console.warn('需要认证才能访问该页面，重定向到认证页面');
       setCurrentRoute(ROUTES.AUTHENTICATION);

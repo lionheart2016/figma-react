@@ -6,7 +6,7 @@ import ProductCard from '../ProductCard';
 // Mock useTranslation with JavaScript syntax
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: function(key) { return key; }
+    t: function(key: string) { return key; }
   })
 }));
 

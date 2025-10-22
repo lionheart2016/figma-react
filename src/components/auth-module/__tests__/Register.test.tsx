@@ -1,6 +1,6 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { useState } from 'react';
 
 // 模拟依赖
 vi.mock('../../contexts/LanguageContext', () => ({
@@ -58,7 +58,7 @@ vi.mock('react-router-dom', () => ({
 }));
 
 // 导入要测试的组件
-import Register from '../Register';
+// import Register from '../Register';
 
 vi.mock('../../config/routes', () => ({
   ROUTES: {
@@ -96,15 +96,15 @@ vi.mock('../Layout', () => ({
 
 // 简化Register组件的导入，直接创建一个测试版本来避免依赖问题
 const TestRegister = () => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
-  const [agreeToTerms, setAgreeToTerms] = React.useState(false);
-  const [errors, setErrors] = React.useState<Record<string, string>>({});
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [errorMessages, setErrorMessages] = React.useState<string[]>([]);
+  const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, _setIsLoading] = useState(false);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
-  const handleInputChange = (field: string, value: string | boolean) => {
+  const handleInputChange = (field: string, _value: string | boolean) => {
     // 清除相关错误
     if (errors[field]) {
       setErrors(prev => {

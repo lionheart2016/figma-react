@@ -2,10 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Layout from '../Layout';
 
-type BreadcrumbItem = {
-  key: string;
-  label: string;
-};
+// 移除未使用的BreadcrumbItem类型
 
 type ReportStatus = 'completed' | 'inProgress' | 'pending';
 
@@ -29,11 +26,7 @@ type Statistics = {
 const Reports: React.FC = () => {
   const { t } = useTranslation();
   
-  // 修复面包屑类型
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { key: 'dashboard', label: t('sidebar.dashboard') },
-    { key: 'reports', label: t('sidebar.reports') }
-  ];
+  // 面包屑功能已移除
 
   // 模拟报告数据
   const reports: Report[] = [
@@ -83,7 +76,7 @@ const Reports: React.FC = () => {
   };
 
   return (
-    <Layout activeMenu="reports" pageTitle="sidebar.reports" breadcrumbItems={breadcrumbItems}>
+    <Layout activeMenu="reports">
       <div className="reports-content">
         <div className="mb-6 sm:mb-8">
           <p className="text-sm sm:text-base text-[#73798B]">

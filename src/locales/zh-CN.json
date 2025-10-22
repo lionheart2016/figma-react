@@ -21,6 +21,18 @@
     "pageNotFound": "404 - 页面未找到",
     "close": "关闭"
   },
+  "login": {
+    "title": "登录",
+    "email": "电子邮箱",
+    "verificationCode": "验证码",
+    "sendCode": "发送验证码",
+    "login": "登录",
+    "sending": "发送中...",
+    "loggingIn": "登录中...",
+    "changeEmail": "更换邮箱",
+    "testAccount": "测试账号",
+    "testCode": "测试验证码"
+  },
   "auth": {
     "login": "登录",
     "signup": "注册",
