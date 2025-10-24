@@ -8,7 +8,7 @@ export default defineConfig({
     host: true
   },
   resolve: {
-    extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
+    extensions: ['.mjs', '.js', '.mts', '.ts', '.tsx', '.json']
   },
   // 排除测试文件的监视和加载
   watchOptions: {

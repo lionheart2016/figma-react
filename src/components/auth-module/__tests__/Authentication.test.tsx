@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom'; // 导入DOM matchers
+import { ThemeProvider } from '../../../contexts/ThemeContext';
 
 // 模拟依赖
 vi.mock('../../contexts/LanguageContext', () => ({
@@ -92,18 +93,22 @@ import Authentication from '../Authentication';
 describe('Authentication Component', () => {
   it('renders without crashing', () => {
     const { container } = render(
-      <BrowserRouter>
-        <Authentication />
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <Authentication />
+        </BrowserRouter>
+      </ThemeProvider>
     );
     expect(container).toBeDefined();
   });
 
   it('renders with basic structure and initial content', () => {
     render(
-      <BrowserRouter>
-        <Authentication />
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <Authentication />
+        </BrowserRouter>
+      </ThemeProvider>
     );
     
     // 只验证组件基本结构

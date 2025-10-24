@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from '../contexts/RouterContext';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../services/UserStateService';
 import Authentication from './auth-module/Authentication';
 import InvestmentTypeSelection from './auth-module/InvestmentTypeSelection';
 import Register from './auth-module/Register';

@@ -56,31 +56,22 @@ window.__ENV__ = {
 };
 
 // 注册全局模拟
-vi.mock('@privy-io/react-auth', async () => {
-  try {
-    const actual = await vi.importActual('@privy-io/react-auth');
-    return {
-      ...actual,
-      PrivyProvider: ({ children }) => children,
-      usePrivy: () => ({
-        user: null,
-        login: vi.fn(),
-        logout: vi.fn(),
-        ready: true
-      })
-    };
-  } catch (error) {
-    // 如果模块不存在，返回基础模拟
-    return {
-      PrivyProvider: ({ children }) => children,
-      usePrivy: () => ({
-        user: null,
-        login: vi.fn(),
-        logout: vi.fn(),
-        ready: true
-      })
-    };
-  }
+vi.mock('@privy-io/react-auth', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    PrivyProvider: ({ children }) => children,
+    usePrivy: () => ({
+      user: null,
+      login: vi.fn(),
+      logout: vi.fn(),
+      ready: true,
+      authenticated: false,
+      createWallet: vi.fn(),
+      connectWallet: vi.fn()
+    }),
+    useWallets: () => ([])
+  };
 });
 
 vi.mock('react-i18next', () => ({

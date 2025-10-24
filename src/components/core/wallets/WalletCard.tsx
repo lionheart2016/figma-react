@@ -1,54 +1,134 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { useTheme } from '../../../contexts/ThemeContext';
-import { ConnectedWallet } from '@privy-io/react-auth';
-import { baseSepolia } from 'viem/chains';
+import { Wallet } from './types';
+import './styles.css';
 
 interface WalletCardProps {
-  wallet: ConnectedWallet;
+  wallet: Wallet;
+  isActive: boolean;
+  onActivate: (wallet: Wallet) => void;
+  onCopyAddress: (address: string) => void;
 }
 
-const WalletCard: React.FC<WalletCardProps> = ({ wallet }) => {
-  const { t } = useTranslation();
-  const { isDarkMode } = useTheme();
-  
-  // 格式化地址显示
+/**
+ * 钱包卡片组件
+ * 显示单个钱包的详细信息和操作按钮
+ */
+const WalletCard: React.FC<WalletCardProps> = ({ 
+  wallet, 
+  isActive, 
+  onActivate, 
+  onCopyAddress 
+}) => {
+  useTheme(); // 虽然导入但未使用，先保留调用
+  /**
+   * 处理复制地址功能
+   */
+  const handleCopyAddress = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onCopyAddress(wallet.address);
+  };
+
+  /**
+   * 处理激活钱包功能
+   */
+  const handleActivate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onActivate(wallet);
+  };
+
+  /**
+   * 格式化钱包地址显示
+   */
   const formatAddress = (address: string): string => {
-    if (!address) return '';
+    if (!address || address.length < 10) return address;
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
-  
-  // 判断钱包连接状态
-  const isConnected: boolean = wallet && wallet.status === 'connected';
-  
+
+  /**
+   * 获取钱包类型文本
+   */
+  const getWalletTypeText = (type: string): string => {
+    return type === 'embedded' ? '嵌入式' : '外部';
+  };
+
+  /**
+   * 获取钱包类型对应的图标
+   */
+  const getWalletTypeIcon = (type: string): string => {
+    return type === 'embedded' ? '🏠' : '🔗';
+  };
+
   return (
-    <div className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-white border-[#E8EAED]'}`}>
-      <div className="flex justify-between items-center mb-3">
-        <div className="flex items-center">
-          <div className="w-8 h-8 bg-[#4B5EF5] rounded-lg flex items-center justify-center mr-3">
-            <span className="text-white font-semibold text-xs">ETH</span>
-          </div>
-          <div>
-            <p className={`font-medium ${isDarkMode ? 'text-white' : ''}`}>{wallet.type === 'ethereum' ? 'Ethereum' : wallet.type}</p>
-            <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{formatAddress(wallet.address)}</p>
-          </div>
+    <div 
+      className={`wallet-card ${isActive ? 'wallet-card-active' : ''}`}
+      onClick={() => onActivate(wallet)}
+    >
+      <div className="wallet-card-header">
+        <div className="wallet-type-badge">
+          {getWalletTypeIcon(wallet.type)}
         </div>
-        {isConnected && (
-          <span className={`px-2 py-1 text-xs font-medium rounded-full ${isDarkMode ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-800'}`}>
-            {t?.('wallets.connected') || 'Connected'}
-          </span>
-        )}
+        <div className="wallet-status">
+          {isActive ? (
+            <span className="wallet-active-indicator">✅ 已激活</span>
+          ) : (
+            <span className="wallet-inactive-indicator">⚪ 未激活</span>
+          )}
+        </div>
       </div>
       
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{t?.('wallets.network') || 'Network'}</p>
-          <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : ''}`}>{baseSepolia.name}</p>
+      <div className="wallet-card-body">
+        <div className="wallet-name">
+          <h5 className="wallet-name-text">{wallet.name}</h5>
         </div>
-        <div>
-          <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{t?.('wallets.balance') || 'Balance'}</p>
-          <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : ''}`}>0.00</p>
+        
+        <div className="wallet-address">
+          <span className="wallet-address-label">地址</span>
+          <div className="wallet-address-container">
+            <span className="wallet-address-text">
+              {formatAddress(wallet.address)}
+            </span>
+            <button 
+              className="wallet-copy-button"
+              onClick={handleCopyAddress}
+              title="复制地址"
+              aria-label="复制地址"
+            >
+              📋
+            </button>
+          </div>
         </div>
+        
+        <div className="wallet-details">
+          <div className="wallet-details-row">
+            <div className="wallet-detail-item">
+              <span className="wallet-detail-label">链类型:</span>
+              <span className="wallet-detail-value wallet-chain">
+                {wallet.chain}
+              </span>
+            </div>
+            <div className="wallet-detail-item">
+              <span className="wallet-detail-label">钱包类型:</span>
+              <span className={`wallet-detail-value ${wallet.type === 'embedded' ? 'wallet-type-embedded' : 'wallet-type-external'}`}>
+                {getWalletTypeText(wallet.type)}
+              </span>
+            </div>
+          </div>
+          <div className="wallet-balance">
+            <span className="wallet-balance-text">
+              {wallet.balance || '⏳ 加载中...'}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="wallet-card-footer">
+        <button 
+          className={`wallet-action-button ${isActive ? 'wallet-action-button-active' : 'wallet-action-button-inactive'}`}
+          onClick={handleActivate}
+        >
+          {isActive ? '取消激活' : '激活钱包'}
+        </button>
       </div>
     </div>
   );

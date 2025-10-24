@@ -25,11 +25,7 @@ export default defineConfig({
   // 配置Vite
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
-      // 直接将语言文件映射到mock文件
-      '@/locales/en.json': resolve(__dirname, './src/__mocks__/jsonMock.js'),
-      '@/locales/zh-CN.json': resolve(__dirname, './src/__mocks__/jsonMock.js'),
-      '@/locales/zh-TW.json': resolve(__dirname, './src/__mocks__/jsonMock.js')
+      '@': resolve(__dirname, './src')
     },
     extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
   },

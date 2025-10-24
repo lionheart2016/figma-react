@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ROUTES, routeMeta } from '../config/routes';
-import { useUser } from './UserContext';
+import { useUser } from '../services/UserStateService';
 
 // 定义路由元信息类型
 interface RouteMeta {

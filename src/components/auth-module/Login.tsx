@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useUser } from '../../contexts/UserContext';
+import { useUser } from '../../services/UserStateService';
 import { ROUTES } from '../../config/routes';
 
 const Login: React.FC = () => {

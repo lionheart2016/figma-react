@@ -1,170 +1,278 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import Layout from '../Layout';
-import WalletCard from './WalletCard';
-import { usePrivy, useWallets, ConnectedWallet } from '@privy-io/react-auth';
+import React, { useState, useEffect } from 'react';
+import { useUser, AccountUtils } from '../../../services/UserStateService';
+import { useCreateWallet, useWallets, useConnectWallet } from '@privy-io/react-auth';
+import WalletList from './WalletList';
+import WalletOperations from './WalletOperations';
+import { Wallet } from './types';
 import { useTheme } from '../../../contexts/ThemeContext';
+import Layout from '../Layout';
+import './styles.css';
 
+/**
+ * 钱包管理组件
+ * 集成Privy SDK实现钱包创建、连接和管理功能
+ */
 const Wallets: React.FC = () => {
-  const { t } = useTranslation();
-  const { authenticated, createWallet, connectWallet } = usePrivy();
-  const { isDarkMode } = useTheme();
-  const wallets = useWallets();
+  // 使用用户状态服务
+  const { user, isLoading: userLoading } = useUser();
+  const { theme } = useTheme();
   
-  // 创建钱包按钮点击处理
-  const handleCreateWallet = () => {
-    createWallet('ethereum');
-  };
-
-  // 连接外部钱包
-  const handleConnectWallet = () => {
-    connectWallet();
-  };
-
-  // 渲染钱包卡片
-  const renderWalletCard = (wallet: ConnectedWallet, index: number) => {
-    return <WalletCard key={`${wallet.address}-${index}`} wallet={wallet} />;
-  };
+  // 使用Privy SDK的钱包功能
+  const { createWallet } = useCreateWallet();
+  const { wallets: privyWallets, ready: walletsReady } = useWallets();
   
-  return (
-    <Layout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-          <div>
-            <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{t?.('wallets.title') || 'Wallets'}</h1>
-            <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>{t?.('wallets.description') || 'Manage your connected wallets and assets'}</p>
-          </div>
-          
-          {!authenticated && (
-            <div className={`mt-4 md:mt-0 p-3 rounded-lg border ${isDarkMode ? 'bg-yellow-900/20 border-yellow-800/30' : 'bg-yellow-50 border-yellow-200'}`}>
-              <p className={isDarkMode ? 'text-sm text-yellow-300' : 'text-sm text-yellow-700'}>
-                {t?.('wallets.loginToManage') || 'Please login to manage your wallets'}
-              </p>
-            </div>
-          )}
-        </div>
+  // 组件状态
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [allWallets, setAllWallets] = useState<Wallet[]>([]);
+  const [activeWallet, setActiveWallet] = useState<Wallet | null>(null);
+  const [isConnectingExternal, setIsConnectingExternal] = useState(false);
+  const [isCreatingWallet, setIsCreatingWallet] = useState(false);
+  const [hasEmbeddedWallet, setHasEmbeddedWallet] = useState(false);
+  
+  // 使用Privy SDK的钱包连接功能
+  const { connectWallet } = useConnectWallet({
+    onSuccess: (wallet) => {
+      console.log('外部钱包连接成功:', wallet);
+      setIsConnectingExternal(false);
+    },
+    onError: (error) => {
+      console.error('外部钱包连接失败:', error);
+      setError('连接外部钱包失败，请重试');
+      setIsConnectingExternal(false);
+    }
+  });
+
+  /**
+   * 初始化和同步钱包数据
+   */
+  useEffect(() => {
+    if (userLoading || !walletsReady || !user) {
+      setIsLoading(true);
+      return;
+    }
+
+    const syncWalletData = () => {
+      try {
+        setError(null);
+        const walletList: Wallet[] = [];
+        const processedAddresses = new Set<string>(); // 用于避免重复地址
         
-        {authenticated ? (
-          <>
-            {/* 创建新钱包区域 */}
-            <div className="mt-4">
-              <h3 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{t?.('wallets.createNew') || 'Create New Wallet'}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button 
-                  onClick={handleCreateWallet}
-                  className={`p-4 border rounded-lg transition-colors ${isDarkMode ? 'bg-[#2C2C2C] border-[#404040] hover:bg-[#333333]' : 'bg-[#F8FAFF] border-[#E8EAED] hover:bg-[#F0F4FF]'}`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-[#4B5EF5] rounded-lg flex items-center justify-center">
-                      <span className="text-white font-semibold">ETH</span>
-                    </div>
-                    <div>
-                      <h4 className={isDarkMode ? 'font-medium text-white' : 'font-medium'}>{t?.('wallets.ethereum') || 'Ethereum'}</h4>
-                      <p className={isDarkMode ? 'text-xs text-gray-400' : 'text-xs text-gray-500'}>{t?.('wallets.create') || 'Create'}</p>
-                    </div>
-                  </div>
-                </button>
-                
-                <button 
-                  onClick={handleConnectWallet}
-                  className={`p-4 border rounded-lg transition-colors ${isDarkMode ? 'bg-[#2C2C2C] border-[#404040] hover:bg-[#333333]' : 'bg-[#F8FAFF] border-[#E8EAED] hover:bg-[#F0F4FF]'}`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-[#7B61FF] to-[#5733FF] rounded-lg flex items-center justify-center">
-                      <span className="text-white font-semibold">+</span>
-                    </div>
-                    <div>
-                      <h4 className={isDarkMode ? 'font-medium text-white' : 'font-medium'}>{t?.('wallets.external') || 'External'}</h4>
-                      <p className={isDarkMode ? 'text-xs text-gray-400' : 'text-xs text-gray-500'}>{t?.('wallets.connect') || 'Connect'}</p>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
+        // 1. 从Privy的useWallets获取钱包数据
+        if (privyWallets && privyWallets.length > 0) {
+          privyWallets.forEach(wallet => {
+            if (wallet.address && !processedAddresses.has(wallet.address.toLowerCase())) {
+              const isEmbedded = wallet.walletClientType === 'privy';
+              if (isEmbedded) {
+                setHasEmbeddedWallet(true);
+              }
+              
+              walletList.push({
+                address: wallet.address,
+                chain: wallet.chainId || 'ethereum',
+                type: isEmbedded ? 'embedded' : 'external',
+                walletType: wallet.walletClientType || (isEmbedded ? 'privy' : 'unknown'),
+                name: isEmbedded ? '嵌入式钱包' : (getWalletTypeName(wallet.walletClientType) || '外部钱包')
+              });
+              
+              processedAddresses.add(wallet.address.toLowerCase());
+            }
+          });
+        }
+        
+        // 2. 从user.linkedAccounts获取钱包数据
+        if (user.linkedAccounts && user.linkedAccounts.length > 0) {
+          const walletAccounts = user.linkedAccounts.filter(account => 
+            AccountUtils.isWalletAccount(account)
+          );
+          
+          walletAccounts.forEach(account => {
+            if (account.address && !processedAddresses.has(account.address.toLowerCase())) {
+              const isEmbedded = account.walletClientType === 'privy';
+              if (isEmbedded) {
+                setHasEmbeddedWallet(true);
+              }
+              
+              walletList.push({
+                address: account.address,
+                chain: account.chainType || 'ethereum',
+                type: isEmbedded ? 'embedded' : 'external',
+                walletType: account.walletClientType || (isEmbedded ? 'privy' : 'unknown'),
+                name: isEmbedded ? '嵌入式钱包' : (getWalletTypeName(account.walletClientType) || '外部钱包')
+              });
+              
+              processedAddresses.add(account.address.toLowerCase());
+            }
+          });
+        }
+        
+        // 3. 从user.walletAddress获取嵌入式钱包地址（如果有）
+        if (user.walletAddress) {
+          const walletAddress = user.walletAddress;
+          if (walletAddress && !processedAddresses.has(walletAddress.toLowerCase())) {
+            setHasEmbeddedWallet(true);
             
-            {/* 显示钱包列表 */}
-            <div className="mt-4 space-y-3">
-              {wallets.length > 0 ? (
-                <div className="mt-4">
-                  <h3 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{t?.('wallets.connectedWallets') || 'Connected Wallets'}</h3>
-                  <div className="space-y-3">
-                    {wallets.map(renderWalletCard)}
-                  </div>
-                </div>
-              ) : (
-                <div className={`flex flex-col items-center justify-center p-8 rounded-lg border ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-[#F8FAFF] border-[#E8EAED]'}`}>
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#2C2C2C]' : 'bg-[#E8EAED]'}`}>
-                    <span className={isDarkMode ? 'text-[#9CA3AF] text-xl' : 'text-[#73798B] text-xl'}>💳</span>
-                  </div>
-                  <h3 className={`text-lg font-semibold mb-1 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{t?.('wallets.noWallets') || 'No wallets connected'}</h3>
-                  <p className={isDarkMode ? 'text-gray-400 text-center max-w-md mb-6' : 'text-gray-600 text-center max-w-md mb-6'}>
-                    {t?.('wallets.connectWalletMessage') || 'Connect or create a wallet to start managing your digital assets'}
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button 
-                      onClick={handleCreateWallet}
-                      className="px-4 py-2 bg-[#4B5EF5] text-white rounded-lg hover:bg-[#3A4EDE] transition-colors"
-                    >
-                      {t?.('wallets.createWallet') || 'Create Wallet'}
-                    </button>
-                    <button 
-                      onClick={handleConnectWallet}
-                      className="px-4 py-2 border border-[#4B5EF5] text-[#4B5EF5] rounded-lg hover:bg-[#F0F4FF] transition-colors"
-                    >
-                      {t?.('wallets.connectWallet') || 'Connect Wallet'}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </>
-        ) : (
-          <div className={`flex flex-col items-center justify-center p-8 rounded-lg border ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-[#F8FAFF] border-[#E8EAED]'}`}>
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#2C2C2C]' : 'bg-[#E8EAED]'}`}>
-                <span className={isDarkMode ? 'text-[#9CA3AF] text-xl' : 'text-[#73798B] text-xl'}>🔒</span>
-              </div>
-              <h3 className={`text-lg font-semibold mb-1 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{t?.('wallets.loginRequired') || 'Login Required'}</h3>
-              <p className={isDarkMode ? 'text-gray-400 text-center max-w-md mb-6' : 'text-gray-600 text-center max-w-md mb-6'}>
-                {t?.('wallets.loginToAccess') || 'Please login to view and manage your wallets'}
-              </p>
+            walletList.push({
+              address: walletAddress,
+              chain: 'ethereum', // 默认为以太坊链
+              type: 'embedded',
+              walletType: 'privy',
+              name: '嵌入式钱包'
+            });
+            
+            processedAddresses.add(walletAddress.toLowerCase());
+          }
+        }
+        
+        setAllWallets(walletList);
+        
+        // 设置默认激活钱包（如果还没有激活钱包）
+        if (walletList.length > 0 && !activeWallet) {
+          // 优先使用外部钱包作为默认激活钱包
+          const defaultWallet = walletList.find(w => w.type === 'external') || walletList[0];
+          setActiveWallet(defaultWallet);
+        }
+      } catch (err) {
+        console.error('同步钱包数据失败:', err);
+        setError('加载钱包数据失败，请刷新页面重试');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    syncWalletData();
+  }, [user, userLoading, walletsReady, privyWallets, activeWallet]);
+
+  /**
+   * 获取钱包类型的可读名称
+   */
+  const getWalletTypeName = (walletType?: string): string => {
+    const walletTypeMap: Record<string, string> = {
+      'metamask': 'MetaMask',
+      'coinbase-wallet': 'Coinbase Wallet',
+      'wallet-connect': 'WalletConnect',
+      'rainbow': 'Rainbow',
+      'phantom': 'Phantom',
+      'privy': 'Privy嵌入式钱包'
+    };
+    
+    return walletTypeMap[walletType || ''] || '';
+  };
+
+  /**
+   * 处理创建钱包
+   */
+  const handleCreateWallet = async () => {
+    setIsCreatingWallet(true);
+    setError(null);
+    
+    try {
+      console.log('开始创建嵌入式钱包');
+      const wallet = await createWallet();
+      console.log('钱包创建成功:', wallet);
+      
+      // 创建成功后刷新钱包列表
+      setHasEmbeddedWallet(true);
+    } catch (err) {
+      console.error('创建钱包失败:', err);
+      const errorMessage = err instanceof Error ? 
+        `创建钱包失败: ${err.message}` : 
+        '创建钱包失败，请重试';
+      setError(errorMessage);
+    } finally {
+      setIsCreatingWallet(false);
+    }
+  };
+
+  /**
+   * 处理连接外部钱包
+   */
+  const handleConnectExternalWallet = async () => {
+    setIsConnectingExternal(true);
+    setError(null);
+    
+    try {
+      // 使用Privy SDK提供的钱包连接UI
+        console.log('打开默认钱包选择界面');
+        await connectWallet();
+      
+    } catch (err) {
+      console.error(`连接外部钱包失败:`, err);
+      setError('连接外部钱包失败，请重试');
+      setIsConnectingExternal(false);
+    }
+  };
+
+  /**
+   * 处理激活钱包
+   */
+  const handleActivateWallet = (wallet: Wallet) => {
+    console.log('激活钱包:', wallet);
+    setActiveWallet(wallet);
+    // 这里可以添加额外的激活逻辑，如更新用户状态等
+  };
+
+  /**
+   * 处理复制钱包地址
+   */
+  const handleCopyAddress = (address: string) => {
+    navigator.clipboard.writeText(address)
+      .then(() => {
+        console.log('地址已复制到剪贴板:', address);
+        // 这里可以添加成功提示
+      })
+      .catch((err) => {
+        console.error('复制地址失败:', err);
+        setError('复制地址失败，请手动复制');
+      });
+  };
+
+
+
+  // 加载状态显示
+  if (isLoading) {
+    return (
+      <Layout activeMenu="wallets">
+        <div className={`wallets-container ${theme}`}>
+          <div className="wallets-loading-container">
+            <div className="wallets-loading-icon">🔄</div>
+            <div className="wallets-loading-text">加载钱包中...</div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  return (
+    <Layout activeMenu="wallets">
+      <div className={`wallets-container ${theme}`}>
+
+        {/* 错误提示 */}
+        {error && (
+          <div className="wallets-error-message">
+            <p className="wallets-error-content">
+              <span className="wallets-error-icon">⚠️</span>
+              {error}
+            </p>
           </div>
         )}
         
-        {/* 钱包使用指南 */}
-        <div className="mt-8">
-          <h3 className={`text-lg font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{t?.('wallets.guide') || 'Wallet Guide'}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className={`p-4 border rounded-lg ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-white border-[#E8EAED]'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${isDarkMode ? 'bg-blue-900/30' : 'bg-blue-100'}`}>
-                <span className={isDarkMode ? 'text-blue-400' : 'text-blue-600'}>1</span>
-              </div>
-              <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-white' : ''}`}>{t?.('wallets.guide.create') || 'Create Wallet'}</h4>
-              <p className={isDarkMode ? 'text-sm text-gray-400' : 'text-sm text-gray-600'}>
-                {t?.('wallets.guide.createDesc') || 'Create a new Ethereum wallet to manage your assets'}
-              </p>
-            </div>
-            
-            <div className={`p-4 border rounded-lg ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-white border-[#E8EAED]'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${isDarkMode ? 'bg-green-900/30' : 'bg-green-100'}`}>
-                <span className={isDarkMode ? 'text-green-400' : 'text-green-600'}>2</span>
-              </div>
-              <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-white' : ''}`}>{t?.('wallets.guide.connect') || 'Connect Wallet'}</h4>
-              <p className={isDarkMode ? 'text-sm text-gray-400' : 'text-sm text-gray-600'}>
-                {t?.('wallets.guide.connectDesc') || 'Connect your existing wallet to access your funds'}
-              </p>
-            </div>
-            
-            <div className={`p-4 border rounded-lg ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-white border-[#E8EAED]'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${isDarkMode ? 'bg-purple-900/30' : 'bg-purple-100'}`}>
-                <span className={isDarkMode ? 'text-purple-400' : 'text-purple-600'}>3</span>
-              </div>
-              <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-white' : ''}`}>{t?.('wallets.guide.manage') || 'Manage Assets'}</h4>
-              <p className={isDarkMode ? 'text-sm text-gray-400' : 'text-sm text-gray-600'}>
-                {t?.('wallets.guide.manageDesc') || 'View balances and manage your digital assets'}
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* 钱包操作区域 */}
+        <WalletOperations
+          onConnectExternalWallet={handleConnectExternalWallet}
+          onCreateWallet={handleCreateWallet}
+          isConnectingExternal={isConnectingExternal}
+          isCreatingWallet={isCreatingWallet}
+          hasEmbeddedWallet={hasEmbeddedWallet}
+        />
+        
+        {/* 钱包列表区域 */}
+        <WalletList
+          wallets={allWallets}
+          activeWallet={activeWallet}
+          onActivateWallet={handleActivateWallet}
+          onCopyAddress={handleCopyAddress}
+        />
       </div>
     </Layout>
   );

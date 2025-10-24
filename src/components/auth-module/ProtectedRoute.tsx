@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useUser } from '../../contexts/UserContext';
+import { useUser } from '../../services/UserStateService';
 
 interface ProtectedRouteProps {
   redirectPath?: string;

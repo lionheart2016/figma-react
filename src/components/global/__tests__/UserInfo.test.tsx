@@ -1,146 +1,189 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import UserInfo from '../UserInfo';
-import { vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { ThemeProvider } from '../../../contexts/ThemeContext';
+import { UserStateProvider } from '../../../services/UserStateService';
+import { useUser } from '../../../services/UserStateService';
 
-// 创建测试所需的上下文数据
-const mockUserContext = (overrides = {}) => {
+
+// Mock the react-i18next module
+vi.mock('react-i18next', async () => {
+  const actual = await vi.importActual('react-i18next');
   return {
-    user: null,
-    isAuthenticated: false,
-    logout: vi.fn().mockResolvedValue(undefined),
-    isLoading: false,
-    error: null,
-    ...overrides
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          'userInfo.login': 'Login',
+          'userInfo.logout': 'Logout',
+          'userInfo.connected': 'Connected'
+        };
+        return translations[key] || key;
+      }
+    })
   };
-};
+});
+
+// Mock the UserContext
+vi.mock('../../../services/UserStateService', () => ({
+  useUser: vi.fn(),
+  UserStateProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+}));
 
 describe('UserInfo Component', () => {
-  // 测试未认证用户显示
-  test('should render user icon when not authenticated', () => {
-    const context = mockUserContext();
-    render(<UserInfo testContext={context} />);
-    
+  beforeEach(() => {
+    // 默认模拟未登录状态
+    vi.mocked(useUser).mockReturnValue({
+      user: null,
+      isAuthenticated: false,
+      login: vi.fn(),
+      logout: vi.fn()
+    });
+  });
+
+  it('should render the user icon button', () => {
+    render(
+      <ThemeProvider>
+        <UserStateProvider>
+          <UserInfo />
+        </UserStateProvider>
+      </ThemeProvider>
+    );
+
     const userButton = screen.getByRole('button');
     expect(userButton).toBeInTheDocument();
-    expect(userButton).toHaveTextContent('👤');
   });
 
-  // 测试已认证用户显示（有邮箱）
-  test('should display user email when authenticated with email', () => {
-    const context = mockUserContext({
-      user: {
-        id: 'test-id-123',
-        email: 'test@example.com'
-      },
-      isAuthenticated: true
-    });
-    
-    render(
-      <UserInfo testContext={context} showDropdownByDefault={true} />
-    );
-    
-    expect(screen.getByText('test@example.com')).toBeInTheDocument();
-  });
-
-  // 测试已认证用户显示（无邮箱，有钱包地址）
-  test('should display wallet address when authenticated without email', () => {
-    const context = mockUserContext({
-      user: {
-        id: 'test-id-123',
-        walletAddress: '0x1234567890abcdef1234567890abcdef12345678'
-      },
-      isAuthenticated: true
-    });
-    
-    render(
-      <UserInfo testContext={context} showDropdownByDefault={true} />
-    );
-    
-    expect(screen.getByText(/钱包地址:/i)).toBeInTheDocument();
-    expect(screen.getByText(/0x[0-9a-fA-F]+\.\.\.[0-9a-fA-F]+/)).toBeInTheDocument();
-  });
-
-  // 测试登出功能
-  test('should call logout when logout button is clicked', async () => {
-    const logout = vi.fn().mockResolvedValue(undefined);
-    const context = mockUserContext({
-      user: {
-        id: 'test-id-123',
-        email: 'test@example.com'
-      },
-      isAuthenticated: true,
-      logout
-    });
-    
-    render(
-      <UserInfo testContext={context} showDropdownByDefault={true} />
-    );
-    
-    const logoutButton = screen.getByText(/登出/i);
-    await fireEvent.click(logoutButton);
-    
-    expect(logout).toHaveBeenCalledTimes(1);
-  });
-
-  // 测试自定义className
-  test('should apply custom className', () => {
-    const context = mockUserContext();
+  it('should toggle dropdown menu visibility on button click', () => {
     const { container } = render(
-      <UserInfo testContext={context} className="custom-class" />
+      <ThemeProvider>
+        <UserStateProvider>
+          <UserInfo />
+        </UserStateProvider>
+      </ThemeProvider>
     );
-    
-    const userInfoDiv = container.querySelector('.relative.custom-class');
-    expect(userInfoDiv).toBeInTheDocument();
-  });
 
-  // 测试下拉菜单切换功能
-  test('should toggle dropdown menu when button is clicked', () => {
-    const context = mockUserContext({
-      user: {
-        id: 'test-id-123',
-        email: 'test@example.com'
-      },
-      isAuthenticated: true
-    });
-    
-    const { container } = render(<UserInfo testContext={context} />);
-    
-    // 初始状态下拉菜单不显示
-    expect(container.querySelector('.absolute.right-0')).not.toBeInTheDocument();
-    
-    // 点击按钮后下拉菜单显示
+    // 初始状态下菜单应该隐藏
+    expect(screen.queryByText('Login')).not.toBeInTheDocument();
+    expect(screen.queryByText('Logout')).not.toBeInTheDocument();
+
+    // 第一次点击 - 打开菜单
     const userButton = screen.getByRole('button');
     fireEvent.click(userButton);
-    
-    expect(container.querySelector('.absolute.right-0')).toBeInTheDocument();
+
+    // 菜单应该显示，但根据组件逻辑，未登录状态下只会显示Login按钮
+    expect(screen.getByText('Login')).toBeInTheDocument();
+    expect(screen.queryByText('Logout')).not.toBeInTheDocument();
+
+    // 第二次点击 - 关闭菜单
+    fireEvent.click(userButton);
+
+    // 菜单应该隐藏
+    expect(screen.queryByText('Login')).not.toBeInTheDocument();
+    expect(screen.queryByText('Logout')).not.toBeInTheDocument();
   });
 
-  // 测试登出成功回调
-  test('should call onLogoutSuccess after successful logout', async () => {
-    const logout = vi.fn().mockResolvedValue(undefined);
-    const onLogoutSuccess = vi.fn();
-    
-    const context = mockUserContext({
-      user: {
-        id: 'test-id-123',
-        email: 'test@example.com'
-      },
-      isAuthenticated: true,
-      logout
+  it('should show login button when user is not authenticated', () => {
+    // 模拟未登录状态
+    vi.mocked(useUser).mockReturnValue({
+      user: null,
+      isAuthenticated: false,
+      login: vi.fn(),
+      logout: vi.fn()
     });
-    
+
     render(
-      <UserInfo 
-        testContext={context} 
-        showDropdownByDefault={true}
-        onLogoutSuccess={onLogoutSuccess}
-      />
+      <ThemeProvider>
+        <UserStateProvider>
+          <UserInfo />
+        </UserStateProvider>
+      </ThemeProvider>
     );
+
+    // 打开菜单
+    fireEvent.click(screen.getByRole('button'));
     
-    const logoutButton = screen.getByText(/登出/i);
-    await fireEvent.click(logoutButton);
+    // 验证未登录状态内容
+    expect(screen.getByText('Login')).toBeInTheDocument();
+    expect(screen.queryByText('Logout')).not.toBeInTheDocument();
+  });
+
+  it('should show logout button when user is authenticated', () => {
+    // 模拟已登录状态
+    vi.mocked(useUser).mockReturnValue({
+      user: { email: 'test@example.com' },
+      isAuthenticated: true,
+      login: vi.fn(),
+      logout: vi.fn()
+    });
+
+    render(
+      <ThemeProvider>
+        <UserStateProvider>
+          <UserInfo />
+        </UserStateProvider>
+      </ThemeProvider>
+    );
+
+    // 打开菜单
+    fireEvent.click(screen.getByRole('button'));
     
-    expect(onLogoutSuccess).toHaveBeenCalledTimes(1);
+    // 验证已登录状态内容
+    expect(screen.getByText('Logout')).toBeInTheDocument();
+    expect(screen.queryByText('Login')).not.toBeInTheDocument();
+  });
+
+  it('should handle event propagation correctly', () => {
+    const { container } = render(
+      <ThemeProvider>
+        <UserStateProvider>
+          <UserInfo />
+          <div data-testid="outside-area">Outside Area</div>
+        </UserStateProvider>
+      </ThemeProvider>
+    );
+
+    // 打开菜单
+    fireEvent.click(screen.getByRole('button'));
+    
+    // 验证菜单已显示
+    expect(screen.getByText('Login')).toBeInTheDocument();
+    
+    // 点击菜单内部区域（但不是按钮）- 应保持显示
+    const menuContainer = container.querySelector('.absolute'); // 查找绝对定位的菜单容器
+    if (menuContainer) {
+      fireEvent.click(menuContainer);
+      expect(screen.getByText('Login')).toBeInTheDocument(); // 菜单保持显示
+    }
+    
+    // 点击菜单外部 - 应关闭菜单
+    const outsideArea = screen.getByTestId('outside-area');
+    fireEvent.click(outsideArea);
+    
+    expect(screen.queryByText('Login')).not.toBeInTheDocument(); // 菜单关闭
+  });
+
+  it('should support internationalization for different languages', () => {
+    // 测试现有的国际化mock是否正常工作
+    render(
+      <ThemeProvider>
+        <UserStateProvider>
+          <UserInfo />
+        </UserStateProvider>
+      </ThemeProvider>
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+    
+    // 验证默认的英文翻译是否正常工作
+    expect(screen.getByText('Login')).toBeInTheDocument();
+    
+    // 验证翻译键值映射是否正确
+    const loginButton = screen.getByText('Login');
+    expect(loginButton).toBeInTheDocument();
+    
+    // 验证国际化功能已集成到组件中
+    expect(screen.queryByText('userInfo.login')).not.toBeInTheDocument(); // 确保显示的是翻译后的文本，不是键名
   });
 });

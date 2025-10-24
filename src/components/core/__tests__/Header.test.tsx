@@ -3,6 +3,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import Header from '../Header';
 import { LanguageProvider } from '../../../contexts/LanguageContext';
+import { ThemeProvider } from '../../../contexts/ThemeContext';
+import { UserStateProvider } from '../../../services/UserStateService';
 
 // Mock dependencies
 vi.mock('../LanguageSwitcher', () => ({
@@ -21,36 +23,35 @@ describe('Header Component', () => {
   });
 
   it('renders without crashing', () => {
-    const mockUser = {
-      id: 'test-id',
-      email: 'test@example.com',
-      type: 'email'
-    };
     
     expect(() => 
       render(
-        <LanguageProvider>
-          <MemoryRouter>
-            <Header user={mockUser} />
-          </MemoryRouter>
-        </LanguageProvider>
+        <UserStateProvider>
+          <ThemeProvider>
+            <LanguageProvider>
+              <MemoryRouter>
+                <Header />
+              </MemoryRouter>
+            </LanguageProvider>
+          </ThemeProvider>
+        </UserStateProvider>
       )
     ).not.toThrow();
   });
 
   it('renders user information when user prop is provided', () => {
-    const mockUser = {
-      id: 'test-id',
-      email: 'test@example.com',
-      type: 'email'
-    };
+    
     
     render(
-      <LanguageProvider>
-        <MemoryRouter>
-          <Header user={mockUser} />
-        </MemoryRouter>
-      </LanguageProvider>
+      <UserStateProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <MemoryRouter>
+              <Header />
+            </MemoryRouter>
+          </LanguageProvider>
+        </ThemeProvider>
+      </UserStateProvider>
     );
     
     const userInfo = document.querySelector('.user-info');
@@ -58,36 +59,35 @@ describe('Header Component', () => {
   });
 
   it('renders language switcher component', () => {
-    const mockUser = {
-      id: 'test-id',
-      email: 'test@example.com',
-      type: 'email'
-    };
+    
     
     render(
-      <LanguageProvider>
-        <MemoryRouter>
-          <Header user={mockUser} />
-        </MemoryRouter>
-      </LanguageProvider>
+      <UserStateProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <MemoryRouter>
+              <Header />
+            </MemoryRouter>
+          </LanguageProvider>
+        </ThemeProvider>
+      </UserStateProvider>
     );
     
     expect(document.querySelector('.language-switcher')).toBeDefined();
   });
 
   it('renders logout button', () => {
-    const mockUser = {
-      id: 'test-id',
-      email: 'test@example.com',
-      type: 'email'
-    };
     
     render(
-      <LanguageProvider>
-        <MemoryRouter>
-          <Header user={mockUser} />
-        </MemoryRouter>
-      </LanguageProvider>
+      <UserStateProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <MemoryRouter>
+              <Header />
+            </MemoryRouter>
+          </LanguageProvider>
+        </ThemeProvider>
+      </UserStateProvider>
     );
     
     const logoutButton = document.querySelector('.logout-button');
@@ -114,18 +114,18 @@ describe('Header Component', () => {
       useTranslation: () => ({ t: mockT })
     }));
     
-    const mockUser = {
-      id: 'test-id',
-      email: 'test@example.com',
-      type: 'email'
-    };
+  
     
     render(
-      <LanguageProvider>
-        <MemoryRouter>
-          <Header user={mockUser} />
-        </MemoryRouter>
-      </LanguageProvider>
+      <UserStateProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <MemoryRouter>
+              <Header />
+            </MemoryRouter>
+          </LanguageProvider>
+        </ThemeProvider>
+      </UserStateProvider>
     );
     
     // 检查组件是否正常渲染
@@ -134,18 +134,18 @@ describe('Header Component', () => {
 
   // 测试不同类型的用户显示
   it('handles email type user correctly', () => {
-    const mockUser = {
-      id: 'test-id',
-      email: 'test@example.com',
-      type: 'email'
-    };
+  
     
     render(
-      <LanguageProvider>
-        <MemoryRouter>
-          <Header user={mockUser} />
-        </MemoryRouter>
-      </LanguageProvider>
+      <UserStateProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <MemoryRouter>
+              <Header />
+            </MemoryRouter>
+          </LanguageProvider>
+        </ThemeProvider>
+      </UserStateProvider>
     );
     
     // 验证用户信息区域存在
@@ -153,18 +153,17 @@ describe('Header Component', () => {
   });
 
   it('handles google type user correctly', () => {
-    const mockUser = {
-      id: 'test-id',
-      email: 'test@gmail.com',
-      type: 'google'
-    };
-    
+  
     render(
-      <LanguageProvider>
-        <MemoryRouter>
-          <Header user={mockUser} />
-        </MemoryRouter>
-      </LanguageProvider>
+      <UserStateProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <MemoryRouter>
+              <Header />
+            </MemoryRouter>
+          </LanguageProvider>
+        </ThemeProvider>
+      </UserStateProvider>
     );
     
     expect(document.querySelector('.user-info')).toBeDefined();

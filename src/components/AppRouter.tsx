@@ -13,7 +13,7 @@ import Wallets from './core/wallets/Wallets';
 import Reports from './core/reports/Reports';
 import Settings from './core/settings/Settings';
 import { ROUTES } from '../config/routes';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from '../services/UserStateService';
 
 // 条件重定向组件 - 根据用户认证状态决定跳转目标
 const ConditionalRedirect: React.FC = () => {

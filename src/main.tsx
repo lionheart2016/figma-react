@@ -4,7 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import { initI18n } from './config/i18n'
 import { PrivyProvider } from './providers/PrivyProvider'
-import { UserProvider } from './contexts/UserContext'
+import { UserStateProvider } from './services/UserStateService'
 
 // 初始化i18n然后渲染React应用
 initI18n().then(() => {
@@ -13,9 +13,9 @@ initI18n().then(() => {
     ReactDOM.createRoot(rootElement).render(
       <React.StrictMode>
         <PrivyProvider>
-          <UserProvider>
+          <UserStateProvider>
             <App />
-          </UserProvider>
+          </UserStateProvider>
         </PrivyProvider>
       </React.StrictMode>,
     );
@@ -28,9 +28,9 @@ initI18n().then(() => {
     ReactDOM.createRoot(rootElement).render(
       <React.StrictMode>
         <PrivyProvider>
-          <UserProvider>
+          <UserStateProvider>
             <App />
-          </UserProvider>
+          </UserStateProvider>
         </PrivyProvider>
       </React.StrictMode>,
     );

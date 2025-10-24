@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { LanguageOption } from '../../contexts/LanguageContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import './LanguageSwitcher.css';
 
 // 定义LanguageSwitcher组件接口
@@ -12,6 +13,7 @@ interface LanguageSwitcherProps {
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) => {
   const { t } = useTranslation();
   const { currentLanguage, switchLanguage, getAvailableLanguages, getLanguageName } = useLanguage();
+  const { isDarkMode } = useTheme();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,7 +59,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) =
   return (
     <div className={`language-switcher ${className}`} ref={dropdownRef}>
       <button 
-        className="language-switcher-button"
+        className={`language-switcher-button ${isDarkMode ? 'dark' : ''}`}
         onClick={toggleDropdown}
         aria-label="切换语言"
       >
@@ -73,11 +75,11 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) =
       </button>
       
       {isDropdownOpen && (
-        <div className="language-dropdown-menu">
+        <div className={`language-dropdown-menu ${isDarkMode ? 'dark' : ''}`}>
           {languages.map((language) => (
             <button
               key={language.code}
-              className={`language-option ${currentLanguage === language.code ? 'active' : ''}`}
+              className={`language-option ${currentLanguage === language.code ? 'active' : ''} ${isDarkMode ? 'dark' : ''}`}
               onClick={() => handleLanguageChange(language.code)}
             >
               <span className="option-icon">
