@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUser, AccountUtils, ACCOUNT_TYPES } from '../../services/UserStateService';
+import { useUserState, AccountUtils } from '../../services/UserStateService';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -14,7 +14,8 @@ const UserInfo: React.FC<UserInfoProps> = ({ className = '', onLogoutSuccess }) 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   // 使用用户上下文、翻译和主题
-  const { user, isAuthenticated, logout, isLoading } = useUser();
+  const { user, isAuthenticated, logout, isLoading } = useUserState();
+  const { walletState } = useUserState();
   const { t } = useTranslation();
   const { isDarkMode } = useTheme();
   
@@ -61,13 +62,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ className = '', onLogoutSuccess }) 
     }
   };
 
-  // 获取用户的钱包账户列表
-  const walletAccounts = user?.linkedAccounts ? 
-    AccountUtils.filterWalletAccounts(user.linkedAccounts) : [];
 
-  // 获取非钱包账户列表
-  const nonWalletAccounts = user?.linkedAccounts ? 
-    AccountUtils.filterNonWalletAccounts(user.linkedAccounts) : [];
   
   // 点击外部关闭菜单
   React.useEffect(() => {
@@ -147,25 +142,25 @@ const UserInfo: React.FC<UserInfoProps> = ({ className = '', onLogoutSuccess }) 
                   <span className={`text-xs ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-500'
                   }`}>
-                    {walletAccounts.length}
+                    {walletState.wallets.length}
                   </span>
                 </div>
                 
-                {walletAccounts.length > 0 ? (
+                {walletState.wallets.length > 0 ? (
                   <div className="space-y-2">
-                    {walletAccounts.map((account, index) => (
-                      <div key={account.id || index} className={`rounded p-2 ${
+                    {walletState.wallets.map((wallet, index) => (
+                      <div key={wallet.address || index} className={`rounded p-2 ${
                         isDarkMode ? 'bg-[#2A2A2A]' : 'bg-gray-50'
                       }`}>
                         <div className="flex justify-between items-start mb-1">
                           <span className={`text-xs font-medium ${
                             isDarkMode ? 'text-gray-200' : 'text-gray-700'
                           }`}>
-                            {AccountUtils.getAccountDisplayName(account)}
+                            {wallet.name || wallet.address?.slice(0, 8)}...{wallet.address?.slice(-6)}
                           </span>
                           <button
                             type="button"
-                            onClick={() => account.address && copyWalletAddress(account.address)}
+                            onClick={() => wallet.address && copyWalletAddress(wallet.address)}
                             className={`text-xs hover:text-blue-400 ${
                               isDarkMode ? 'text-[#4B5EF5]' : 'text-blue-600'
                             }`}
@@ -177,7 +172,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ className = '', onLogoutSuccess }) 
                         <div className={`text-xs ${
                           isDarkMode ? 'text-gray-400' : 'text-gray-500'
                         }`}>
-                          {AccountUtils.getAccountTypeDescription(account)}
+                          {wallet.type || '钱包'}
                         </div>
                       </div>
                     ))}

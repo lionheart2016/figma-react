@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react';
-import { usePrivy, useLoginWithEmail } from '@privy-io/react-auth';
+import { usePrivy, useLoginWithEmail, useWallets } from '@privy-io/react-auth';
 
 // 账户类型常量定义
 export const ACCOUNT_TYPES = {
@@ -33,6 +33,24 @@ export interface LinkedAccount {
   walletIndex?: number;
   firstVerifiedAt?: string;
   latestVerifiedAt?: string;
+}
+
+// 钱包数据接口
+export interface Wallet {
+  address: string;
+  chain: string;
+  type: 'embedded' | 'external';
+  walletType: string;
+  name: string;
+}
+
+// 钱包状态接口
+export interface WalletState {
+  wallets: Wallet[];
+  activeWallet: Wallet | null;
+  hasEmbeddedWallet: boolean;
+  isLoading: boolean;
+  error: string | null;
 }
 
 // 账户分类辅助函数
@@ -112,10 +130,17 @@ interface UserStateContextType {
   isLoading: boolean;
   error: string | null;
   
+  // 钱包状态
+  walletState: WalletState;
+  
   // 认证方法
   loginWithEmail: (email: string) => Promise<void>;
   verifyEmail: (email: string, code: string) => Promise<void>;
   logout: () => Promise<void>;
+  
+  // 钱包操作方法
+  setActiveWallet: (wallet: Wallet | null) => void;
+  refreshWallets: () => void;
   
   // Privy SDK 直接访问（可选，用于高级功能）
   privy: ReturnType<typeof usePrivy>;
@@ -152,9 +177,19 @@ interface UserStateProviderProps {
 export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }) => {
   // 直接使用Privy SDK
   const privy = usePrivy();
+  const { wallets: privyWallets, ready: walletsReady } = useWallets();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  
+  // 钱包状态管理
+  const [walletState, setWalletState] = useState<WalletState>({
+    wallets: [],
+    activeWallet: null,
+    hasEmbeddedWallet: false,
+    isLoading: true,
+    error: null
+  });
 
   // Privy邮箱登录功能
   const {
@@ -179,6 +214,125 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
       }
     },
   });
+
+  // 钱包数据同步逻辑
+  const syncWalletData = useCallback(() => {
+    if (!user || !walletsReady) {
+      setWalletState(prev => ({
+        ...prev,
+        isLoading: true
+      }));
+      return;
+    }
+
+    try {
+      const walletList: Wallet[] = [];
+      const processedAddresses = new Set<string>(); // 用于避免重复地址
+      let hasEmbedded = false;
+      
+      // 1. 从Privy的useWallets获取钱包数据
+      if (privyWallets && privyWallets.length > 0) {
+        privyWallets.forEach(wallet => {
+          if (wallet.address && !processedAddresses.has(wallet.address.toLowerCase())) {
+            const isEmbedded = wallet.walletClientType === 'privy';
+            if (isEmbedded) {
+              hasEmbedded = true;
+            }
+            
+            walletList.push({
+              address: wallet.address,
+              chain: wallet.chainId || 'ethereum',
+              type: isEmbedded ? 'embedded' : 'external',
+              walletType: wallet.walletClientType || (isEmbedded ? 'privy' : 'unknown'),
+              name: isEmbedded ? '嵌入式钱包' : (getWalletTypeName(wallet.walletClientType) || '外部钱包')
+            });
+            
+            processedAddresses.add(wallet.address.toLowerCase());
+          }
+        });
+      }
+      
+      // 2. 从user.linkedAccounts获取钱包数据
+      if (user.linkedAccounts && user.linkedAccounts.length > 0) {
+        const walletAccounts = user.linkedAccounts.filter(account => 
+          AccountUtils.isWalletAccount(account)
+        );
+        
+        walletAccounts.forEach(account => {
+          if (account.address && !processedAddresses.has(account.address.toLowerCase())) {
+            const isEmbedded = account.walletClientType === 'privy';
+            if (isEmbedded) {
+              hasEmbedded = true;
+            }
+            
+            walletList.push({
+              address: account.address,
+              chain: account.chainType || 'ethereum',
+              type: isEmbedded ? 'embedded' : 'external',
+              walletType: account.walletClientType || (isEmbedded ? 'privy' : 'unknown'),
+              name: isEmbedded ? '嵌入式钱包' : (getWalletTypeName(account.walletClientType) || '外部钱包')
+            });
+            
+            processedAddresses.add(account.address.toLowerCase());
+          }
+        });
+      }
+      
+      // 设置默认激活钱包（如果还没有激活钱包）
+      let activeWallet = walletState.activeWallet;
+      if (walletList.length > 0 && !activeWallet) {
+        // 优先使用外部钱包作为默认激活钱包
+        activeWallet = walletList.find(w => w.type === 'external') || walletList[0];
+      }
+      
+      setWalletState({
+        wallets: walletList,
+        activeWallet,
+        hasEmbeddedWallet: hasEmbedded,
+        isLoading: false,
+        error: null
+      });
+    } catch (err) {
+      console.error('[UserStateService] 同步钱包数据失败:', err);
+      setWalletState(prev => ({
+        ...prev,
+        error: '加载钱包数据失败，请刷新页面重试',
+        isLoading: false
+      }));
+    }
+  }, [user, walletsReady, privyWallets, walletState.activeWallet]);
+
+  // 获取钱包类型的可读名称
+  const getWalletTypeName = (walletType?: string): string => {
+    const walletTypeMap: Record<string, string> = {
+      'metamask': 'MetaMask',
+      'coinbase-wallet': 'Coinbase Wallet',
+      'wallet-connect': 'WalletConnect',
+      'rainbow': 'Rainbow',
+      'phantom': 'Phantom',
+      'privy': 'Privy嵌入式钱包'
+    };
+    
+    return walletTypeMap[walletType || ''] || '';
+  };
+
+  // 钱包数据同步监听
+  useEffect(() => {
+    syncWalletData();
+  }, [syncWalletData]);
+
+  // 设置激活钱包
+  const setActiveWallet = useCallback((wallet: Wallet | null) => {
+    setWalletState(prev => ({
+      ...prev,
+      activeWallet: wallet
+    }));
+  }, []);
+
+  // 刷新钱包数据
+  const refreshWallets = useCallback(() => {
+    syncWalletData();
+  }, [syncWalletData]);
 
   // 同步Privy用户状态到应用状态
   useEffect(() => {
@@ -305,9 +459,12 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     isAuthenticated: !!privy.authenticated,
     isLoading,
     error,
+    walletState,
     loginWithEmail,
     verifyEmail,
     logout: logoutHandler,
+    setActiveWallet,
+    refreshWallets,
     privy, // 暴露完整的Privy实例用于高级功能
   };
 
