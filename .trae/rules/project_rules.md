@@ -1,7 +1,6 @@
 1，项目设计稿使用figma进行设计，设计稿链接：https://www.figma.com/design/VK2PYu3kezKbD7sljThMIJ/设计初稿?node-id=0-1&t=TlpCLC5SwQz89FmI-1
 2，项目使用react进行开发，基于这个设计系统来创建React项目
 3，项目实现加密货币交易功能，使用 privy 进行用户认证和钱包相关操作，使用 privy sdk 进行集成
-4，privy sdk 文档链接：https://docs.privy.io/welcome , 请参考文档进行集成
 5，默认使用邮箱登录方式，测试账号：test-1143@privy.io，验证码：894575
 
 8，项目要实现国际化，支持英文，中文简体，中文繁体三种语言，默认使用英文。

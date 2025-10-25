@@ -35,7 +35,7 @@ const GlobalLoading: React.FC<GlobalLoadingProps> = ({
             {defaultMessage}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {t('loading.pleaseWait')}
+            {t('common.loadingPleaseWait')}
           </p>
         </div>
       </div>
@@ -55,7 +55,7 @@ const GlobalLoading: React.FC<GlobalLoadingProps> = ({
       {/* 进度指示器 */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <div className="flex items-center space-x-2 text-xs text-gray-400 dark:text-gray-500">
-          <span>{t('loading.initializingPrivy')}</span>
+          <span>{t('common.loadingInitializingPrivy')}</span>
           <div className="flex space-x-1">
             {[1, 2, 3].map((dot) => (
               <div 

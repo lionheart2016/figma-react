@@ -38,7 +38,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) =
     if (success) {
       setIsDropdownOpen(false);
     } else {
-      console.error(t('languageSwitcher.switchFailed'));
+      console.error(t('auth.languageSwitcher.languageSwitchFailed'));
     }
   };
 

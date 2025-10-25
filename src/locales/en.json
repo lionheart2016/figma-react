@@ -499,14 +499,32 @@
   "tradeMain": {
     "title": "Trade",
     "subtitle": "Discover and invest in premium trading products",
-    "completeProfile": "Complete your investment profile",
-    "completeProfileDesc": "In order to unlock some offerings you need to give us some information",
+    "completeProfile": "Complete Your Investment Profile",
+    "completeProfileDesc": "To unlock certain products, you'll need to provide some information",
     "complete": "Complete",
-    "minInvestment": "Min. Investment",
+    "minInvestment": "Min Investment",
     "view": "View",
     "tokenType": "Token Type",
     "totalSupply": "Total Supply",
-    "currentPrice": "Current Price"
+    "currentPrice": "Current Price",
+    "products": {
+      "cloudPeakGold": {
+        "name": "CloudPeak Gold Token",
+        "description": "Premium gold-backed cryptocurrency token providing stable value and secure investment opportunities in the digital asset market."
+      },
+      "alphaToken": {
+        "name": "Alpha Token", 
+        "description": "High-performance utility token designed for advanced trading strategies and premium platform features."
+      },
+      "betaToken": {
+        "name": "Beta Token",
+        "description": "Innovative investment token offering diversified cryptocurrency portfolio exposure with enhanced risk management features."
+      }
+    },
+    "networks": {
+      "ethereum": "Ethereum",
+      "polygon": "Polygon"
+    }
   },
   "tradeDetail": {
     "investNow": "Invest Now",

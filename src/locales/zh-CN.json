@@ -510,7 +510,25 @@
     "view": "查看",
     "tokenType": "代币类型",
     "totalSupply": "总供应量",
-    "currentPrice": "当前价格"
+    "currentPrice": "当前价格",
+    "products": {
+      "cloudPeakGold": {
+        "name": "CloudPeak Gold 代币",
+        "description": "优质的黄金支持加密货币代币，在数字资产市场中提供稳定价值和安全的投资机会。"
+      },
+      "alphaToken": {
+        "name": "Alpha 代币", 
+        "description": "专为高级交易策略和高级平台功能设计的高性能实用代币。"
+      },
+      "betaToken": {
+        "name": "Beta 代币",
+        "description": "提供多元化加密货币投资组合敞口的创新投资代币，具有增强的风险管理功能。"
+      }
+    },
+    "networks": {
+      "ethereum": "以太坊",
+      "polygon": "Polygon"
+    }
   },
   "tradeDetail": {
     "investNow": "立即投资",

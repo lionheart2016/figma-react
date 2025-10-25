@@ -518,7 +518,25 @@
     "view": "查看",
     "tokenType": "代幣類型",
     "totalSupply": "總供應量",
-    "currentPrice": "當前價格"
+    "currentPrice": "當前價格",
+    "products": {
+      "cloudPeakGold": {
+        "name": "CloudPeak Gold 代幣",
+        "description": "優質的黃金支持加密貨幣代幣，在數字資產市場中提供穩定價值和安全的投資機會。"
+      },
+      "alphaToken": {
+        "name": "Alpha 代幣", 
+        "description": "專為高級交易策略和高級平台功能設計的高性能實用代幣。"
+      },
+      "betaToken": {
+        "name": "Beta 代幣",
+        "description": "提供多元化加密貨幣投資組合敞口的創新投資代幣，具有增強的風險管理功能。"
+      }
+    },
+    "networks": {
+      "ethereum": "以太坊",
+      "polygon": "Polygon"
+    }
   },
   "tradeDetail": {
     "investNow": "立即投資",

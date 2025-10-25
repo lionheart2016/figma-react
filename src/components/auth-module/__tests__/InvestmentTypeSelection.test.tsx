@@ -52,8 +52,8 @@ const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = 
 
   return (
     <div>
-      <h1>{t('investmentType.title')}</h1>
-      <p>{t('investmentType.subtitle')}</p>
+      <h1>{t('auth.investmentSelection.title')}</h1>
+      <p>{t('auth.investmentSelection.subtitle')}</p>
       
       <div className="investment-types">
         <div 
@@ -61,9 +61,9 @@ const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = 
           data-testid="individual-option"
           onClick={() => handleTypeSelect('individual')}
         >
-          <h3>{t('investmentType.individual')}</h3>
+          <h3>{t('auth.investmentTypes.individual')}</h3>
           {selectedType === 'individual' && (
-            <img src="/radio-on.svg" alt={t('investmentType.selected')} />
+            <img src="/radio-on.svg" alt="Selected" />
           )}
         </div>
         
@@ -72,9 +72,9 @@ const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = 
           data-testid="corporate-option"
           onClick={() => handleTypeSelect('corporate')}
         >
-          <h3>{t('investmentType.corporate')}</h3>
+          <h3>{t('auth.investmentTypes.corporate')}</h3>
           {selectedType === 'corporate' && (
-            <img src="/radio-on.svg" alt={t('investmentType.selected')} />
+            <img src="/radio-on.svg" alt="Selected" />
           )}
         </div>
       </div>
@@ -84,7 +84,7 @@ const TestInvestmentTypeSelection: React.FC<TestInvestmentTypeSelectionProps> = 
         disabled={!selectedType}
         onClick={handleContinue}
       >
-        {t('investmentType.continue')}
+        {t('auth.authentication.continue')}
       </button>
     </div>
   );
@@ -109,8 +109,8 @@ describe('InvestmentTypeSelection Component', () => {
         <TestInvestmentTypeSelection language="en" />
       );
       
-      expect(screen.getByText('Select Investment Type')).toBeDefined();
-      expect(screen.getByText('Please choose your investment type')).toBeDefined();
+      expect(screen.getByText('Welcome 👋🏼')).toBeDefined();
+      expect(screen.getByText('Please select your investment type')).toBeDefined();
     });
 
     it('renders both investment types in English', () => {
@@ -118,8 +118,8 @@ describe('InvestmentTypeSelection Component', () => {
         <TestInvestmentTypeSelection language="en" />
       );
       
-      expect(screen.getByText('Individual')).toBeDefined();
-      expect(screen.getByText('Corporate')).toBeDefined();
+      expect(screen.getByText('Individual investors')).toBeDefined();
+      expect(screen.getByText('Corporate Investment')).toBeDefined();
     });
 
     it('renders continue button in English', () => {
@@ -138,7 +138,7 @@ describe('InvestmentTypeSelection Component', () => {
         <TestInvestmentTypeSelection language="zh-CN" />
       );
       
-      expect(screen.getByText('选择投资类型')).toBeDefined();
+      expect(screen.getByText('欢迎 👋🏼')).toBeDefined();
       expect(screen.getByText('请选择您的投资类型')).toBeDefined();
     });
 
@@ -147,8 +147,8 @@ describe('InvestmentTypeSelection Component', () => {
         <TestInvestmentTypeSelection language="zh-CN" />
       );
       
-      expect(screen.getByText('个人')).toBeDefined();
-      expect(screen.getByText('企业')).toBeDefined();
+      expect(screen.getByText('个人投资者')).toBeDefined();
+      expect(screen.getByText('企业投资')).toBeDefined();
     });
 
     it('renders continue button in Chinese', () => {
@@ -215,7 +215,7 @@ describe('InvestmentTypeSelection Component', () => {
       <TestInvestmentTypeSelection language="en" />
     );
     
-    expect(screen.getByText('Select Investment Type')).toBeDefined();
+    expect(screen.getByText('Welcome 👋🏼')).toBeDefined();
     
     rerender(
       <TestInvestmentTypeSelection language="zh-CN" />

@@ -167,7 +167,7 @@ const TradeDetail: React.FC = () => {
   const product = id ? tradingProducts[id] : undefined;
   
   if (!product) {
-    return <div className="p-6 text-center text-gray-500">{t('tradeDetail.productNotFound')}</div>;
+    return <div className="p-6 text-center text-gray-500">{t('common.pageNotFound')}</div>;
   }
 
   // 移除未使用的handleBack函数

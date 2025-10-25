@@ -71,12 +71,12 @@ const Login: React.FC = () => {
               className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
               disabled={isLoading}
             >
-              {isLoading ? t('login.sending') : t('login.sendCode')}
+              {isLoading ? t('sending') : t('sendCode')}
             </button>
             
             <div className="mt-4 text-center text-sm text-gray-500">
-              <p>{t('login.testAccount')}: test-1143@privy.io</p>
-              <p>{t('login.testCode')}: 894575</p>
+              <p>{t('testAccount')}: test-1143@privy.io</p>
+              <p>{t('testCode')}: 894575</p>
             </div>
           </form>
         ) : (
@@ -102,7 +102,7 @@ const Login: React.FC = () => {
               className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
               disabled={isLoading}
             >
-              {isLoading ? t('login.loggingIn') : t('login.login')}
+              {isLoading ? t('loggingIn') : t('login.login')}
             </button>
             
             <button 
@@ -114,7 +114,7 @@ const Login: React.FC = () => {
               }}
               className="w-full mt-2 text-blue-500"
             >
-              {t('login.changeEmail')}
+              {t('changeEmail')}
             </button>
           </form>
         )}
