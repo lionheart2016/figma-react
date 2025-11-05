@@ -4,7 +4,7 @@ import UserInfo from '../UserInfo';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ThemeProvider } from '../../../contexts/ThemeContext';
 import { UserStateProvider } from '../../../services/UserStateService';
-import { useUser } from '../../../services/UserStateService';
+import { useUser, useUserState } from '../../../services/UserStateService';
 
 
 // Mock the react-i18next module
@@ -28,6 +28,7 @@ vi.mock('react-i18next', async () => {
 // Mock the UserContext
 vi.mock('../../../services/UserStateService', () => ({
   useUser: vi.fn(),
+  useUserState: vi.fn(),
   UserStateProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
 }));
 
@@ -38,7 +39,24 @@ describe('UserInfo Component', () => {
       user: null,
       isAuthenticated: false,
       login: vi.fn(),
-      logout: vi.fn()
+      logout: vi.fn(),
+      isLoading: false
+    });
+    
+    // 模拟钱包状态
+    vi.mocked(useUserState).mockReturnValue({
+      user: null,
+      isAuthenticated: false,
+      login: vi.fn(),
+      logout: vi.fn(),
+      isLoading: false,
+      walletState: {
+        wallets: [],
+        activeWallet: null,
+        hasEmbeddedWallet: false,
+        isLoading: false,
+        error: null
+      }
     });
   });
 
@@ -115,7 +133,25 @@ describe('UserInfo Component', () => {
       user: { email: 'test@example.com' },
       isAuthenticated: true,
       login: vi.fn(),
-      logout: vi.fn()
+      logout: vi.fn(),
+      isLoading: false
+    });
+    
+    vi.mocked(useUserState).mockReturnValue({
+      user: { email: 'test@example.com' },
+      isAuthenticated: true,
+      login: vi.fn(),
+      logout: vi.fn(),
+      isLoading: false,
+      walletState: {
+        wallets: [
+          { address: '0x1234567890abcdef', name: 'Main Wallet', type: 'embedded' }
+        ],
+        activeWallet: { address: '0x1234567890abcdef', name: 'Main Wallet', type: 'embedded' },
+        hasEmbeddedWallet: true,
+        isLoading: false,
+        error: null
+      }
     });
 
     render(
