@@ -14,6 +14,7 @@ import Reports from './core/reports/Reports';
 import Settings from './core/settings/Settings';
 import { ROUTES } from '../config/routes';
 import { useUser } from '../services/UserStateService';
+import PageTracker from './global/PageTracker';
 
 // 条件重定向组件 - 根据用户认证状态决定跳转目标
 const ConditionalRedirect: React.FC = () => {
@@ -35,70 +36,116 @@ const AppRouter: React.FC = () => {
         {/* 公开路由 */}
         <Route 
           path={ROUTES.AUTHENTICATION} 
-          element={<Authentication />} 
+          element={
+            <PageTracker pageName="认证页面">
+              <Authentication />
+            </PageTracker>
+          } 
         />
         
         <Route 
           path={ROUTES.INVESTMENT_SELECTION} 
-          element={<InvestmentTypeSelection />} 
+          element={
+            <PageTracker pageName="投资类型选择">
+              <InvestmentTypeSelection />
+            </PageTracker>
+          } 
         />
         
         <Route 
           path={ROUTES.REGISTER} 
-          element={<Register />} 
+          element={
+            <PageTracker pageName="注册页面">
+              <Register />
+            </PageTracker>
+          } 
         />
         
         <Route 
           path={ROUTES.EMAIL_VERIFICATION} 
-          element={<EmailVerification />} 
+          element={
+            <PageTracker pageName="邮箱验证">
+              <EmailVerification />
+            </PageTracker>
+          } 
         />
         
         <Route 
           path={ROUTES.LOGIN} 
-          element={<Login />} 
+          element={
+            <PageTracker pageName="登录页面">
+              <Login />
+            </PageTracker>
+          } 
         />
         
         {/* 需要认证的路由 */}
         <Route element={<ProtectedRoute />}>
           <Route 
             path={ROUTES.DASHBOARD} 
-            element={<Dashboard />} 
+            element={
+              <PageTracker pageName="仪表板">
+                <Dashboard />
+              </PageTracker>
+            } 
           />
           
           <Route 
             path={`${ROUTES.TRADE}/*`} 
-            element={<TradeView />} 
+            element={
+              <PageTracker pageName="交易页面">
+                <TradeView />
+              </PageTracker>
+            } 
           />
           
           <Route 
             path={ROUTES.WALLETS} 
-            element={<Wallets />} 
+            element={
+              <PageTracker pageName="钱包页面">
+                <Wallets />
+              </PageTracker>
+            } 
           />
           
           <Route 
             path={ROUTES.REPORTS} 
-            element={<Reports />} 
+            element={
+              <PageTracker pageName="报告页面">
+                <Reports />
+              </PageTracker>
+            } 
           />
           
           <Route 
             path={ROUTES.SETTINGS} 
-            element={<Settings />} 
+            element={
+              <PageTracker pageName="设置页面">
+                <Settings />
+              </PageTracker>
+            } 
           />
         </Route>
         
         {/* 默认路由 - 根据认证状态条件重定向 */}
         <Route 
           path={ROUTES.HOME} 
-          element={<ConditionalRedirect />} 
+          element={
+            <PageTracker pageName="首页">
+              <ConditionalRedirect />
+            </PageTracker>
+          } 
         />
         
         {/* 404路由 */}
         <Route 
           path="*" 
           element={
-            <div className="flex items-center justify-center h-screen">
-              <h1 className="text-2xl font-bold">{t('common.pageNotFound')}</h1>
-            </div>
+            <PageTracker pageName="404页面">
+              <div className="flex items-center justify-center h-screen">
+                <h1 className="text-2xl font-bold">{t('common.pageNotFound')}</h1>
+              </div>
+            </PageTracker>
           } 
         />
       </Routes>
