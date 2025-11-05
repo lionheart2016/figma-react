@@ -9,7 +9,10 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:app": "vitest run src/__tests__/App.test.jsx"
+    "test:app": "vitest run src/__tests__/App.test.jsx",
+    "deploy": "yarn build && firebase deploy",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "serve": "firebase serve --only hosting"
   },
   "dependencies": {
     "@privy-io/react-auth": "^3.3.0",
