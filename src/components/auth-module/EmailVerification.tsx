@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { ROUTES } from '../../config/routes';
 import Layout from './Layout';
 import { useTheme } from '../../contexts/ThemeContext';
+import { isMobile, isDesktop } from '../../utils/deviceDetection';
+import { getEmailProvider } from '../../utils/emailProvider';
 
 const EmailVerification: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isDarkMode } = useTheme();
   const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,6 +20,27 @@ const EmailVerification: React.FC = () => {
 
   // 获取用户邮箱
   const userEmail = localStorage.getItem('userEmail') || t('auth.emailVerification.yourEmail');
+  
+  // 检查是否为桌面端
+  const [isDesktopDevice, setIsDesktopDevice] = useState<boolean>(false);
+  
+  // 获取邮箱提供商信息
+  const emailProvider = userEmail && userEmail !== t('auth.emailVerification.yourEmail') 
+    ? getEmailProvider(userEmail)
+    : null;
+
+  // 设备检测
+  useEffect(() => {
+    setIsDesktopDevice(isDesktop());
+    
+    // 监听窗口大小变化
+    const handleResize = () => {
+      setIsDesktopDevice(isDesktop());
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // 倒计时逻辑
   useEffect(() => {
@@ -158,6 +181,28 @@ const EmailVerification: React.FC = () => {
         {/* 错误信息 */}
         {error && (
           <p className="text-red-500 text-sm text-center">{error}</p>
+        )}
+
+        {/* 邮箱快速跳转按钮（仅桌面端显示） */}
+        {isDesktopDevice && emailProvider && (
+          <div className="text-center">
+            <a
+              href={emailProvider.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-lg border border-[#4B5EF5] text-[#4B5EF5] hover:bg-[#4B5EF5] hover:text-white transition-all duration-200 font-medium text-sm"
+            >
+              <span>{emailProvider.name[i18n.language as keyof typeof emailProvider.name] || emailProvider.name.en}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+            <p className="text-xs mt-2 text-[#73798B] dark:text-[#9CA3AF]">
+              {t('auth.emailVerification.quickAccessHint')}
+            </p>
+          </div>
         )}
 
         {/* 验证按钮 */}

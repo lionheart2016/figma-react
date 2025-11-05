@@ -161,7 +161,9 @@
       "didntReceiveCode": "沒有收到驗證碼？",
       "resendCode": "重新發送驗證碼",
       "resendIn": "{{timer}}秒後重新發送",
-      "resendingCode": "正在重新發送驗證碼到："
+      "resendingCode": "正在重新發送驗證碼到：",
+      "quickAccess": "快速訪問您的郵箱",
+      "quickAccessDescription": "在新標籤頁中打開您的郵箱提供商"
     }
   },
   "dashboard": {

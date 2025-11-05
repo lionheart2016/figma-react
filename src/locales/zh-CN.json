@@ -153,7 +153,9 @@
       "didntReceiveCode": "没有收到验证码？",
       "resendCode": "重新发送验证码",
       "resendIn": "{{timer}}秒后重新发送",
-      "resendingCode": "正在重新发送验证码到："
+      "resendingCode": "正在重新发送验证码到：",
+      "quickAccess": "快速访问您的邮箱",
+      "quickAccessDescription": "在新标签页中打开您的邮箱提供商"
     }
   },
   "dashboard": {
