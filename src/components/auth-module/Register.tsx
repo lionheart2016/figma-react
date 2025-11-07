@@ -221,23 +221,57 @@ const Register: React.FC = () => {
           <label htmlFor="email" className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
             {t('auth.register.emailLabel')}
           </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            ref={emailInputRef}
-            className={`w-full px-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
-              errors.email 
-                ? 'border-red-500' 
-                : isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'
-            }`}
-            placeholder={t('auth.register.emailPlaceholder')}
-            aria-autocomplete="list"
-            aria-expanded={showEmailSuggestions}
-            aria-haspopup={showEmailSuggestions}
-          />
+          <div className="relative">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              ref={emailInputRef}
+              className={`w-full px-4 py-3 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${
+                errors.email 
+                  ? 'border-red-500' 
+                  : isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'
+              }`}
+              placeholder={t('auth.register.emailPlaceholder')}
+              autoComplete="email"
+              aria-autocomplete="list"
+              aria-expanded={showEmailSuggestions}
+              aria-haspopup={showEmailSuggestions}
+            />
+            {/* 清除按钮 */}
+            {formData.email && (
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData(prev => ({ ...prev, email: '' }));
+                  if (errors.email) {
+                    setErrors(prev => ({ ...prev, email: '' }));
+                  }
+                  if (emailInputRef.current) {
+                    emailInputRef.current.focus();
+                  }
+                }}
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center rounded-full transition-opacity duration-200 ${
+                  isDarkMode 
+                    ? 'text-gray-400 hover:text-white hover:bg-gray-600' 
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200'
+                }`}
+                aria-label={t('common.clear')}
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path 
+                    d="M9.5 2.5L2.5 9.5M2.5 2.5L9.5 9.5" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
           
           {/* 邮箱后缀建议列表 */}
           {showEmailSuggestions && filteredSuggestions.length > 0 && (

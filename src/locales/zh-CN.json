@@ -25,7 +25,8 @@
     "pageNotFound": "404 - 页面不存在",
     "close": "关闭",
     "user": "用户",
-    "no_wallets": "未连接钱包"
+    "no_wallets": "未连接钱包",
+    "clear": "清除"
   },
   "login": {
     "title": "登录",

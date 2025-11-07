@@ -25,7 +25,8 @@
     "pageNotFound": "404 - 頁面不存在",
     "close": "關閉",
     "user": "用戶",
-    "no_wallets": "未連接錢包"
+    "no_wallets": "未連接錢包",
+    "clear": "清除"
   },
   "login": {
     "title": "登錄",

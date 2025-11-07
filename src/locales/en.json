@@ -25,7 +25,8 @@
     "pageNotFound": "404 - Page Not Found",
     "close": "Close",
     "user": "User",
-    "no_wallets": "No wallets connected"
+    "no_wallets": "No wallets connected",
+    "clear": "Clear"
   },
   "login": {
     "title": "Sign In",
