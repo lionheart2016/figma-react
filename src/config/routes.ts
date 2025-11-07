@@ -4,6 +4,7 @@ export const ROUTES = {
   AUTHENTICATION: '/authentication',
   INVESTMENT_SELECTION: '/investment-selection',
   REGISTER: '/register',
+  REGISTER_NEW: '/register-new',
   EMAIL_VERIFICATION: '/email-verification',
   LOGIN: '/login',
   

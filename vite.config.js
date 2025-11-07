@@ -1,8 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { codeInspectorPlugin } from "code-inspector-plugin";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    codeInspectorPlugin({
+        bundler: "vite",
+        editor: "cursor"
+    }),
+    react()
+  ],
   server: {
     port: 4000,
     host: true

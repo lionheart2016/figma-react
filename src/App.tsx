@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, ReactNode, useState } from 'react';
 import GlobalLoading from './components/global/GlobalLoading';
+import LazyAppRouter from './components/AppRouter';
 
 // 定义组件的Props类型
 interface ProviderProps {
@@ -24,7 +25,7 @@ const LazyThemeProvider = lazy(() =>
   }))
 );
 
-const LazyAppRouter = lazy(() => import('./components/AppRouter') as any);
+// const LazyAppRouter = lazy(() => import('./components/AppRouter') as any);
 
 function App(): JSX.Element {
   // 检查是否在浏览器环境中
