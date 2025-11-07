@@ -1,13 +1,12 @@
 # alpha token Crypto Trading Platform
 
-基于Figma设计的加密货币交易平台，使用React开发，集成Privy认证和国际化功能。
+基于Figma设计的加密货币交易平台，使用React开发，支持国际化功能。
 
 ## 🌟 功能特性
 
 ### 🔐 用户认证
-- **Privy SDK集成**：使用Privy进行用户认证和钱包操作
-- **多种登录方式**：支持邮箱、Google账号和钱包登录
-- **测试账号**：test-1143@privy.io，验证码：894575
+- **邮箱登录**：支持邮箱验证码登录方式
+- **用户状态管理**：完整的用户认证状态管理
 
 ### 🌍 国际化支持
 - **多语言支持**：英文、简体中文、繁體中文
@@ -34,11 +33,7 @@ yarn install
 ```
 
 ### 环境配置
-复制 `.env.example` 为 `.env` 并配置以下变量：
-```
-VITE_PRIVY_APP_ID=your_privy_app_id
-VITE_PRIVY_APP_SECRET=your_privy_app_secret
-```
+复制 `.env.example` 为 `.env` 并根据需要配置相关变量。
 
 ### 启动开发服务器
 ```bash
@@ -65,16 +60,15 @@ src/
 │   └── zh-TW.json     # 繁體中文翻译
 ├── config/            # 配置文件
 │   ├── i18n.js       # 国际化配置
-│   └── privy.js      # Privy配置
+│   └── auth.js       # 认证配置
 └── services/         # 服务层
-    └── userState.jsx  # 用户状态管理
-```
+    └── UserStateService.tsx  # 用户状态管理
 
 ## 🔧 技术栈
 
 - **React 18**：前端框架
 - **Vite**：构建工具
-- **Privy SDK**：用户认证和钱包集成
+- **TypeScript**：类型安全
 - **React Router**：路由管理
 - **React i18next**：国际化支持
 - **Tailwind CSS**：样式框架
@@ -87,10 +81,9 @@ src/
 2. 在 `src/config/i18n.js` 中配置新语言
 3. 更新语言切换器组件
 
-### 集成Privy
-- 参考 `whitelabel-starter/` 目录中的示例项目
-- 查看 [Privy官方文档](https://docs.privy.io/welcome)
-- 测试账号：test-1143@privy.io
+### 用户认证
+- 项目使用邮箱验证码方式进行用户认证
+- 用户状态通过UserStateService进行管理
 
 ### Figma设计集成
 - 设计稿链接：https://www.figma.com/design/VK2PYu3kezKbD7sljThMIJ/设计初稿

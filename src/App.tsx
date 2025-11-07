@@ -1,5 +1,4 @@
-import React, { lazy, Suspense, ReactNode, useContext, useEffect, useState } from 'react';
-import { useUser } from './services/UserStateService';
+import React, { lazy, Suspense, ReactNode, useState } from 'react';
 import GlobalLoading from './components/global/GlobalLoading';
 
 // 定义组件的Props类型
@@ -31,35 +30,30 @@ function App(): JSX.Element {
   // 检查是否在浏览器环境中
   const isBrowser = typeof window !== 'undefined';
   
-  // 使用useUser hook获取Privy SDK的ready状态
-  const userContext = useUser();
+  // 应用加载状态
   const [showLoading, setShowLoading] = useState(true);
   const [timeoutWarning, setTimeoutWarning] = useState(false);
   
-  // 设置超时机制（10秒）
-  useEffect(() => {
+  // 设置应用初始化超时机制（5秒）
+  React.useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (showLoading) {
-        console.warn('[App] Privy SDK初始化超时，显示超时警告');
+        console.warn('[App] 应用初始化超时，显示超时警告');
         setTimeoutWarning(true);
       }
-    }, 10000);
+    }, 5000);
     
-    return () => clearTimeout(timeoutId);
+    // 应用初始化完成后隐藏loading
+    const initTimeoutId = setTimeout(() => {
+      setShowLoading(false);
+      setTimeoutWarning(false);
+    }, 2000);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      clearTimeout(initTimeoutId);
+    };
   }, [showLoading]);
-  
-  // 监听Privy SDK的ready状态
-  useEffect(() => {
-    if (userContext && userContext.isLoading !== undefined) {
-      console.log('[App] Privy SDK ready状态变化:', !userContext.isLoading);
-      
-      if (!userContext.isLoading) {
-        console.log('[App] Privy SDK已准备就绪，隐藏Loading状态');
-        setShowLoading(false);
-        setTimeoutWarning(false);
-      }
-    }
-  }, [userContext?.isLoading]);
   
   // 如果不在浏览器环境，直接渲染应用
   if (!isBrowser) {
@@ -74,7 +68,7 @@ function App(): JSX.Element {
     );
   }
   
-  // 显示全局Loading状态直到Privy SDK准备就绪
+  // 显示全局Loading状态直到应用初始化完成
   if (showLoading) {
     return (
       <React.StrictMode>

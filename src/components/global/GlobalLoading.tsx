@@ -55,7 +55,7 @@ const GlobalLoading: React.FC<GlobalLoadingProps> = ({
       {/* 进度指示器 */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <div className="flex items-center space-x-2 text-xs text-gray-400 dark:text-gray-500">
-          <span>{t('common.loadingInitializingPrivy')}</span>
+          <span>{t('common.loadingInitializingApp')}</span>
           <div className="flex space-x-1">
             {[1, 2, 3].map((dot) => (
               <div 

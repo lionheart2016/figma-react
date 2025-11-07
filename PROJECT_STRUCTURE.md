@@ -26,7 +26,7 @@ figma-react/
 
 ```
 src/
-├── App.jsx                       # 根应用组件（PrivyProvider配置）
+├── App.jsx                       # 根应用组件
 ├── main.jsx                      # 应用入口文件
 ├── index.css                     # 全局样式文件
 ├── components/                   # 组件目录
@@ -42,7 +42,7 @@ src/
 │       └── (其他核心组件)
 ├── config/                       # 配置文件目录
 │   ├── i18n.js                   # 国际化配置
-│   ├── privy.js                  # Privy SDK配置
+│   ├── auth.js                   # 认证配置
 │   └── routes.js                 # 路由配置
 ├── contexts/                     # React上下文目录
 │   ├── AuthContext.jsx           # 认证上下文
@@ -62,7 +62,7 @@ src/
 
 ```
 public/
-├── alpha-privy-logo.svg          # Alpha Privy Logo
+├── logo.svg                     # 应用Logo
 ├── alphatoken-combined-logo.svg  # AlphaToken组合Logo
 ├── alphatoken-logo.svg           # AlphaToken Logo
 ├── arrow-down.svg                # 向下箭头图标
@@ -109,8 +109,8 @@ public/
 - **PostCSS**: CSS处理工具
 
 ### 认证与钱包
-- **Privy SDK**: 用户认证和钱包集成
-- **配置位置**: `src/config/privy.js` 和 `src/App.jsx` 中的 PrivyProvider
+- **用户认证**: 邮箱验证码认证方式
+- **配置位置**: `src/services/UserStateService.tsx` 中的用户状态管理
 
 ### 国际化
 - **i18next**: 国际化框架
@@ -137,7 +137,7 @@ yarn dev      # 启动开发服务器（端口4000）
 
 ### 认证模块 (auth-module/)
 - 处理用户登录、注册流程
-- 集成Privy认证服务
+- 集成用户认证服务
 - 支持邮箱、Google、钱包登录方式
 
 ### 核心组件 (core/)
@@ -157,7 +157,7 @@ yarn dev      # 启动开发服务器（端口4000）
 ## 🔍 关键配置文件详解
 
 ### App.jsx
-- 配置PrivyProvider，设置appId和认证方式
+- 配置用户认证服务，设置认证方式
 - 集成国际化和认证上下文
 - 设置嵌入式钱包创建策略
 
@@ -174,7 +174,7 @@ yarn dev      # 启动开发服务器（端口4000）
 
 ### ✅ 已完成功能
 - [x] 基础项目架构搭建
-- [x] Privy认证集成
+- [x] 用户认证集成
 - [x] 国际化多语言支持
 - [x] 用户状态管理
 - [x] 交易页面基础布局

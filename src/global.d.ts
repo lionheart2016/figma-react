@@ -39,4 +39,4 @@ declare module './components/AppRouter' {
   export default AppRouter;
 }
 
-declare module './config/privy';
+// 用户认证相关类型声明

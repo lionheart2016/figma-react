@@ -44,35 +44,13 @@ beforeEach(() => {
 // 模拟全局环境变量
 process.env = {
   ...process.env,
-  VITE_PRIVY_APP_ID: 'test-app-id',
-  VITE_PRIVY_APP_SECRET: 'test-app-secret',
   NODE_ENV: 'test'
 };
 
 // 模拟window对象
-window.__ENV__ = {
-  VITE_PRIVY_APP_ID: 'test-app-id',
-  VITE_PRIVY_APP_SECRET: 'test-app-secret'
-};
+window.__ENV__ = {};
 
-// 注册全局模拟
-vi.mock('@privy-io/react-auth', async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    PrivyProvider: ({ children }) => children,
-    usePrivy: () => ({
-      user: null,
-      login: vi.fn(),
-      logout: vi.fn(),
-      ready: true,
-      authenticated: false,
-      createWallet: vi.fn(),
-      connectWallet: vi.fn()
-    }),
-    useWallets: () => ([])
-  };
-});
+
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({

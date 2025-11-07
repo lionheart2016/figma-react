@@ -14,7 +14,7 @@
     "loadingInitializing": "Initializing...",
     "loadingPleaseWait": "Please wait while we prepare your experience",
     "loadingTakingLonger": "This is taking longer than expected. Please check your connection.",
-    "loadingInitializingPrivy": "Initializing Privy SDK",
+    "loadingInitializingApp": "Initializing Application",
     "error": "Error",
     "success": "Success",
     "warning": "Warning",

@@ -59,18 +59,18 @@ const Authentication: React.FC = () => {
         setIsLoading(false);
       }, 1000);
     } else {
-      // 第三步（活体检测）完成后，模拟Privy登录
+      // 第三步（活体检测）完成后，模拟登录
       try {
         setIsLoading(true);
         setLoginError('');
         
-        console.log('模拟活体检测完成，准备触发Privy登录...');
+        console.log('模拟活体检测完成，准备触发登录...');
         
         // 等待2秒模拟登录过程
         await new Promise(resolve => setTimeout(resolve, 2000));
         
-        console.log('模拟Privy登录成功，重定向到首页');
-        // 直接导航到首页（在实际环境中，这部分应由Privy SDK处理）
+        console.log('模拟登录成功，重定向到首页');
+        // 直接导航到首页
         navigate(ROUTES.HOME);
       } catch (error) {
         console.error(t('auth.authentication.loginFailed'), error);

@@ -3,23 +3,6 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
 import { UserStateProvider, useUser } from '../UserStateService';
 
-// Mock Privy SDK
-vi.mock('@privy-io/react-auth', () => ({
-  usePrivy: vi.fn(() => ({
-    ready: true,
-    authenticated: false,
-    user: null,
-    logout: vi.fn(),
-  })),
-  useLoginWithEmail: vi.fn(() => ({
-    login: vi.fn(),
-    sendCode: vi.fn(),
-  })),
-  useLogout: vi.fn(() => ({
-    logout: vi.fn(),
-  })),
-}));
-
 // Mock components for testing
 const TestComponent = () => {
   const userContext = useUser();

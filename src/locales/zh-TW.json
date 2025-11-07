@@ -14,7 +14,7 @@
     "loadingInitializing": "正在初始化...",
     "loadingPleaseWait": "請稍等，我們正在為您準備體驗",
     "loadingTakingLonger": "初始化時間較長，請檢查您的網絡連接",
-    "loadingInitializingPrivy": "正在初始化Privy SDK",
+    "loadingInitializingApp": "正在初始化應用",
     "error": "錯誤",
     "success": "成功",
     "warning": "警告",

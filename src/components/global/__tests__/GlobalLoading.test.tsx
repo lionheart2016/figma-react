@@ -14,7 +14,7 @@ vi.mock('react-i18next', async () => {
           'common.loadingInitializing': 'Initializing...',
           'common.loadingPleaseWait': 'Please wait...',
           'common.loadingTakingLonger': 'This is taking longer than expected',
-          'common.loadingInitializingPrivy': 'Initializing Privy'
+          'common.loadingInitializingApp': 'Initializing Application'
         };
         return translations[key] || key;
       }
@@ -28,7 +28,7 @@ describe('GlobalLoading Component', () => {
     
     expect(screen.getByText('Initializing...')).toBeInTheDocument();
     expect(screen.getByText('Please wait...')).toBeInTheDocument();
-    expect(screen.getByText('Initializing Privy')).toBeInTheDocument();
+    expect(screen.getByText('Initializing Application')).toBeInTheDocument();
   });
 
   it('should render with custom message', () => {

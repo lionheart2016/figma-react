@@ -8,7 +8,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { loginWithEmail, verifyEmail, isLoading, error } = useUser();
-  const [email, setEmail] = useState('test-1143@privy.io');
+  const [email, setEmail] = useState('test-1143@example.com');
   const [verificationCode, setVerificationCode] = useState('894575');
   const [step, setStep] = useState<'email' | 'verification'>('email');
   const [, setEmailSubmitted] = useState(false);
@@ -75,7 +75,7 @@ const Login: React.FC = () => {
             </button>
             
             <div className="mt-4 text-center text-sm text-gray-500">
-              <p>{t('testAccount')}: test-1143@privy.io</p>
+              <p>{t('testAccount')}: test-1143@example.com</p>
               <p>{t('testCode')}: 894575</p>
             </div>
           </form>
