@@ -15,6 +15,7 @@
     "serve": "firebase serve --only hosting"
   },
   "dependencies": {
+    "@metamask/detect-provider": "^2.0.0",
     "@privy-io/react-auth": "^3.3.0",
     "clsx": "^1.2.0",
     "ethers": "^5.7.0",

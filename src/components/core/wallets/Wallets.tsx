@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useUserState } from '../../../services/UserStateService';
 import { useCreateWallet, useConnectWallet } from '@privy-io/react-auth';
 import WalletList from './WalletList';
@@ -6,6 +6,8 @@ import WalletOperations from './WalletOperations';
 import { useTheme } from '../../../contexts/ThemeContext';
 import Layout from '../Layout';
 import './styles.css';
+import { providers } from 'ethers';
+import detectEthereumProvider from '@metamask/detect-provider';
 
 /**
  * 钱包管理组件
@@ -16,8 +18,7 @@ const Wallets: React.FC = () => {
   const { 
     walletState, 
     setActiveWallet, 
-    refreshWallets,
-    isLoading: userLoading 
+    refreshWallets
   } = useUserState();
   
   const { theme } = useTheme();
@@ -29,8 +30,8 @@ const Wallets: React.FC = () => {
   const [isConnectingExternal, setIsConnectingExternal] = React.useState(false);
   const [isCreatingWallet, setIsCreatingWallet] = React.useState(false);
   
-  // 使用Privy SDK的钱包连接功能
-  const { connectWallet } = useConnectWallet({
+  // 使用Privy SDK的钱包连接功能 - 保留回调处理
+  useConnectWallet({
     onSuccess: (wallet) => {
       console.log('外部钱包连接成功:', wallet);
       setIsConnectingExternal(false);
@@ -64,16 +65,87 @@ const Wallets: React.FC = () => {
   };
 
   /**
-   * 处理连接外部钱包
+   * 处理连接外部钱包 - 专门连接MetaMask钱包
    */
   const handleConnectExternalWallet = async () => {
     setIsConnectingExternal(true);
     
     try {
-      console.log('打开默认钱包选择界面');
-      await connectWallet();
-    } catch (err) {
-      console.error(`连接外部钱包失败:`, err);
+      console.log('开始连接MetaMask钱包...');
+      
+      // 检测MetaMask提供者
+      const provider = await detectEthereumProvider();
+      
+      if (!provider) {
+        throw new Error('未检测到MetaMask钱包，请先安装MetaMask扩展程序');
+      }
+      
+      console.log('MetaMask提供者检测成功:', provider);
+      
+      // 请求账户访问权限
+      const accounts = await (window.ethereum as any).request({
+        method: 'eth_requestAccounts'
+      });
+      
+      if (!accounts || accounts.length === 0) {
+        throw new Error('用户拒绝了账户访问请求');
+      }
+      
+      const userAddress = accounts[0];
+      console.log('MetaMask钱包连接成功，用户地址:', userAddress);
+      
+      // 创建ethers提供者
+      const ethersProvider = new providers.Web3Provider(window.ethereum as any);
+      
+      // 获取网络信息
+      const network = await ethersProvider.getNetwork();
+      console.log('当前网络信息:', network);
+      
+      // 获取签名者
+      const signer = await ethersProvider.getSigner();
+      console.log('签名者信息:', signer);
+      
+      // 创建钱包对象
+      const metamaskWallet = {
+        id: `metamask-${userAddress}`,
+        address: userAddress,
+        type: 'external' as const,
+        name: 'MetaMask Wallet',
+        chainType: 'ethereum',
+        walletClientType: 'metamask',
+        connectorType: 'injected',
+        provider: ethersProvider,
+        signer: signer,
+        network: network.name
+      };
+      
+      console.log('MetaMask钱包对象创建成功:', metamaskWallet);
+      
+      // 调用Privy SDK的连接成功回调
+      // 注意：connectWallet是一个函数，不是对象，所以不能直接调用onSuccess
+      // 我们已经在useConnectWallet hook中定义了onSuccess回调
+      console.log('MetaMask钱包连接成功，已通过useConnectWallet回调处理');
+      
+      // 刷新钱包数据
+      refreshWallets();
+      
+    } catch (err: any) {
+      console.error('连接MetaMask钱包失败:', err);
+      
+      // 调用Privy SDK的错误回调
+      // 注意：connectWallet是一个函数，不是对象，所以不能直接调用onError
+      // 我们已经在useConnectWallet hook中定义了onError回调
+      console.log('MetaMask钱包连接失败，已通过useConnectWallet回调处理');
+      
+      // 显示用户友好的错误信息
+      if (err.code === 4001) {
+        alert('用户拒绝了MetaMask连接请求');
+      } else if (err.message?.includes('未检测到MetaMask')) {
+        alert('请先安装MetaMask浏览器扩展程序');
+      } else {
+        alert(`连接MetaMask失败: ${err.message || '未知错误'}`);
+      }
+      
       setIsConnectingExternal(false);
     }
   };

@@ -197,7 +197,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     loginWithCode: loginWithEmailCode,
   } = useLoginWithEmail({
     onComplete: ({ user: privyUser }) => {
-      console.log('[UserStateService] 用户登录流程完成');
+      console.log('[UserStateService] 用户登录流程完成', privyUser);
       setError(null);
     },
     onError: (error) => {
@@ -360,22 +360,22 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
             }
             
             // 安全地访问可能不存在的属性
-            return {
-              id: account.id || null,
-              address: account.address || '',
-              type: accountType,
-              email: account.email || '',
-              name: account.name || '',
-              chainType: (account as any).chainType || '',
-              walletClientType: (account as any).walletClientType || '',
-              connectorType: (account as any).connectorType || '',
-              recoveryMethod: (account as any).recoveryMethod || '',
-              imported: (account as any).imported || false,
-              delegated: (account as any).delegated || false,
-              walletIndex: (account as any).walletIndex || 0,
-              firstVerifiedAt: (account as any).firstVerifiedAt || '',
-              latestVerifiedAt: (account as any).latestVerifiedAt || '',
-            };
+          return {
+            id: (account as any).id || null,
+            address: (account as any).address || '',
+            type: accountType,
+            email: (account as any).email || '',
+            name: (account as any).name || '',
+            chainType: (account as any).chainType || '',
+            walletClientType: (account as any).walletClientType || '',
+            connectorType: (account as any).connectorType || '',
+            recoveryMethod: (account as any).recoveryMethod || '',
+            imported: (account as any).imported || false,
+            delegated: (account as any).delegated || false,
+            walletIndex: (account as any).walletIndex || 0,
+            firstVerifiedAt: (account as any).firstVerifiedAt || '',
+            latestVerifiedAt: (account as any).latestVerifiedAt || '',
+          };
           }) || [];
 
           const appUser: User = {
