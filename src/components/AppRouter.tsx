@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Authentication from './auth-module/Authentication';
 import InvestmentTypeSelection from './auth-module/InvestmentTypeSelection';
 import Register from './auth-module/Register';
+import Register_new from './auth-module/Register_new';
 import EmailVerification from './auth-module/EmailVerification';
 import Login from './auth-module/Login';
 import ProtectedRoute from './auth-module/ProtectedRoute';
@@ -51,12 +52,23 @@ const AppRouter: React.FC = () => {
             </PageTracker>
           } 
         />
-        
+
         <Route 
           path={ROUTES.REGISTER} 
           element={
             <PageTracker pageName="注册页面">
+              {/* <Register /> */}
               <Register />
+            </PageTracker>
+          } 
+        />
+        
+        <Route 
+          path={ROUTES.REGISTER_NEW} 
+          element={
+            <PageTracker pageName="注册页面">
+              {/* <Register /> */}
+              <Register_new />
             </PageTracker>
           } 
         />
