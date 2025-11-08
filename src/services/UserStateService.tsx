@@ -10,9 +10,18 @@ export const ACCOUNT_TYPES = {
 
 export type AccountType = typeof ACCOUNT_TYPES[keyof typeof ACCOUNT_TYPES];
 
+// 用户类型枚举
+export const USER_TYPES = {
+  INDIVIDUAL: 'individual',
+  INSTITUTION: 'institution',
+} as const;
+
+export type UserType = typeof USER_TYPES[keyof typeof USER_TYPES];
+
 export interface User {
   id: string;
   email: string;
+  userType: UserType;
   walletAddress?: string;
   linkedAccounts?: LinkedAccount[];
 }
@@ -58,6 +67,43 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
 }
+
+// 用户类型辅助函数
+export const UserTypeUtils = {
+  // 获取用户类型的显示名称
+  getUserTypeDisplayName: (userType: UserType): string => {
+    switch (userType) {
+      case USER_TYPES.INDIVIDUAL:
+        return '普通用户';
+      case USER_TYPES.INSTITUTION:
+        return '机构用户';
+      default:
+        return '未知用户类型';
+    }
+  },
+
+  // 检查用户是否为机构用户
+  isInstitutionUser: (user: User | null): boolean => {
+    return user?.userType === USER_TYPES.INSTITUTION;
+  },
+
+  // 检查用户是否为普通用户
+  isIndividualUser: (user: User | null): boolean => {
+    return user?.userType === USER_TYPES.INDIVIDUAL;
+  },
+
+  // 获取用户类型的权限级别
+  getUserPermissionLevel: (userType: UserType): number => {
+    switch (userType) {
+      case USER_TYPES.INSTITUTION:
+        return 2; // 机构用户有更高权限
+      case USER_TYPES.INDIVIDUAL:
+        return 1; // 普通用户基础权限
+      default:
+        return 0;
+    }
+  }
+};
 
 // 账户分类辅助函数
 export const AccountUtils = {
@@ -135,6 +181,11 @@ interface UserStateContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  
+  // 用户类型相关状态
+  userType: UserType | null;
+  isInstitutionUser: boolean;
+  isIndividualUser: boolean;
   
   // 钱包状态
   walletState: WalletState;
@@ -395,6 +446,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
         const mockUser: User = {
           id: 'mock-user-id',
           email: _email,
+          userType: USER_TYPES.INSTITUTION, // 测试账号设置为机构用户
           linkedAccounts: [
             {
               type: ACCOUNT_TYPES.EMAIL,
@@ -447,11 +499,19 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     }
   }, []);
 
+  // 计算用户类型相关状态
+  const userType = user?.userType || null;
+  const isInstitutionUser = UserTypeUtils.isInstitutionUser(user);
+  const isIndividualUser = UserTypeUtils.isIndividualUser(user);
+
   const value: UserStateContextType = {
     user,
     isAuthenticated: !!user,
     isLoading,
     error,
+    userType,
+    isInstitutionUser,
+    isIndividualUser,
     walletState,
     loginWithEmail,
     verifyEmail,

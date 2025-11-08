@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "wallet-8370c",
     "public": "dist",
     "ignore": [
       "firebase.json",
