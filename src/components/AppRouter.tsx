@@ -7,6 +7,7 @@ import Register from './auth-module/Register';
 import Register_new from './auth-module/Register_new';
 import EmailVerification from './auth-module/EmailVerification';
 import Login from './auth-module/Login';
+import InstitutionalAuth from './institutional-auth/InstitutionalAuth';
 import ProtectedRoute from './auth-module/ProtectedRoute';
 import Dashboard from './core/dashboard/Dashboard';
 import TradeView from './core/trading/TradeView';
@@ -87,6 +88,15 @@ const AppRouter: React.FC = () => {
           element={
             <PageTracker pageName="登录页面">
               <Login />
+            </PageTracker>
+          } 
+        />
+        
+        <Route 
+          path={ROUTES.INSTITUTIONAL_AUTH} 
+          element={
+            <PageTracker pageName="机构认证">
+              <InstitutionalAuth />
             </PageTracker>
           } 
         />

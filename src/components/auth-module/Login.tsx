@@ -32,7 +32,19 @@ const Login: React.FC = () => {
     
     try {
       await verifyEmail(email, verificationCode);
-      navigate(ROUTES.TRADE);
+      
+      // 检查是否为机构用户，如果是则自动触发机构认证流程
+      const isInstitutionalUser = localStorage.getItem('institutionalAuthTriggered');
+      if (isInstitutionalUser === 'true') {
+        const userId = localStorage.getItem('institutionalAuthUserId') || 'unknown';
+        const timestamp = localStorage.getItem('institutionalAuthTimestamp') || new Date().toISOString();
+        
+        console.log(`🔍 [登录流程] ${timestamp} - 检测到机构用户 ${userId}，自动导航至机构认证页面`);
+        navigate(ROUTES.INSTITUTIONAL_AUTH);
+      } else {
+        console.log('🔍 [登录流程] - 普通用户登录成功，导航至交易页面');
+        navigate(ROUTES.TRADE);
+      }
     } catch (err) {
       // 错误已在context中处理
     }

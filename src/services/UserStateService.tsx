@@ -431,6 +431,40 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     }
   }, [user, syncWalletData]);
 
+  // 机构认证流程自动触发逻辑
+  const triggerInstitutionalAuthFlow = useCallback((user: User) => {
+    const timestamp = new Date().toISOString();
+    const auditLog = {
+      timestamp,
+      userId: user.id,
+      userType: user.userType,
+      action: 'INSTITUTIONAL_AUTH_TRIGGERED',
+      message: '机构用户登录成功，自动触发机构认证流程'
+    };
+    
+    // 控制台审计日志
+    console.group(`[机构认证审计] ${timestamp}`);
+    console.log('用户ID:', user.id);
+    console.log('用户类型:', user.userType);
+    console.log('触发时间:', timestamp);
+    console.log('操作类型: 机构认证流程自动触发');
+    console.log('状态: 用户会话已验证，准备导航至机构认证页面');
+    console.groupEnd();
+    
+    // 存储审计信息到localStorage用于追踪
+    localStorage.setItem('institutionalAuthTriggered', 'true');
+    localStorage.setItem('institutionalAuthUserId', user.id);
+    localStorage.setItem('institutionalAuthTimestamp', timestamp);
+    localStorage.setItem('institutionalAuthAudit', JSON.stringify(auditLog));
+    
+    // 打印审计摘要到控制台
+    console.log(`✅ [机构认证] ${timestamp} - 用户 ${user.id} 的机构认证流程已触发`);
+    
+    // 这里可以添加实际的机构认证流程触发逻辑
+    // 例如：导航到机构认证页面、显示认证模态框等
+    console.log(`[机构认证] 检测到机构用户登录，准备启动认证流程`);
+  }, []);
+
   // 简化的邮箱验证方法
   const verifyEmail = useCallback(async (_email: string, code: string) => {
     setError(null);
@@ -455,6 +489,11 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
           ]
         };
         setUser(mockUser);
+        
+        // 检测是否为机构用户，如果是则自动触发机构认证流程
+        if (UserTypeUtils.isInstitutionUser(mockUser)) {
+          triggerInstitutionalAuthFlow(mockUser);
+        }
       } else {
         throw new Error('验证码不正确');
       }
@@ -474,7 +513,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [triggerInstitutionalAuthFlow]);
 
   // 简化的登出方法
   const logoutHandler = useCallback(async () => {

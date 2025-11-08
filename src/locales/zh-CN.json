@@ -157,6 +157,186 @@
       "resendingCode": "正在重新发送验证码到：",
       "quickAccess": "快速访问您的邮箱",
       "quickAccessDescription": "在新标签页中打开您的邮箱提供商"
+    },
+    "auth": {
+      "layout": {
+        "back": "返回"
+      }
+    }
+  },
+  "institutionalAuth": {
+    "title": "机构认证",
+    "step1": "机构信息",
+    "step2": "地址信息",
+    "step3": "文件上传",
+    "step4": "关键当事方申报",
+    "step5": "完成",
+    "submit": "提交",
+    "selectOption": "请选择一个选项",
+    "steps": {
+      "institutionInfo": {
+        "title": "机构信息",
+        "description": "请提供您机构的基本信息",
+        "basicInfo": "基本信息",
+        "contactInfo": "联系信息"
+      },
+      "addressInfo": {
+        "title": "地址信息",
+        "description": "请提供您机构的地址信息"
+      },
+      "fileUpload": {
+        "title": "文件上传",
+        "description": "请上传验证所需的文件"
+      },
+      "keyParty": {
+        "title": "关键当事方申报",
+        "description": "请申报您机构涉及的所有关键当事方"
+      },
+      "completion": {
+        "title": "认证提交成功",
+        "description": "您的机构认证请求已提交审核"
+      }
+    },
+    "continue": "继续",
+    "back": "返回",
+    "loading": "加载中...",
+    "institutionInfo": {
+      "title": "机构信息",
+      "subtitle": "请提供您机构的基本信息",
+      "institutionName": "机构名称",
+      "institutionNamePlaceholder": "请输入机构名称",
+      "registrationNumber": "注册号",
+      "registrationNumberPlaceholder": "请输入注册号",
+      "businessType": "业务类型",
+      "businessTypePlaceholder": "请选择业务类型",
+      "industry": "行业",
+      "industryPlaceholder": "请选择行业",
+      "foundedDate": "成立日期",
+      "incorporationDate": "注册日期",
+      "contactPerson": "联系人",
+      "contactPersonPlaceholder": "请输入联系人姓名",
+      "phoneNumber": "电话号码",
+      "phoneNumberPlaceholder": "请输入电话号码",
+      "email": "邮箱地址",
+      "emailPlaceholder": "请输入邮箱地址"
+    },
+    "businessTypes": {
+      "corporation": "公司",
+      "llc": "有限责任公司（LLC）",
+      "partnership": "合伙企业",
+      "soleProprietorship": "个人独资企业",
+      "nonProfit": "非营利组织",
+      "government": "政府机构",
+      "other": "其他"
+    },
+    "industries": {
+      "finance": "金融与银行",
+      "technology": "科技",
+      "healthcare": "医疗保健",
+      "manufacturing": "制造业",
+      "retail": "零售业",
+      "realEstate": "房地产",
+      "energy": "能源",
+      "other": "其他"
+    },
+    "addressInfo": {
+      "title": "地址信息",
+      "subtitle": "请提供您机构的地址信息",
+      "communicationAddress": "通讯地址",
+      "registeredAddress": "注册地址",
+      "sameAsCommunication": "与通讯地址相同",
+      "country": "国家",
+      "countryPlaceholder": "请选择国家",
+      "state": "省/州",
+      "statePlaceholder": "请输入省/州",
+      "city": "城市",
+      "cityPlaceholder": "请输入城市",
+      "postalCode": "邮政编码",
+      "postalCodePlaceholder": "请输入邮政编码",
+      "addressLine1": "地址行1",
+      "addressLine1Placeholder": "请输入地址行1",
+      "addressLine2": "地址行2",
+      "addressLine2Placeholder": "请输入地址行2"
+    },
+    "fileUpload": {
+      "title": "文件上传",
+      "subtitle": "请上传验证所需的文件",
+      "requiredDocuments": "必传文件",
+      "optionalDocuments": "可选文件",
+      "businessLicense": "营业执照",
+      "registrationCertificate": "注册证书",
+      "taxRegistration": "税务登记证",
+      "bankStatement": "银行对账单",
+      "otherDocuments": "其他文件",
+      "dragAndDrop": "拖放文件到这里或",
+      "browseFiles": "浏览文件",
+      "supportedFormats": "支持格式：JPG、PNG、PDF",
+      "maxSize": "最大文件大小：50MB",
+      "uploadSuccess": "文件上传成功",
+      "uploadError": "上传失败，请重试",
+      "removeFile": "删除文件",
+      "preview": "预览"
+    },
+    "keyParties": {
+      "title": "关键当事方申报",
+      "subtitle": "请申报您机构涉及的所有关键当事方",
+      "individual": "个人",
+      "entity": "实体",
+      "addParty": "添加当事方",
+      "firstName": "名字",
+      "firstNamePlaceholder": "请输入名字",
+      "middleName": "中间名",
+      "middleNamePlaceholder": "请输入中间名",
+      "lastName": "姓氏",
+      "lastNamePlaceholder": "请输入姓氏",
+      "birthDate": "出生日期",
+      "taxCountry": "税务国家",
+      "taxCountryPlaceholder": "请选择税务国家",
+      "taxNumber": "税号",
+      "taxNumberPlaceholder": "请输入税号",
+      "email": "邮箱地址",
+      "emailPlaceholder": "请输入邮箱地址",
+      "entityName": "实体名称",
+      "entityNamePlaceholder": "请输入实体名称",
+      "registrationNumber": "注册号",
+      "registrationNumberPlaceholder": "请输入注册号",
+      "taxIdentification": "税务识别号",
+      "taxIdentificationPlaceholder": "请输入税务识别号"
+    },
+    "completion": {
+      "title": "认证提交成功",
+      "description": "您的机构认证请求已提交审核。我们的团队将在预计时间内验证您的信息并与您联系。",
+      "estimatedTime": "预计审核时间",
+      "nextSteps": "下一步",
+      "step1": "我们的合规团队将审核您提交的文件",
+      "step2": "如果需要，我们可能会联系您获取额外信息",
+      "step3": "验证完成后您将收到邮件通知",
+      "step4": "验证成功后您可以开始交易",
+      "contactInfo": "如有任何问题，请联系我们的支持团队",
+      "finishButton": "完成"
+    },
+    "validation": {
+      "institutionNameRequired": "机构名称不能为空",
+      "registrationNumberRequired": "注册号不能为空",
+      "businessTypeRequired": "请选择业务类型",
+      "industryRequired": "请选择行业",
+      "foundedDateRequired": "成立日期不能为空",
+      "foundedDateInvalid": "成立日期不能晚于今天",
+      "websiteInvalid": "请输入有效的网站URL",
+      "phoneNumberInvalid": "请输入有效的电话号码",
+      "emailInvalid": "请输入有效的邮箱地址",
+      "countryRequired": "国家/地区不能为空",
+      "stateRequired": "州/省不能为空",
+      "cityRequired": "城市不能为空",
+      "postalCodeRequired": "邮政编码不能为空",
+      "addressLine1Required": "地址行1不能为空",
+      "registeredCountryRequired": "注册国家/地区不能为空",
+      "registeredStateRequired": "注册州/省不能为空",
+      "registeredCityRequired": "注册城市不能为空",
+      "registeredPostalCodeRequired": "注册邮政编码不能为空",
+      "registeredAddressLine1Required": "注册地址行1不能为空",
+      "incorporationDateRequired": "成立日期不能为空",
+      "incorporationDateFuture": "成立日期不能晚于今天"
     }
   },
   "dashboard": {
@@ -257,7 +437,6 @@
     "loginToManage": "请登录以管理您的钱包",
     "createNew": "创建新钱包",
     "ethereum": "以太坊",
-    "create": "创建",
     "external": "外部",
     "connect": "连接",
     "connectWalletMessage": "连接或创建钱包以开始管理您的数字资产",
@@ -520,7 +699,7 @@
         "description": "优质的黄金支持加密货币代币，在数字资产市场中提供稳定价值和安全的投资机会。"
       },
       "alphaToken": {
-        "name": "Alpha 代币", 
+        "name": "Alpha 代币",
         "description": "专为高级交易策略和高级平台功能设计的高性能实用代币。"
       },
       "betaToken": {

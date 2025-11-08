@@ -8,6 +8,9 @@ export const ROUTES = {
   EMAIL_VERIFICATION: '/email-verification',
   LOGIN: '/login',
   
+  // 机构认证路由
+  INSTITUTIONAL_AUTH: '/institutional-auth',
+  
   // 主应用路由
   DASHBOARD: '/dashboard',
   TRADE: '/trade',
@@ -49,7 +52,8 @@ export const routeGuards = {
     ROUTES.REGISTER,
     ROUTES.EMAIL_VERIFICATION,
     ROUTES.HOME,
-    ROUTES.LOGIN
+    ROUTES.LOGIN,
+    ROUTES.INSTITUTIONAL_AUTH
   ] as RoutePath[]
 };
 
@@ -69,6 +73,14 @@ export const routeMeta: Record<string, RouteMetaInfo> = {
   },
   [ROUTES.EMAIL_VERIFICATION]: {
     title: 'Email Verification - Alphatoken',
+    requiresAuth: false
+  },
+  [ROUTES.LOGIN]: {
+    title: 'Login - Alphatoken',
+    requiresAuth: false
+  },
+  [ROUTES.INSTITUTIONAL_AUTH]: {
+    title: 'Institutional Authentication - Alphatoken',
     requiresAuth: false
   },
   [ROUTES.DASHBOARD]: {
