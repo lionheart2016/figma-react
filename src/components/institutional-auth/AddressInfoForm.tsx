@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../contexts/ThemeContext';
+import CountrySelector from '../global/CountrySelector';
 
 interface AddressInfoFormData {
   country: string;
@@ -8,14 +9,12 @@ interface AddressInfoFormData {
   city: string;
   postalCode: string;
   addressLine1: string;
-  addressLine2: string;
   isSameAsRegistered: boolean;
   registeredCountry: string;
   registeredState: string;
   registeredCity: string;
   registeredPostalCode: string;
   registeredAddressLine1: string;
-  registeredAddressLine2: string;
 }
 
 interface FormErrors {
@@ -41,27 +40,17 @@ const AddressInfoForm: React.FC = () => {
     city: '',
     postalCode: '',
     addressLine1: '',
-    addressLine2: '',
     isSameAsRegistered: true,
     registeredCountry: '',
     registeredState: '',
     registeredCity: '',
     registeredPostalCode: '',
-    registeredAddressLine1: '',
-    registeredAddressLine2: ''
+    registeredAddressLine1: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const countries = [
-    { value: 'us', label: t('institutionalAuth.countries.us') },
-    { value: 'cn', label: t('institutionalAuth.countries.cn') },
-    { value: 'uk', label: t('institutionalAuth.countries.uk') },
-    { value: 'jp', label: t('institutionalAuth.countries.jp') },
-    { value: 'sg', label: t('institutionalAuth.countries.sg') },
-    { value: 'hk', label: t('institutionalAuth.countries.hk') },
-    { value: 'au', label: t('institutionalAuth.countries.au') }
-  ];
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -79,8 +68,7 @@ const AddressInfoForm: React.FC = () => {
         registeredState: prev.state,
         registeredCity: prev.city,
         registeredPostalCode: prev.postalCode,
-        registeredAddressLine1: prev.addressLine1,
-        registeredAddressLine2: prev.addressLine2
+        registeredAddressLine1: prev.addressLine1
       }));
     }
 
@@ -90,6 +78,78 @@ const AddressInfoForm: React.FC = () => {
         ...prev,
         [name]: ''
       }));
+    }
+  };
+
+  // 处理字段失去焦点时的验证
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name } = e.target;
+    const newErrors: FormErrors = {};
+    
+    // 对当前字段进行验证
+    switch (name) {
+      case 'country':
+        if (!formData.country) {
+          newErrors.country = t('institutionalAuth.validation.countryRequired');
+        }
+        break;
+      case 'state':
+        if (!formData.state) {
+          newErrors.state = t('institutionalAuth.validation.stateRequired');
+        }
+        break;
+      case 'city':
+        if (!formData.city) {
+          newErrors.city = t('institutionalAuth.validation.cityRequired');
+        }
+        break;
+      case 'postalCode':
+        if (!formData.postalCode) {
+          newErrors.postalCode = t('institutionalAuth.validation.postalCodeRequired');
+        }
+        break;
+      case 'addressLine1':
+        if (!formData.addressLine1.trim()) {
+          newErrors.addressLine1 = t('institutionalAuth.validation.addressLine1Required');
+        }
+        break;
+      case 'registeredCountry':
+        if (!formData.isSameAsRegistered && !formData.registeredCountry) {
+          newErrors.registeredCountry = t('institutionalAuth.validation.registeredCountryRequired');
+        }
+        break;
+      case 'registeredState':
+        if (!formData.isSameAsRegistered && !formData.registeredState) {
+          newErrors.registeredState = t('institutionalAuth.validation.registeredStateRequired');
+        }
+        break;
+      case 'registeredCity':
+        if (!formData.isSameAsRegistered && !formData.registeredCity) {
+          newErrors.registeredCity = t('institutionalAuth.validation.registeredCityRequired');
+        }
+        break;
+      case 'registeredPostalCode':
+        if (!formData.isSameAsRegistered && !formData.registeredPostalCode) {
+          newErrors.registeredPostalCode = t('institutionalAuth.validation.registeredPostalCodeRequired');
+        }
+        break;
+      case 'registeredAddressLine1':
+        if (!formData.isSameAsRegistered && !formData.registeredAddressLine1.trim()) {
+          newErrors.registeredAddressLine1 = t('institutionalAuth.validation.registeredAddressLine1Required');
+        }
+        break;
+    }
+    
+    setErrors(prev => ({ ...prev, ...newErrors }));
+  };
+
+  // 表单提交处理
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validateForm()) {
+      // 表单验证通过，可以进行后续操作
+      console.log('Form submitted successfully:', formData);
+      // 这里可以添加表单提交逻辑，如API调用等
     }
   };
 
@@ -146,7 +206,7 @@ const AddressInfoForm: React.FC = () => {
 
   return (
     <div className="address-info-form">
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
         {/* 通讯地址 */}
         <div className="form-section">
           <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
@@ -156,29 +216,14 @@ const AddressInfoForm: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 国家 */}
             <div>
-              <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
-                {t('institutionalAuth.addressInfo.country')} *
-              </label>
-              <select
+              <CountrySelector
                 name="country"
                 value={formData.country}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-                  isDarkMode 
-                    ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-                    : 'border-[#EDEEF3] bg-white'
-                } ${errors.country ? 'border-red-500' : ''}`}
-              >
-                <option value="">{t('institutionalAuth.selectCountry')}</option>
-                {countries.map(country => (
-                  <option key={country.value} value={country.value}>
-                    {country.label}
-                  </option>
-                ))}
-              </select>
-              {errors.country && (
-                <p className="text-red-500 text-xs mt-1">{errors.country}</p>
-              )}
+                error={errors.country}
+                required
+                label={t('institutionalAuth.addressInfo.country')}
+              />
             </div>
 
             {/* 州/省 */}
@@ -191,12 +236,14 @@ const AddressInfoForm: React.FC = () => {
                 name="state"
                 value={formData.state}
                 onChange={handleInputChange}
+                onBlur={handleBlur}
                 className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
                   isDarkMode 
                     ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
                     : 'border-[#EDEEF3] bg-white'
                 } ${errors.state ? 'border-red-500' : ''}`}
                 placeholder={t('institutionalAuth.addressInfo.statePlaceholder')}
+                required
               />
               {errors.state && (
                 <p className="text-red-500 text-xs mt-1">{errors.state}</p>
@@ -213,12 +260,14 @@ const AddressInfoForm: React.FC = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleInputChange}
+                onBlur={handleBlur}
                 className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
                   isDarkMode 
                     ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
                     : 'border-[#EDEEF3] bg-white'
                 } ${errors.city ? 'border-red-500' : ''}`}
                 placeholder={t('institutionalAuth.addressInfo.cityPlaceholder')}
+                required
               />
               {errors.city && (
                 <p className="text-red-500 text-xs mt-1">{errors.city}</p>
@@ -235,12 +284,14 @@ const AddressInfoForm: React.FC = () => {
                 name="postalCode"
                 value={formData.postalCode}
                 onChange={handleInputChange}
+                onBlur={handleBlur}
                 className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
                   isDarkMode 
                     ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
                     : 'border-[#EDEEF3] bg-white'
                 } ${errors.postalCode ? 'border-red-500' : ''}`}
                 placeholder={t('institutionalAuth.addressInfo.postalCodePlaceholder')}
+                required
               />
               {errors.postalCode && (
                 <p className="text-red-500 text-xs mt-1">{errors.postalCode}</p>
@@ -257,36 +308,21 @@ const AddressInfoForm: React.FC = () => {
                 name="addressLine1"
                 value={formData.addressLine1}
                 onChange={handleInputChange}
+                onBlur={handleBlur}
                 className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
                   isDarkMode 
                     ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
                     : 'border-[#EDEEF3] bg-white'
                 } ${errors.addressLine1 ? 'border-red-500' : ''}`}
                 placeholder={t('institutionalAuth.addressInfo.addressLine1Placeholder')}
+                required
               />
               {errors.addressLine1 && (
                 <p className="text-red-500 text-xs mt-1">{errors.addressLine1}</p>
               )}
             </div>
 
-            {/* 地址行2 */}
-            <div className="col-span-2">
-              <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
-                {t('institutionalAuth.addressInfo.addressLine2')}
-              </label>
-              <input
-                type="text"
-                name="addressLine2"
-                value={formData.addressLine2}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-                  isDarkMode 
-                    ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-                    : 'border-[#EDEEF3] bg-white'
-                }`}
-                placeholder={t('institutionalAuth.addressInfo.addressLine2Placeholder')}
-              />
-            </div>
+
           </div>
         </div>
 
@@ -314,29 +350,14 @@ const AddressInfoForm: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* 注册国家 */}
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
-                    {t('institutionalAuth.addressInfo.registeredCountry')} *
-                  </label>
-                  <select
+                  <CountrySelector
                     name="registeredCountry"
                     value={formData.registeredCountry}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-                      isDarkMode 
-                        ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-                        : 'border-[#EDEEF3] bg-white'
-                    } ${errors.registeredCountry ? 'border-red-500' : ''}`}
-                  >
-                    <option value="">{t('institutionalAuth.selectCountry')}</option>
-                    {countries.map(country => (
-                      <option key={country.value} value={country.value}>
-                        {country.label}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.registeredCountry && (
-                    <p className="text-red-500 text-xs mt-1">{errors.registeredCountry}</p>
-                  )}
+                    error={errors.registeredCountry}
+                    required
+                    label={t('institutionalAuth.addressInfo.registeredCountry')}
+                  />
                 </div>
 
                 {/* 注册州/省 */}
@@ -345,17 +366,19 @@ const AddressInfoForm: React.FC = () => {
                     {t('institutionalAuth.addressInfo.registeredState')} *
                   </label>
                   <input
-                    type="text"
-                    name="registeredState"
-                    value={formData.registeredState}
-                    onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-                      isDarkMode 
-                        ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-                        : 'border-[#EDEEF3] bg-white'
-                    } ${errors.registeredState ? 'border-red-500' : ''}`}
-                    placeholder={t('institutionalAuth.addressInfo.registeredStatePlaceholder')}
-                  />
+                type="text"
+                name="registeredState"
+                value={formData.registeredState}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
+                  isDarkMode 
+                    ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
+                    : 'border-[#EDEEF3] bg-white'
+                } ${errors.registeredState ? 'border-red-500' : ''}`}
+                placeholder={t('institutionalAuth.addressInfo.registeredStatePlaceholder')}
+                required
+              />
                   {errors.registeredState && (
                     <p className="text-red-500 text-xs mt-1">{errors.registeredState}</p>
                   )}
@@ -367,17 +390,19 @@ const AddressInfoForm: React.FC = () => {
                     {t('institutionalAuth.addressInfo.registeredCity')} *
                   </label>
                   <input
-                    type="text"
-                    name="registeredCity"
-                    value={formData.registeredCity}
-                    onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-                      isDarkMode 
-                        ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-                        : 'border-[#EDEEF3] bg-white'
-                    } ${errors.registeredCity ? 'border-red-500' : ''}`}
-                    placeholder={t('institutionalAuth.addressInfo.registeredCityPlaceholder')}
-                  />
+                type="text"
+                name="registeredCity"
+                value={formData.registeredCity}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
+                  isDarkMode 
+                    ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
+                    : 'border-[#EDEEF3] bg-white'
+                } ${errors.registeredCity ? 'border-red-500' : ''}`}
+                placeholder={t('institutionalAuth.addressInfo.registeredCityPlaceholder')}
+                required
+              />
                   {errors.registeredCity && (
                     <p className="text-red-500 text-xs mt-1">{errors.registeredCity}</p>
                   )}
@@ -389,17 +414,19 @@ const AddressInfoForm: React.FC = () => {
                     {t('institutionalAuth.addressInfo.registeredPostalCode')} *
                   </label>
                   <input
-                    type="text"
-                    name="registeredPostalCode"
-                    value={formData.registeredPostalCode}
-                    onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-                      isDarkMode 
-                        ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-                        : 'border-[#EDEEF3] bg-white'
-                    } ${errors.registeredPostalCode ? 'border-red-500' : ''}`}
-                    placeholder={t('institutionalAuth.addressInfo.registeredPostalCodePlaceholder')}
-                  />
+                type="text"
+                name="registeredPostalCode"
+                value={formData.registeredPostalCode}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
+                  isDarkMode 
+                    ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
+                    : 'border-[#EDEEF3] bg-white'
+                } ${errors.registeredPostalCode ? 'border-red-500' : ''}`}
+                placeholder={t('institutionalAuth.addressInfo.registeredPostalCodePlaceholder')}
+                required
+              />
                   {errors.registeredPostalCode && (
                     <p className="text-red-500 text-xs mt-1">{errors.registeredPostalCode}</p>
                   )}
@@ -411,40 +438,25 @@ const AddressInfoForm: React.FC = () => {
                     {t('institutionalAuth.addressInfo.registeredAddressLine1')} *
                   </label>
                   <input
-                    type="text"
-                    name="registeredAddressLine1"
-                    value={formData.registeredAddressLine1}
-                    onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-                      isDarkMode 
-                        ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-                        : 'border-[#EDEEF3] bg-white'
-                    } ${errors.registeredAddressLine1 ? 'border-red-500' : ''}`}
-                    placeholder={t('institutionalAuth.addressInfo.registeredAddressLine1Placeholder')}
-                  />
+                type="text"
+                name="registeredAddressLine1"
+                value={formData.registeredAddressLine1}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
+                  isDarkMode 
+                    ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
+                    : 'border-[#EDEEF3] bg-white'
+                } ${errors.registeredAddressLine1 ? 'border-red-500' : ''}`}
+                placeholder={t('institutionalAuth.addressInfo.registeredAddressLine1Placeholder')}
+                required
+              />
                   {errors.registeredAddressLine1 && (
                     <p className="text-red-500 text-xs mt-1">{errors.registeredAddressLine1}</p>
                   )}
                 </div>
 
-                {/* 注册地址行2 */}
-                <div className="col-span-2">
-                  <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
-                    {t('institutionalAuth.addressInfo.registeredAddressLine2')}
-                  </label>
-                  <input
-                    type="text"
-                    name="registeredAddressLine2"
-                    value={formData.registeredAddressLine2}
-                    onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-                      isDarkMode 
-                        ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-                        : 'border-[#EDEEF3] bg-white'
-                    }`}
-                    placeholder={t('institutionalAuth.addressInfo.registeredAddressLine2Placeholder')}
-                  />
-                </div>
+
               </div>
             </>
           )}

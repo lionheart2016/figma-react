@@ -92,13 +92,54 @@ const AppRouter: React.FC = () => {
           } 
         />
         
+        {/* 机构认证路由 - 包含所有步骤 */}
         <Route 
-          path={ROUTES.INSTITUTIONAL_AUTH} 
+          path={ROUTES.INSTITUTIONAL_AUTH}
           element={
             <PageTracker pageName="机构认证">
               <InstitutionalAuth />
             </PageTracker>
-          } 
+          }
+        />
+        <Route 
+          path={ROUTES.INSTITUTIONAL_AUTH_STEP1}
+          element={
+            <PageTracker pageName="机构认证-步骤1">
+              <InstitutionalAuth />
+            </PageTracker>
+          }
+        />
+        <Route 
+          path={ROUTES.INSTITUTIONAL_AUTH_STEP2}
+          element={
+            <PageTracker pageName="机构认证-步骤2">
+              <InstitutionalAuth />
+            </PageTracker>
+          }
+        />
+        <Route 
+          path={ROUTES.INSTITUTIONAL_AUTH_STEP3}
+          element={
+            <PageTracker pageName="机构认证-步骤3">
+              <InstitutionalAuth />
+            </PageTracker>
+          }
+        />
+        <Route 
+          path={ROUTES.INSTITUTIONAL_AUTH_STEP4}
+          element={
+            <PageTracker pageName="机构认证-步骤4">
+              <InstitutionalAuth />
+            </PageTracker>
+          }
+        />
+        <Route 
+          path={ROUTES.INSTITUTIONAL_AUTH_STEP5}
+          element={
+            <PageTracker pageName="机构认证-步骤5">
+              <InstitutionalAuth />
+            </PageTracker>
+          }
         />
         
         {/* 需要认证的路由 */}

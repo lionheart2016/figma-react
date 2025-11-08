@@ -1,0 +1,323 @@
+/* 机构认证主样式文件 */
+.institutional-auth {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* 步骤内容区域 */
+.step-content {
+  flex: 1;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 导航按钮区域 */
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 40px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.dark-theme .step-actions {
+  border-top-color: #262626;
+}
+
+/* 返回按钮样式 */
+.step-actions .back-button {
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #1C1C1C;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 160px;
+}
+
+.step-actions .back-button:hover:not(:disabled) {
+  background: #F8F9FC;
+  border-color: #D1D5DB;
+}
+
+.step-actions .back-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dark-theme .step-actions .back-button {
+  border-color: #262626;
+  color: #F8FAFF;
+}
+
+.dark-theme .step-actions .back-button:hover:not(:disabled) {
+  background: #1C1C1C;
+  border-color: #374151;
+}
+
+/* 下一步按钮样式 */
+.next-button {
+  padding: 12px 24px;
+  background: #2A2A2A;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 200px;
+}
+
+.next-button:hover:not(:disabled) {
+  background: #1C1C1C;
+  transform: translateY(-1px);
+}
+
+.next-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.next-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dark-theme .next-button {
+  background: #F8FAFF;
+  color: #1C1C1C;
+}
+
+.dark-theme .next-button:hover:not(:disabled) {
+  background: #E5E7EB;
+}
+
+/* 表单样式 */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #1C1C1C;
+  margin-bottom: 8px;
+}
+
+.dark-theme .form-label {
+  color: #F8FAFF;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #1C1C1C;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #2A2A2A;
+  box-shadow: 0 0 0 3px rgba(42, 42, 42, 0.1);
+}
+
+.dark-theme .form-input,
+.dark-theme .form-select {
+  background: #1C1C1C;
+  border-color: #262626;
+  color: #F8FAFF;
+}
+
+.dark-theme .form-input:focus,
+.dark-theme .form-select:focus {
+  border-color: #F8FAFF;
+  box-shadow: 0 0 0 3px rgba(248, 250, 255, 0.1);
+}
+
+.form-error {
+  display: block;
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+  color: #EF4444;
+  margin-top: 4px;
+}
+
+/* 完成页面样式 */
+.completion-page {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.completion-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  background: #D1FAE5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-theme .completion-icon {
+  background: #064E3B;
+}
+
+.completion-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: #059669;
+}
+
+.dark-theme .completion-icon svg {
+  fill: #10B981;
+}
+
+.completion-title {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.2;
+  color: #1C1C1C;
+  margin: 0 0 12px 0;
+}
+
+.dark-theme .completion-title {
+  color: #F8FAFF;
+}
+
+.completion-description {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1C1C1C;
+  margin: 0 0 32px 0;
+}
+
+.dark-theme .completion-description {
+  color: #9CA3AF;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .institutional-auth {
+    gap: 32px;
+  }
+  
+  .step-actions {
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 32px;
+  }
+  
+  .step-actions .back-button,
+  .next-button {
+    max-width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .completion-page {
+    padding: 32px 0;
+  }
+  
+  .completion-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+  }
+  
+  .completion-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .completion-title {
+    font-size: 20px;
+  }
+  
+  .completion-description {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+/* 加载状态 */
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 表单占位符样式 */
+.form-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  background: #F9FAFB;
+  border-radius: 12px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.33;
+  color: #6B7280;
+  text-align: center;
+  padding: 40px;
+}
+
+.dark-theme .form-placeholder {
+  background: #1C1C1C;
+  color: #9CA3AF;
+}

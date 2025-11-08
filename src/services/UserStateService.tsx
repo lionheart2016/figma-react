@@ -18,12 +18,23 @@ export const USER_TYPES = {
 
 export type UserType = typeof USER_TYPES[keyof typeof USER_TYPES];
 
+// 认证状态枚举
+export const AUTH_STATUS = {
+  NOT_AUTHENTICATED: 'not_authenticated',
+  UNDER_REVIEW: 'under_review',
+  AUTHENTICATED: 'authenticated',
+  AUTHENTICATION_FAILED: 'authentication_failed'
+} as const;
+
+export type AuthStatus = typeof AUTH_STATUS[keyof typeof AUTH_STATUS];
+
 export interface User {
   id: string;
   email: string;
   userType: UserType;
   walletAddress?: string;
   linkedAccounts?: LinkedAccount[];
+  authStatus?: AuthStatus;
 }
 
 export interface LinkedAccount {
@@ -194,6 +205,7 @@ interface UserStateContextType {
   loginWithEmail: (email: string) => Promise<void>;
   verifyEmail: (email: string, code: string) => Promise<void>;
   logout: () => Promise<void>;
+  updateAuthStatus: (status: AuthStatus) => Promise<void>;
   
   // 钱包操作方法
   setActiveWallet: (wallet: Wallet | null) => void;
@@ -465,6 +477,61 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     console.log(`[机构认证] 检测到机构用户登录，准备启动认证流程`);
   }, []);
 
+  // 更新认证状态方法
+  const updateAuthStatus = useCallback(async (status: AuthStatus) => {
+    setError(null);
+    setIsLoading(true);
+    
+    try {
+      // 记录审计日志
+      const timestamp = new Date().toISOString();
+      const auditLog = {
+        timestamp,
+        userId: user?.id || 'unknown',
+        action: 'AUTH_STATUS_UPDATED',
+        oldStatus: user?.authStatus || 'unknown',
+        newStatus: status,
+        message: `用户认证状态更新为: ${status}`
+      };
+      
+      // 控制台审计日志
+      console.group(`[认证状态审计] ${timestamp}`);
+      console.log('用户ID:', user?.id);
+      console.log('旧认证状态:', user?.authStatus);
+      console.log('新认证状态:', status);
+      console.log('操作类型: 更新用户认证状态');
+      console.groupEnd();
+      
+      // 更新用户状态
+      setUser(prevUser => {
+        if (!prevUser) return prevUser;
+        
+        return {
+          ...prevUser,
+          authStatus: status
+        };
+      });
+      
+      // 存储审计信息到localStorage用于追踪
+      localStorage.setItem('lastAuthStatusUpdate', timestamp);
+      localStorage.setItem('lastAuthStatus', status);
+      localStorage.setItem('authStatusAudit', JSON.stringify(auditLog));
+      
+      console.log(`✅ [认证状态] ${timestamp} - 用户认证状态已更新为: ${status}`);
+      
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } catch (err) {
+      const errorMessage = err instanceof Error 
+        ? `更新认证状态失败：${err.message}` 
+        : '更新认证状态失败，请重试';
+      setError(errorMessage);
+      console.error('[UserStateService] 更新认证状态失败:', err);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user]);
+
   // 简化的邮箱验证方法
   const verifyEmail = useCallback(async (_email: string, code: string) => {
     setError(null);
@@ -481,6 +548,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
           id: 'mock-user-id',
           email: _email,
           userType: USER_TYPES.INSTITUTION, // 测试账号设置为机构用户
+          authStatus: AUTH_STATUS.NOT_AUTHENTICATED, // 默认初始认证状态为未认证
           linkedAccounts: [
             {
               type: ACCOUNT_TYPES.EMAIL,
@@ -555,6 +623,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     loginWithEmail,
     verifyEmail,
     logout: logoutHandler,
+    updateAuthStatus,
     setActiveWallet,
     refreshWallets,
     addExternalWallet,

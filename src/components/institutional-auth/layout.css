@@ -1,0 +1,389 @@
+/* 机构认证布局样式 */
+.institutional-auth-layout {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  overflow: auto;
+}
+
+/* 左侧品牌和步骤区域 */
+.institutional-auth-layout-left {
+  width: 475px;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 品牌部分 */
+.institutional-auth-brand-section {
+  padding: 40px;
+  position: relative;
+  z-index: 10;
+}
+
+/* 步骤指示器区域 */
+.institutional-auth-steps {
+  flex: 1;
+  padding: 0 40px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.steps-title {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #FFFFFF;
+  margin: 0 0 32px 0;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.step-number-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 20px;
+  z-index: 1;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.step-number.active {
+  background: #FFFFFF;
+  color: #2A2A2A;
+}
+
+.step-number.completed {
+  background: #10B981;
+  color: #FFFFFF;
+}
+
+.step-connector {
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  width: 2px;
+  height: calc(100% + 24px);
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.step-connector.completed {
+  background: #10B981;
+}
+
+.step-info {
+  flex: 1;
+  padding-top: 4px;
+}
+
+.step-title {
+  display: block;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 4px;
+  transition: all 0.3s ease;
+}
+
+.step-title.active {
+  color: #FFFFFF;
+}
+
+.step-description {
+  display: block;
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* 右侧内容区域 */
+.institutional-auth-layout-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+/* 右上角导航栏 */
+.institutional-auth-layout-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 40px 0 40px;
+  min-height: 80px;
+  position: relative;
+  z-index: 10;
+}
+
+/* 返回按钮区域 */
+.institutional-auth-layout-back {
+  flex: 1;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background: #F8F9FC;
+}
+
+.back-icon {
+  width: 10px;
+  height: 10px;
+  transform: rotate(180deg);
+}
+
+.back-text {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #1C1C1C;
+}
+
+/* 语言和主题切换器区域 */
+.institutional-auth-layout-language {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 右下角内容区域 */
+.institutional-auth-layout-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px 40px 40px;
+  overflow-y: auto;
+}
+
+/* 标题区域 */
+.institutional-auth-layout-header {
+  margin-bottom: 60px;
+}
+
+.institutional-auth-layout-title {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 0.89;
+  color: #1C1C1C;
+  margin: 0 0 8px 0;
+  transition: color 0.3s ease;
+}
+
+.institutional-auth-layout-subtitle {
+  font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1C1C1C;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* 主要内容区域 */
+.institutional-auth-layout-main {
+  flex: 1;
+  max-width: 520px;
+  width: 100%;
+}
+
+/* 暗黑主题样式 */
+.dark-theme .institutional-auth-layout-right {
+  background: #0A0A0A;
+}
+
+.dark-theme .back-text {
+  color: #F8FAFF;
+}
+
+.dark-theme .back-button:hover {
+  background: #1C1C1C;
+}
+
+.dark-theme .institutional-auth-layout-title {
+  color: #F8FAFF;
+}
+
+.dark-theme .institutional-auth-layout-subtitle {
+  color: #9CA3AF;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .institutional-auth-layout {
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+  }
+  
+  .institutional-auth-layout-left {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+  }
+  
+  .institutional-auth-brand-section {
+    padding: 20px 20px 0;
+  }
+  
+  .institutional-auth-steps {
+    padding: 32px 20px 20px;
+  }
+  
+  .steps-container {
+    gap: 20px;
+  }
+  
+  .step-item {
+    flex-direction: column;
+  }
+  
+  .step-number-container {
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+  
+  .step-connector {
+    display: none;
+  }
+  
+  .institutional-auth-layout-navbar {
+    padding: 20px 20px 0;
+    min-height: 60px;
+  }
+  
+  .institutional-auth-layout-content {
+    padding: 0 20px 20px;
+    min-height: calc(100vh - 400px);
+  }
+  
+  .institutional-auth-layout-title {
+    font-size: 28px;
+  }
+  
+  .institutional-auth-layout-subtitle {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .institutional-auth-layout {
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  .institutional-auth-layout-left {
+    width: 100%;
+    min-height: 250px;
+  }
+  
+  .institutional-auth-layout-right {
+    width: 100%;
+    min-height: calc(100vh - 250px);
+  }
+  
+  .institutional-auth-layout-navbar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 16px 0;
+  }
+  
+  .institutional-auth-layout-back {
+    align-self: flex-start;
+  }
+  
+  .institutional-auth-layout-language {
+    align-self: flex-end;
+  }
+  
+  .institutional-auth-layout-content {
+    padding: 0 16px 16px;
+  }
+  
+  .institutional-auth-layout-header {
+    margin-bottom: 40px;
+  }
+  
+  .institutional-auth-layout-main {
+    max-width: 100%;
+  }
+  
+  .step-number {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
+/* 平板设备优化 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .institutional-auth-layout-left {
+    width: 100%;
+  }
+  
+  .institutional-auth-layout-content {
+    padding: 0 32px 32px;
+  }
+}
+
+/* 大屏幕设备优化 */
+@media (min-width: 1440px) {
+  .institutional-auth-layout-left {
+    width: 520px;
+  }
+  
+  .institutional-auth-layout-main {
+    max-width: 560px;
+  }
+}

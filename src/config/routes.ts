@@ -10,6 +10,11 @@ export const ROUTES = {
   
   // 机构认证路由
   INSTITUTIONAL_AUTH: '/institutional-auth',
+  INSTITUTIONAL_AUTH_STEP1: '/institutional-auth/step1',
+  INSTITUTIONAL_AUTH_STEP2: '/institutional-auth/step2',
+  INSTITUTIONAL_AUTH_STEP3: '/institutional-auth/step3',
+  INSTITUTIONAL_AUTH_STEP4: '/institutional-auth/step4',
+  INSTITUTIONAL_AUTH_STEP5: '/institutional-auth/step5',
   
   // 主应用路由
   DASHBOARD: '/dashboard',
@@ -53,8 +58,13 @@ export const routeGuards = {
     ROUTES.EMAIL_VERIFICATION,
     ROUTES.HOME,
     ROUTES.LOGIN,
-    ROUTES.INSTITUTIONAL_AUTH
-  ] as RoutePath[]
+    ROUTES.INSTITUTIONAL_AUTH,
+    ROUTES.INSTITUTIONAL_AUTH_STEP1,
+    ROUTES.INSTITUTIONAL_AUTH_STEP2,
+    ROUTES.INSTITUTIONAL_AUTH_STEP3,
+    ROUTES.INSTITUTIONAL_AUTH_STEP4,
+    ROUTES.INSTITUTIONAL_AUTH_STEP5
+  ] as RoutePath[],
 };
 
 // 路由元信息配置
@@ -81,6 +91,26 @@ export const routeMeta: Record<string, RouteMetaInfo> = {
   },
   [ROUTES.INSTITUTIONAL_AUTH]: {
     title: 'Institutional Authentication - Alphatoken',
+    requiresAuth: false
+  },
+  [ROUTES.INSTITUTIONAL_AUTH_STEP1]: {
+    title: 'Institution Information - Alphatoken',
+    requiresAuth: false
+  },
+  [ROUTES.INSTITUTIONAL_AUTH_STEP2]: {
+    title: 'Address Information - Alphatoken',
+    requiresAuth: false
+  },
+  [ROUTES.INSTITUTIONAL_AUTH_STEP3]: {
+    title: 'File Upload - Alphatoken',
+    requiresAuth: false
+  },
+  [ROUTES.INSTITUTIONAL_AUTH_STEP4]: {
+    title: 'Key Parties - Alphatoken',
+    requiresAuth: false
+  },
+  [ROUTES.INSTITUTIONAL_AUTH_STEP5]: {
+    title: 'Completion - Alphatoken',
     requiresAuth: false
   },
   [ROUTES.DASHBOARD]: {

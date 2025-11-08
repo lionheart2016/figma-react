@@ -11,43 +11,117 @@ interface UploadedFile {
   uploadDate: Date;
 }
 
+// 文件上传项配置接口
+interface FileUploadItem {
+  key: string;
+  labelKey: string;
+  required: boolean;
+}
+
+// 文件上传数据接口
 interface FileUploadFormData {
-  businessLicense: UploadedFile | null;
-  certificateOfIncorporation: UploadedFile | null;
-  taxRegistration: UploadedFile | null;
-  bankStatement: UploadedFile | null;
+  [key: string]: UploadedFile | null | UploadedFile[];
   otherDocuments: UploadedFile[];
 }
 
 interface FormErrors {
-  businessLicense?: string;
-  certificateOfIncorporation?: string;
-  taxRegistration?: string;
-  bankStatement?: string;
+  [key: string]: string;
 }
+
+// 文件上传项常量数组
+const FILE_UPLOAD_ITEMS: FileUploadItem[] = [
+  {
+    key: 'businessLicense',
+    labelKey: 'institutionalAuth.steps.fileUpload.businessLicense',
+    required: true
+  },
+  {
+    key: 'certificateOfIncorporation',
+    labelKey: 'institutionalAuth.steps.fileUpload.certificateOfIncorporation',
+    required: true
+  },
+  {
+    key: 'shareholderList',
+    labelKey: 'institutionalAuth.steps.fileUpload.shareholderList',
+    required: true
+  },
+  {
+    key: 'directorsList',
+    labelKey: 'institutionalAuth.steps.fileUpload.directorsList',
+    required: true
+  },
+  {
+    key: 'orgChart',
+    labelKey: 'institutionalAuth.steps.fileUpload.orgChart',
+    required: false
+  },
+  {
+    key: 'authorizedSigners',
+    labelKey: 'institutionalAuth.steps.fileUpload.authorizedSigners',
+    required: false
+  },
+  {
+    key: 'taxForm',
+    labelKey: 'institutionalAuth.steps.fileUpload.taxForm',
+    required: false
+  },
+  {
+    key: 'goodStanding',
+    labelKey: 'institutionalAuth.steps.fileUpload.goodStanding',
+    required: false
+  },
+  {
+    key: 'bankStatement',
+    labelKey: 'institutionalAuth.steps.fileUpload.bankStatement',
+    required: true
+  },
+  {
+    key: 'auditedFinancials',
+    labelKey: 'institutionalAuth.steps.fileUpload.auditedFinancials',
+    required: false
+  },
+  {
+    key: 'addressProof',
+    labelKey: 'institutionalAuth.steps.fileUpload.addressProof',
+    required: false
+  },
+  {
+    key: 'operatingAddress',
+    labelKey: 'institutionalAuth.steps.fileUpload.operatingAddress',
+    required: false
+  }
+];
 
 const FileUploadForm: React.FC = () => {
   const { t } = useTranslation();
   const { isDarkMode } = useTheme();
   
-  const [formData, setFormData] = useState<FileUploadFormData>({
-    businessLicense: null,
-    certificateOfIncorporation: null,
-    taxRegistration: null,
-    bankStatement: null,
-    otherDocuments: []
-  });
-
+  // 初始化表单数据
+  const initializeFormData = (): FileUploadFormData => {
+    const data: FileUploadFormData = { otherDocuments: [] };
+    FILE_UPLOAD_ITEMS.forEach(item => {
+      data[item.key] = null;
+    });
+    return data;
+  };
+  
+  const [formData, setFormData] = useState<FileUploadFormData>(initializeFormData);
   const [errors, setErrors] = useState<FormErrors>({});
   const [dragOver, setDragOver] = useState<string | null>(null);
   
-  const fileInputRefs = {
-    businessLicense: useRef<HTMLInputElement>(null),
-    certificateOfIncorporation: useRef<HTMLInputElement>(null),
-    taxRegistration: useRef<HTMLInputElement>(null),
-    bankStatement: useRef<HTMLInputElement>(null),
-    otherDocuments: useRef<HTMLInputElement>(null)
-  };
+  // 动态创建文件输入引用
+  const fileInputRefs = useRef<{[key: string]: HTMLInputElement | null}>({});
+  
+  // 初始化文件输入引用
+  React.useEffect(() => {
+    // 重置引用对象，确保它有正确的键
+    const refs: {[key: string]: HTMLInputElement | null} = {};
+    FILE_UPLOAD_ITEMS.forEach(item => {
+      refs[item.key] = null;
+    });
+    refs['otherDocuments'] = null;
+    fileInputRefs.current = refs;
+  }, []);
 
   const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
   const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
@@ -72,7 +146,7 @@ const FileUploadForm: React.FC = () => {
     return null;
   };
 
-  const handleFileUpload = (fieldName: keyof FileUploadFormData, files: FileList | null) => {
+  const handleFileUpload = (fieldName: string, files: FileList | null) => {
     if (!files || files.length === 0) return;
     
     const file = files[0];
@@ -112,7 +186,11 @@ const FileUploadForm: React.FC = () => {
     }
 
     // 清除错误
-    setErrors(prev => ({ ...prev, [fieldName]: '' }));
+    setErrors(prev => { 
+      const newErrors = { ...prev };
+      if (newErrors[fieldName]) delete newErrors[fieldName];
+      return newErrors;
+    });
   };
 
   const handleOtherDocumentsUpload = (files: FileList | null) => {
@@ -147,7 +225,7 @@ const FileUploadForm: React.FC = () => {
     }
   };
 
-  const removeFile = (fieldName: keyof FileUploadFormData, fileId?: string) => {
+  const removeFile = (fieldName: string, fileId?: string) => {
     if (fieldName === 'otherDocuments' && fileId) {
       setFormData(prev => ({
         ...prev,
@@ -158,6 +236,13 @@ const FileUploadForm: React.FC = () => {
         ...prev,
         [fieldName]: null
       }));
+      
+      // 清除错误
+      setErrors(prev => { 
+        const newErrors = { ...prev };
+        if (newErrors[fieldName]) delete newErrors[fieldName];
+        return newErrors;
+      });
     }
   };
 
@@ -171,7 +256,7 @@ const FileUploadForm: React.FC = () => {
     setDragOver(null);
   };
 
-  const handleDrop = (e: React.DragEvent, fieldName: keyof FileUploadFormData) => {
+  const handleDrop = (e: React.DragEvent, fieldName: string) => {
     e.preventDefault();
     setDragOver(null);
     
@@ -184,37 +269,34 @@ const FileUploadForm: React.FC = () => {
   };
 
   const renderFileUploadArea = (
-    fieldName: keyof FileUploadFormData,
+    fieldName: string,
     label: string,
-    description: string,
     required: boolean = true
   ) => {
-    const file = formData[fieldName];
+    const file = formData[fieldName] as UploadedFile | null;
     const isDragActive = dragOver === fieldName;
 
     return (
       <div className="file-upload-section">
         <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
-          {label} {required && '*'}
+          {t(label)} {required && '*'}
         </label>
         
         <div
-          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-            isDragActive 
+          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${isDragActive 
               ? 'border-[#4B5EF5] bg-[#4B5EF5]/10' 
               : errors[fieldName] 
                 ? 'border-red-500' 
                 : isDarkMode 
                   ? 'border-[#2C2C2C] hover:border-[#4B5EF5]' 
-                  : 'border-[#EDEEF3] hover:border-[#4B5EF5]'
-          }`}
+                  : 'border-[#EDEEF3] hover:border-[#4B5EF5]'}`}
           onDragOver={(e) => handleDragOver(e, fieldName)}
           onDragLeave={handleDragLeave}
           onDrop={(e) => handleDrop(e, fieldName)}
-          onClick={() => fileInputRefs[fieldName].current?.click()}
+          onClick={() => fileInputRefs.current[fieldName]?.click()}
         >
           <input
-            ref={fileInputRefs[fieldName]}
+            ref={inputRef => fileInputRefs.current[fieldName] = inputRef}
             type="file"
             className="hidden"
             accept={ALLOWED_FILE_TYPES.join(',')}
@@ -224,11 +306,11 @@ const FileUploadForm: React.FC = () => {
           {!file ? (
             <>
               <div className="text-4xl text-[#4B5EF5] mb-2">📁</div>
-              <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                {description}
-              </p>
+              <div className="mt-2">
+                <span className="text-blue-500 text-sm">{t('institutionalAuth.fileUpload.browseFiles')}</span>
+              </div>
               <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                {t('institutionalAuth.fileUpload.supportedFormats')}: JPG, PNG, PDF (≤50MB)
+                {t('institutionalAuth.fileUpload.supportedFormats')}
               </p>
             </>
           ) : (
@@ -249,15 +331,15 @@ const FileUploadForm: React.FC = () => {
                 {formatFileSize(file.size)} • {file.uploadDate.toLocaleDateString()}
               </p>
               <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeFile(fieldName);
-                }}
-                className="mt-2 text-red-500 text-xs hover:text-red-700"
-              >
-                {t('institutionalAuth.fileUpload.removeFile')}
-              </button>
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(fieldName);
+                  }}
+                  className="mt-2 text-red-500 text-xs hover:text-red-700"
+                >
+                  {t('institutionalAuth.fileUpload.removeFile')}
+                </button>
             </div>
           )}
         </div>
@@ -290,10 +372,10 @@ const FileUploadForm: React.FC = () => {
           onDragOver={(e) => handleDragOver(e, 'otherDocuments')}
           onDragLeave={handleDragLeave}
           onDrop={(e) => handleDrop(e, 'otherDocuments')}
-          onClick={() => fileInputRefs.otherDocuments.current?.click()}
+          onClick={() => fileInputRefs.current['otherDocuments']?.click()}
         >
           <input
-            ref={fileInputRefs.otherDocuments}
+            ref={inputRef => fileInputRefs.current['otherDocuments'] = inputRef}
             type="file"
             className="hidden"
             multiple
@@ -308,7 +390,7 @@ const FileUploadForm: React.FC = () => {
                 {t('institutionalAuth.fileUpload.otherDocumentsDescription')}
               </p>
               <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                {t('institutionalAuth.fileUpload.supportedFormats')}: JPG, PNG, PDF (≤50MB)
+                {t('institutionalAuth.fileUpload.supportedFormats')}
               </p>
             </>
           ) : (
@@ -330,15 +412,15 @@ const FileUploadForm: React.FC = () => {
                     </div>
                   </div>
                   <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeFile('otherDocuments', file.id);
-                    }}
-                    className="text-red-500 text-xs hover:text-red-700"
-                  >
-                    {t('institutionalAuth.fileUpload.removeFile')}
-                  </button>
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile('otherDocuments', file.id);
+                  }}
+                  className="text-red-500 text-xs hover:text-red-700"
+                >
+                  {t('institutionalAuth.fileUpload.removeFile')}
+                </button>
                 </div>
               ))}
               <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
@@ -353,31 +435,26 @@ const FileUploadForm: React.FC = () => {
 
   return (
     <div className="file-upload-form">
-      <form className="space-y-6">
-        {renderFileUploadArea(
-          'businessLicense',
-          t('institutionalAuth.fileUpload.businessLicense'),
-          t('institutionalAuth.fileUpload.businessLicenseDescription')
-        )}
+      <form>
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">{t('institutionalAuth.fileUpload.title')}</h2>
+          <p className="text-sm text-gray-500">{t('institutionalAuth.fileUpload.subtitle')}</p>
+        </div>
         
-        {renderFileUploadArea(
-          'certificateOfIncorporation',
-          t('institutionalAuth.fileUpload.certificateOfIncorporation'),
-          t('institutionalAuth.fileUpload.certificateOfIncorporationDescription')
-        )}
+        {/* 根据FILE_UPLOAD_ITEMS常量数组渲染所有文件上传区域 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          {FILE_UPLOAD_ITEMS.map((item) => (
+            <div key={item.key}>
+              {renderFileUploadArea(
+                item.key,
+                item.labelKey,
+                item.required
+              )}
+            </div>
+          ))}
+        </div>
         
-        {renderFileUploadArea(
-          'taxRegistration',
-          t('institutionalAuth.fileUpload.taxRegistration'),
-          t('institutionalAuth.fileUpload.taxRegistrationDescription')
-        )}
-        
-        {renderFileUploadArea(
-          'bankStatement',
-          t('institutionalAuth.fileUpload.bankStatement'),
-          t('institutionalAuth.fileUpload.bankStatementDescription')
-        )}
-        
+        {/* 其他文档上传区域 */}
         {renderOtherDocumentsArea()}
       </form>
     </div>
