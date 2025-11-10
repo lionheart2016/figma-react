@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '../../config/routes';
-import Layout from './Layout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { isMobile, isDesktop } from '../../utils/deviceDetection';
 import { getEmailProvider } from '../../utils/emailProvider';
+import VerifyHelpModal from './VerifyHelpModal';
 
 const EmailVerification: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -13,8 +13,11 @@ const EmailVerification: React.FC = () => {
   const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [timer, setTimer] = useState<number>(60);
+  const [resendTimer, setResendTimer] = useState<number>(59); // 重发倒计时59秒
+  const [verificationExpiryTimer, setVerificationExpiryTimer] = useState<number>(600); // 10分钟有效期，单位秒
   const [canResend, setCanResend] = useState<boolean>(false);
+  const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
+  const [currentVerificationId, setCurrentVerificationId] = useState<string>(''); // 当前验证码ID
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const navigate = useNavigate();
 
@@ -42,17 +45,37 @@ const EmailVerification: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // 倒计时逻辑
+  // 重发倒计时逻辑
   useEffect(() => {
-    if (timer > 0) {
+    if (resendTimer > 0) {
       const countdown = setTimeout(() => {
-        setTimer(timer - 1);
+        setResendTimer(resendTimer - 1);
       }, 1000);
       return () => clearTimeout(countdown);
     } else {
       setCanResend(true);
     }
-  }, [timer]);
+  }, [resendTimer]);
+  
+  // 验证码过期倒计时逻辑
+  useEffect(() => {
+    if (verificationExpiryTimer > 0) {
+      const countdown = setTimeout(() => {
+        setVerificationExpiryTimer(verificationExpiryTimer - 1);
+      }, 1000);
+      return () => clearTimeout(countdown);
+    } else {
+      // 验证码过期，可以提示用户重新发送
+      setError(t('auth.emailVerification.codeExpired'));
+    }
+  }, [verificationExpiryTimer]);
+  
+  // 格式化倒计时显示（分:秒）
+  const formatTimer = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
 
   // 处理输入变化
   const handleInputChange = (index: number, value: string): void => {
@@ -135,100 +158,199 @@ const EmailVerification: React.FC = () => {
   };
 
   // 重新发送验证码
-  const handleResend = (): void => {
+  const handleResend = async (): Promise<void> => {
     if (!canResend) return;
-
-    setTimer(60);
-    setCanResend(false);
+    
+    setIsLoading(true);
     setError('');
     
-    // 模拟重新发送逻辑
-    console.log(t('auth.emailVerification.resendingCode'), userEmail);
+    try {
+      // 模拟API调用 - 作废前一个验证码
+      if (currentVerificationId) {
+        console.log('Cancelling previous verification code:', currentVerificationId);
+        // 实际项目中这里应该调用API作废前一个验证码
+      }
+      
+      // 生成新的验证码ID
+      const newVerificationId = `verification_${Date.now()}`;
+      setCurrentVerificationId(newVerificationId);
+      
+      // 模拟发送新验证码的API调用
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      console.log('Resending verification code to:', userEmail);
+      
+      // 重置重发倒计时
+      setResendTimer(59);
+      setCanResend(false);
+      
+      // 重置验证码输入框
+      setCode(['', '', '', '', '', '']);
+      
+      // 重置验证码过期时间
+      setVerificationExpiryTimer(600);
+    } catch (err) {
+      setError(t('auth.emailVerification.resendFailed') || 'Failed to resend verification code');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // 处理显示帮助弹窗
+  const handleShowHelpModal = (): void => {
+    setShowHelpModal(true);
+  };
+  
+  // 处理关闭帮助弹窗
+  const handleCloseHelpModal = (): void => {
+    setShowHelpModal(false);
+  };
+  
+  // 处理联系客服
+  const handleContactSupport = (): void => {
+    // 这里可以实现跳转到客服页面或打开客服聊天窗口
+    console.log('Contacting customer support');
+    setShowHelpModal(false);
+    // 实际项目中这里应该导航到客服页面或打开客服聊天窗口
   };
 
   // 返回上一页
   const handleBack = (): void => {
     navigate(ROUTES.REGISTER);
   };
+  
+  // 处理前往邮件
+  const handleGoToMail = (): void => {
+    if (emailProvider) {
+      window.open(emailProvider.url, '_blank');
+    }
+  };
 
   return (
-    <Layout
-      title={t('auth.emailVerification.title')}
-      subtitle={t('auth.emailVerification.subtitle', { email: userEmail })}
-      showBackButton={true}
-      onBack={handleBack}
-    >
-      {/* 验证码输入区域 */}
-      <div className="space-y-6">
-        {/* 验证码输入框 */}
-        <div className="flex justify-center space-x-3">
-          {code.map((digit, index) => (
-            <input
-              key={index}
-              ref={el => inputRefs.current[index] = el}
-              type="text"
-              inputMode="numeric"
-              maxLength={1}
-              value={digit}
-              onChange={(e) => handleInputChange(index, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              onPaste={handlePaste}
-              className={`w-12 h-12 text-center text-lg font-semibold border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] focus:border-transparent ${error ? 'border-red-500' : isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'}`}
-            />
-          ))}
+    <>
+    <div className="flex min-h-screen bg-[#0D0D0D]">
+      {/* 左侧品牌展示区域 */}
+        {/* 品牌展示内容 */}
+        <img 
+          src="/brand-delivery-bg.png" 
+          alt="Brand background" 
+          className="brand-bg-image flex lg:block w-[475px] h-screen  w-full h-full object-cover"
+        />
+      
+      {/* 右侧表单区域 */}
+      <div className="flex-1 flex flex-col items-center py-10 px-6">
+        {/* 返回按钮 */}
+        <div className="self-start ml-[167px] mt-4">
+          <button 
+            onClick={handleBack}
+            className="flex items-center space-x-2 text-[#F8F9FC]"
+          >
+            <img src="/arrow-left.svg" alt={t('common.back')} className="w-5 h-5 rotate-180" />
+            <span className="font-semibold text-sm">{t('common.back')}</span>
+          </button>
         </div>
+        
+        {/* 页面标题 */}
+        <h1 className="mt-8 text-3xl font-bold text-[#F8F9FC] tracking-tight">
+          {t('auth.emailVerification.title') || 'Verify your email address'}
+        </h1>
+        
+        {/* 验证码提示文本 */}
+        <p className="mt-8 text-base font-semibold text-[#F8F9FC]">
+          {t('auth.emailVerification.enterCode', { expiry: formatTimer(verificationExpiryTimer) }) || `Please enter the email verification code, Valid for ${formatTimer(verificationExpiryTimer)}`}
+        </p>
+        
+        {/* 邮箱信息和前往邮件按钮区域 */}
+        <div className="flex items-center mt-4 space-x-4">
+          <div className="flex items-center">
+            <img src="/email-icon.svg" alt="Email" className="w-5 h-5 mr-2" />
+            <span className="text-sm text-[#F8F9FC]">{userEmail}</span>
+          </div>
+          
+          <span className="text-[#B9BCC5]">|</span>
+          
+          <button 
+            onClick={handleGoToMail}
+            className="flex items-center text-sm text-[#F8F9FC] hover:underline"
+          >
+            <img src="/arrow-down.svg" alt={t('auth.emailVerification.goToMail')} className="w-4 h-4 mr-2" />
+            {t('auth.emailVerification.goToMail') || 'Go to Mail'}
+          </button>
+        </div>
+        
+        {/* 验证码输入区域 */}
+      <div className="flex space-x-6 mt-8">
+        {code.map((digit, index) => (
+          <input
+            key={index}
+            ref={el => inputRefs.current[index] = el}
+            type="text"
+            inputMode="numeric"
+            maxLength={1}
+            value={digit}
+            onChange={(e) => handleInputChange(index, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(index, e)}
+            onPaste={handlePaste}
+            className={`w-[60px] h-[60px] text-center text-lg font-semibold border-2 rounded-[10px] focus:outline-none ${error ? 'border-red-500' : index === 0 ? 'border-[#4B5EF5] shadow-[0px_0px_0px_4px_rgba(31,50,214,0.15)] bg-white text-black' : 'border-[#EDEEF3] bg-white text-black'}`}
+            style={{ 
+              fontSize: '24px',
+              lineHeight: '1.2'
+            }}
+          />
+        ))}
+      </div>
 
         {/* 错误信息 */}
         {error && (
-          <p className="text-red-500 text-sm text-center">{error}</p>
+          <p className="text-red-500 text-sm mt-4">{error}</p>
         )}
-
-        {/* 邮箱快速跳转按钮（仅桌面端显示） */}
-        {isDesktopDevice && emailProvider && (
-          <div className="text-center">
-            <a
-              href={emailProvider.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-lg border border-[#4B5EF5] text-[#4B5EF5] hover:bg-[#4B5EF5] hover:text-white transition-all duration-200 font-medium text-sm"
-            >
-              <span>{emailProvider.name[i18n.language as keyof typeof emailProvider.name] || emailProvider.name.en}</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-            </a>
-            <p className="text-xs mt-2 text-[#73798B] dark:text-[#9CA3AF]">
-              {t('auth.emailVerification.quickAccessHint')}
-            </p>
-          </div>
-        )}
-
-        {/* 验证按钮 */}
-        <button
-          onClick={handleVerify}
-          disabled={isLoading || code.some(digit => digit === '')}
-          className={`w-full py-3 px-6 rounded-lg font-semibold text-sm transition-all duration-200 ${isLoading || code.some(digit => digit === '') ? 'bg-[#D9D9D9] text-[#73798B] cursor-not-allowed' : 'bg-[#4B5EF5] text-white hover:bg-[#3A4BD4] active:bg-[#2A3AB3]'}`}
-        >
-          {isLoading ? t('auth.emailVerification.verifying') : t('auth.emailVerification.verify')}
-        </button>
-
-        {/* 重新发送验证码 */}
+        
+        {/* 分隔线 */}
+        <div className="w-[480px] border-t border-[#575757] my-6"></div>
+        
+        {/* 帮助链接区域 */}
         <div className="text-center">
-          <p className={`text-sm mb-2 ${isDarkMode ? 'text-[#9CA3AF]' : 'text-[#73798B]'}`}>
-            {t('auth.emailVerification.didntReceiveCode')}{' '}
+          <p className="text-sm font-semibold text-[#4B5EF5]">
+            <button
+              onClick={handleShowHelpModal}
+              className="underline mr-4"
+            >
+              {t('auth.emailVerification.notReceivingCode')}
+            </button>
+            {t('common.or') || 'or'}{' '}
             <button
               onClick={handleResend}
               disabled={!canResend}
-              className={`font-medium ${canResend ? 'text-[#4B5EF5] hover:underline cursor-pointer' : 'text-[#B9BCC5] cursor-not-allowed'}`}
+              className={canResend ? 'underline' : ''}
             >
-              {canResend ? t('auth.emailVerification.resendCode') : t('auth.emailVerification.resendIn', { timer })}
+              {canResend ? (t('auth.emailVerification.resendCode') || 'Resend') : `${t('auth.emailVerification.resendIn') || 'Resend in'} ${formatTimer(resendTimer)}`}
             </button>
           </p>
         </div>
+
+        {/* 继续按钮 */}
+        <button
+          onClick={handleVerify}
+          disabled={isLoading || code.some(digit => digit === '')}
+          className={`w-[390px] h-[40px] rounded-[6px] font-semibold text-sm mt-8 ${isLoading || code.some(digit => digit === '') ? 'bg-[#545965] text-[#B9BCC5] cursor-not-allowed' : 'bg-[#4B5EF5] text-white hover:bg-[#3A4BD4] active:bg-[#2A3AB3]'}`}
+        >
+          {isLoading ? (t('auth.emailVerification.verifying') || 'Verifying...') : (t('auth.emailVerification.continue') || 'Continue')}
+        </button>
       </div>
-    </Layout>
+    </div>
+    
+    {/* 帮助弹窗 */}
+    {showHelpModal && (
+      <VerifyHelpModal
+        onClose={handleCloseHelpModal}
+        onContactSupport={handleContactSupport}
+        onResendCode={handleResend}
+        canResend={canResend}
+        resendTimer={resendTimer}
+        formatTimer={formatTimer}
+      />
+    )}
+    </>
   );
 };
 

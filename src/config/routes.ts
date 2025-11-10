@@ -7,6 +7,9 @@ export const ROUTES = {
   REGISTER_NEW: '/register-new',
   EMAIL_VERIFICATION: '/email-verification',
   LOGIN: '/login',
+  LOGIN_NEW: '/login-new',
+  RESET_PASSWORD: '/reset-password',
+  RESET_PASSWORD_COMPLETE: '/reset-password-complete',
   
   // 机构认证路由
   INSTITUTIONAL_AUTH: '/institutional-auth',
@@ -58,6 +61,7 @@ export const routeGuards = {
     ROUTES.EMAIL_VERIFICATION,
     ROUTES.HOME,
     ROUTES.LOGIN,
+    ROUTES.RESET_PASSWORD,
     ROUTES.INSTITUTIONAL_AUTH,
     ROUTES.INSTITUTIONAL_AUTH_STEP1,
     ROUTES.INSTITUTIONAL_AUTH_STEP2,
@@ -87,6 +91,10 @@ export const routeMeta: Record<string, RouteMetaInfo> = {
   },
   [ROUTES.LOGIN]: {
     title: 'Login - Alphatoken',
+    requiresAuth: false
+  },
+  [ROUTES.RESET_PASSWORD]: {
+    title: 'Reset Password - Alphatoken',
     requiresAuth: false
   },
   [ROUTES.INSTITUTIONAL_AUTH]: {
