@@ -3,7 +3,7 @@ import { useRouter } from '../contexts/RouterContext';
 import { useUser } from '../services/UserStateService';
 import Authentication from './auth-module/Authentication';
 import InvestmentTypeSelection from './auth-module/InvestmentTypeSelection';
-import Register from './auth-module/Register';
+import Register_old from './auth-module/Register_old.tsx';
 import EmailVerification from './auth-module/EmailVerification';
 import Dashboard from './core/dashboard/Dashboard';
 import TradeMain from './core/trading/TradeMain';
@@ -22,7 +22,7 @@ const Router: React.FC = () => {
         return <InvestmentTypeSelection />;
       
       case ROUTES.REGISTER:
-        return <Register />;
+        return <Register_old />;
       
       case ROUTES.EMAIL_VERIFICATION:
         return <EmailVerification />;

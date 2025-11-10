@@ -184,17 +184,7 @@
       "verificationCodeLabel": "验证码",
       "verificationCodePlaceholder": "请输入验证码",
       "sendCode": "发送",
-      "continueButton": "继续",
-      "newPasswordLabel": "新密码",
-      "newPasswordPlaceholder": "请输入您的新密码",
-      "confirmPasswordLabel": "确认新密码",
-      "confirmPasswordPlaceholder": "请确认您的新密码",
-      "passwordRuleLowercase": "一个小写字母",
-      "passwordRuleUppercase": "一个大写字母",
-      "passwordRuleNumber": "一个数字",
-      "passwordRuleLength": "8个字符或更多",
-      "resetButton": "重置",
-      "successMessage": "密码重置成功"
+      "continueButton": "继续"
     },
     "emailVerification": {
       "title": "验证您的邮箱地址",
