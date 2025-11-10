@@ -1,7 +1,7 @@
 import React from 'react';
 import WalletOperations from './WalletOperations';
 import WalletList from './WalletList';
-import { Wallet } from '../../../../services/UserStateService';
+import { Wallet } from '@/services/UserStateService';
 
 interface CustomWalletsProps {
   wallets: Wallet[];

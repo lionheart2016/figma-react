@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Wallet } from '../../../../services/UserStateService';
+import { Wallet } from '@/services/UserStateService';
 import './styles.css';
 
 // 网络配置

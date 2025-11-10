@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wallet, WalletState } from '../../../../services/UserStateService';
+import { Wallet, WalletState } from '@/services/UserStateService';
 
 interface WalletAssetsProps {
   walletState: WalletState;
