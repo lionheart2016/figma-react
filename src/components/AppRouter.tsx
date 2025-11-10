@@ -7,6 +7,9 @@ import Register from './auth-module/Register';
 import Register_new from './auth-module/Register_new';
 import EmailVerification from './auth-module/EmailVerification';
 import Login from './auth-module/Login';
+import Login_new from './auth-module/Login-new';
+import ResetPassword from './auth-module/ResetPassword';
+import ResetPasswordComplete from './auth-module/ResetPasswordComplete';
 import InstitutionalAuth from './institutional-auth/InstitutionalAuth';
 import ProtectedRoute from './auth-module/ProtectedRoute';
 import Dashboard from './core/dashboard/Dashboard';
@@ -88,6 +91,33 @@ const AppRouter: React.FC = () => {
           element={
             <PageTracker pageName="登录页面">
               <Login />
+            </PageTracker>
+          } 
+        />
+
+        <Route 
+          path={ROUTES.LOGIN_NEW}
+          element={
+            <PageTracker pageName="登录页面">
+              <Login_new />
+            </PageTracker>
+          } 
+        />
+        
+        <Route 
+          path={ROUTES.RESET_PASSWORD}
+          element={
+            <PageTracker pageName="重置密码">
+              <ResetPassword />
+            </PageTracker>
+          } 
+        />
+
+        <Route 
+          path={ROUTES.RESET_PASSWORD_COMPLETE}
+          element={
+            <PageTracker pageName="完成重置密码">
+              <ResetPasswordComplete />
             </PageTracker>
           } 
         />
