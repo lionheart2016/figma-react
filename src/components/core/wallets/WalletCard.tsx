@@ -6,6 +6,7 @@ import './styles.css';
 interface WalletCardProps {
   wallet: Wallet;
   isActive: boolean;
+  onClick?: (wallet: Wallet) => void;
   onActivate: (wallet: Wallet) => void;
   onCopyAddress: (address: string) => void;
 }
@@ -17,6 +18,7 @@ interface WalletCardProps {
 const WalletCard: React.FC<WalletCardProps> = ({ 
   wallet, 
   isActive, 
+  onClick,
   onActivate, 
   onCopyAddress 
 }) => {
@@ -62,7 +64,13 @@ const WalletCard: React.FC<WalletCardProps> = ({
   return (
     <div 
       className={`wallet-card ${isActive ? 'wallet-card-active' : ''}`}
-      onClick={() => onActivate(wallet)}
+      onClick={() => {
+        if (onClick) {
+          onClick(wallet);
+        } else {
+          onActivate(wallet);
+        }
+      }}
     >
       <div className="wallet-card-header">
         <div className="wallet-type-badge">

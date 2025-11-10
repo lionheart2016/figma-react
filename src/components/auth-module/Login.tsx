@@ -7,11 +7,12 @@ import { ROUTES } from '../../config/routes';
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { loginWithEmail, verifyEmail, isLoading, error } = useUser();
+  const { user, isAuthenticated, loginWithEmail, verifyEmail, isLoading, error } = useUser();
   const [email, setEmail] = useState('test-1143@example.com');
   const [verificationCode, setVerificationCode] = useState('894575');
   const [step, setStep] = useState<'email' | 'verification'>('email');
   const [, setEmailSubmitted] = useState(false);
+  const [localError, setLocalError] = useState<string | null>(null);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +23,8 @@ const Login: React.FC = () => {
       setEmailSubmitted(true);
       setStep('verification');
     } catch (err) {
-      // 错误已在context中处理
+      // 清除本地错误状态，让context中的错误信息显示
+        setLocalError(null);
     }
   };
 
@@ -33,19 +35,25 @@ const Login: React.FC = () => {
     try {
       await verifyEmail(email, verificationCode);
       
-      // 检查是否为机构用户，如果是则自动触发机构认证流程
-      const isInstitutionalUser = localStorage.getItem('institutionalAuthTriggered');
-      if (isInstitutionalUser === 'true') {
-        const userId = localStorage.getItem('institutionalAuthUserId') || 'unknown';
-        const timestamp = localStorage.getItem('institutionalAuthTimestamp') || new Date().toISOString();
+      // 登录成功后检查认证状态
+
+        console.log(`✅ [登录流程] - 用户 ${user?.email} 登录成功，认证状态已更新`);
         
-        console.log(`🔍 [登录流程] ${timestamp} - 检测到机构用户 ${userId}，自动导航至机构认证页面`);
-        navigate(ROUTES.INSTITUTIONAL_AUTH);
-      } else {
-        console.log('🔍 [登录流程] - 普通用户登录成功，导航至交易页面');
-        navigate(ROUTES.TRADE);
-      }
+        // 检查是否为机构用户，如果是则自动触发机构认证流程
+        const isInstitutionalUser = localStorage.getItem('institutionalAuthTriggered');
+        if (isInstitutionalUser === 'true') {
+          const userId = localStorage.getItem('institutionalAuthUserId') || 'unknown';
+          const timestamp = localStorage.getItem('institutionalAuthTimestamp') || new Date().toISOString();
+          
+          console.log(`🔍 [登录流程] ${timestamp} - 检测到机构用户 ${userId}，自动导航至机构认证页面`);
+          navigate(ROUTES.INSTITUTIONAL_AUTH);
+        } else {
+          console.log('🔍 [登录流程] - 普通用户登录成功，导航至交易页面');
+          navigate(ROUTES.TRADE);
+        }
+
     } catch (err) {
+      console.error('❌ [登录流程] - 登录验证失败:', err);
       // 错误已在context中处理
     }
   };
@@ -55,7 +63,13 @@ const Login: React.FC = () => {
       <div className="w-full max-w-md">
         <h1 className="text-2xl font-bold text-center mb-6">{t('login.title')}</h1>
         
-        {error && (
+        {/* 显示错误信息 - 优先显示本地错误，其次显示context中的错误 */}
+        {localError && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+            {localError}
+          </div>
+        )}
+        {!localError && error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
             {error}
           </div>

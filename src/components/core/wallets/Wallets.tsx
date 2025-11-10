@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useUserState } from '../../../services/UserStateService';
 import WalletList from './WalletList';
 import WalletOperations from './WalletOperations';
+import ActivityHistory from './ActivityHistory';
+import WalletAssets from './WalletAssets';
+import CustomWallets from './customWallets';
 import { useTheme } from '../../../contexts/ThemeContext';
 import Layout from '../Layout';
 import './styles.css';
 import { providers } from 'ethers';
 import detectEthereumProvider from '@metamask/detect-provider';
+import { Wallet } from './types';
 
 /**
  * 钱包管理组件
@@ -24,28 +28,8 @@ const Wallets: React.FC = () => {
   const { theme } = useTheme();
   
   // 组件状态
-  const [isConnectingExternal, setIsConnectingExternal] = React.useState(false);
-  const [isCreatingWallet, setIsCreatingWallet] = React.useState(false);
-
-  /**
-   * 处理创建钱包
-   */
-  const handleCreateWallet = async () => {
-    setIsCreatingWallet(true);
-    
-    try {
-      console.log('开始创建嵌入式钱包');
-      // 模拟创建钱包逻辑 - 实际项目中需要集成相应的钱包服务
-      console.log('钱包创建功能需要集成相应的钱包服务');
-      
-      // 创建成功后刷新钱包数据
-      refreshWallets();
-    } catch (err) {
-      console.error('创建钱包失败:', err);
-    } finally {
-      setIsCreatingWallet(false);
-    }
-  };
+  const [isConnectingExternal, setIsConnectingExternal] = useState(false);
+  const [activeTab, setActiveTab] = useState<'assets' | 'activities' | 'wallets'>('assets');
 
   /**
    * 处理连接外部钱包 - 专门连接MetaMask钱包
@@ -88,22 +72,6 @@ const Wallets: React.FC = () => {
       const signer = await ethersProvider.getSigner();
       console.log('签名者信息:', signer);
       
-      // 创建钱包对象
-      const metamaskWallet = {
-        id: `metamask-${userAddress}`,
-        address: userAddress,
-        type: 'external' as const,
-        name: 'MetaMask Wallet',
-        chainType: 'ethereum',
-        walletClientType: 'metamask',
-        connectorType: 'injected',
-        provider: ethersProvider,
-        signer: signer,
-        network: network.name
-      };
-      
-      console.log('MetaMask钱包对象创建成功:', metamaskWallet);
-      
       // 将钱包添加到用户状态中
       try {
         await addExternalWallet({
@@ -130,16 +98,11 @@ const Wallets: React.FC = () => {
         }
       }
       
-      console.log('MetaMask钱包连接成功');
-      
       // 刷新钱包数据
       refreshWallets();
-      setIsConnectingExternal(false);
       
     } catch (err: any) {
       console.error('连接MetaMask钱包失败:', err);
-      
-      console.log('MetaMask钱包连接失败');
       
       // 显示用户友好的错误信息
       if (err.code === 4001) {
@@ -149,7 +112,7 @@ const Wallets: React.FC = () => {
       } else {
         alert(`连接MetaMask失败: ${err.message || '未知错误'}`);
       }
-      
+    } finally {
       setIsConnectingExternal(false);
     }
   };
@@ -169,10 +132,26 @@ const Wallets: React.FC = () => {
     navigator.clipboard.writeText(address)
       .then(() => {
         console.log('地址已复制到剪贴板:', address);
+        // 可以添加一个短暂的成功提示
       })
       .catch((err) => {
         console.error('复制地址失败:', err);
       });
+  };
+
+
+
+  // 资产Tab使用独立组件
+
+  /**
+   * 渲染活动Tab内容 - 使用ActivityHistory组件
+   */
+  const renderActivitiesTab = () => {
+    return (
+      <div className="wallet-tab-content">
+        <ActivityHistory activeWallet={walletState.activeWallet} />
+      </div>
+    );
   };
 
 
@@ -194,6 +173,7 @@ const Wallets: React.FC = () => {
   return (
     <Layout activeMenu="wallets">
       <div className={`wallets-container ${theme}`}>
+        <h1>钱包管理</h1>
 
         {/* 错误提示 */}
         {walletState.error && (
@@ -205,22 +185,45 @@ const Wallets: React.FC = () => {
           </div>
         )}
         
-        {/* 钱包操作区域 */}
-        <WalletOperations
-          onConnectExternalWallet={handleConnectExternalWallet}
-          onCreateWallet={handleCreateWallet}
-          isConnectingExternal={isConnectingExternal}
-          isCreatingWallet={isCreatingWallet}
-          hasEmbeddedWallet={walletState.hasEmbeddedWallet}
-        />
+        {/* Tab导航 */}
+        <div className="wallet-tabs">
+          <button 
+            className={`tab-button ${activeTab === 'assets' ? 'active' : ''}`}
+            onClick={() => setActiveTab('assets')}
+          >
+            资产
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'activities' ? 'active' : ''}`}
+            onClick={() => setActiveTab('activities')}
+          >
+            活动
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'wallets' ? 'active' : ''}`}
+            onClick={() => setActiveTab('wallets')}
+          >
+            钱包
+          </button>
+        </div>
         
-        {/* 钱包列表区域 */}
-        <WalletList
-          wallets={walletState.wallets}
-          activeWallet={walletState.activeWallet}
-          onActivateWallet={handleActivateWallet}
-          onCopyAddress={handleCopyAddress}
-        />
+        {/* Tab内容 */}
+        <div className="wallet-tabs-content">
+          {activeTab === 'assets' && <WalletAssets walletState={walletState} />}
+          {activeTab === 'activities' && renderActivitiesTab()}
+          {activeTab === 'wallets' && (
+            <CustomWallets
+              wallets={walletState.wallets}
+              activeWallet={walletState.activeWallet}
+              isConnectingExternal={isConnectingExternal}
+              onConnectExternalWallet={handleConnectExternalWallet}
+              onActivateWallet={handleActivateWallet}
+              onCopyAddress={handleCopyAddress}
+            />
+          )}
+        </div>
+        
+
       </div>
     </Layout>
   );

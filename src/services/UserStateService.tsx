@@ -54,6 +54,13 @@ export interface LinkedAccount {
   latestVerifiedAt?: string;
 }
 
+// 简化的用户认证状态
+interface AuthState {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
+
 // 钱包数据接口
 export interface Wallet {
   address: string;
@@ -68,13 +75,6 @@ export interface WalletState {
   wallets: Wallet[];
   activeWallet: Wallet | null;
   hasEmbeddedWallet: boolean;
-  isLoading: boolean;
-  error: string | null;
-}
-
-// 简化的用户认证状态
-interface AuthState {
-  isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
 }
@@ -250,7 +250,16 @@ interface UserStateProviderProps {
 export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    // 从localStorage恢复用户状态
+    try {
+      const savedUser = localStorage.getItem('user');
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (err) {
+      console.error('[UserStateService] 从本地存储恢复用户状态失败:', err);
+      return null;
+    }
+  });
   
   // 钱包状态管理
   const [walletState, setWalletState] = useState<WalletState>({
@@ -423,13 +432,18 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
       setUser(prevUser => {
         if (!prevUser) return prevUser;
         
-        return {
+        const updatedUser = {
           ...prevUser,
           linkedAccounts: [
             ...(prevUser.linkedAccounts || []),
             newWalletAccount
           ]
         };
+        
+        // 保存更新后的用户状态到localStorage
+        saveUserToLocalStorage(updatedUser);
+        
+        return updatedUser;
       });
       
       console.log('[UserStateService] 外部钱包添加成功:', walletData.address);
@@ -506,10 +520,15 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
       setUser(prevUser => {
         if (!prevUser) return prevUser;
         
-        return {
+        const updatedUser = {
           ...prevUser,
           authStatus: status
         };
+        
+        // 保存更新后的用户状态到localStorage
+        saveUserToLocalStorage(updatedUser);
+        
+        return updatedUser;
       });
       
       // 存储审计信息到localStorage用于追踪
@@ -548,7 +567,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
           id: 'mock-user-id',
           email: _email,
           userType: USER_TYPES.INSTITUTION, // 测试账号设置为机构用户
-          authStatus: AUTH_STATUS.NOT_AUTHENTICATED, // 默认初始认证状态为未认证
+          authStatus: AUTH_STATUS.AUTHENTICATED, // 登录成功后设置为已认证状态
           linkedAccounts: [
             {
               type: ACCOUNT_TYPES.EMAIL,
@@ -557,6 +576,8 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
           ]
         };
         setUser(mockUser);
+        // 保存用户状态到localStorage
+        saveUserToLocalStorage(mockUser);
         
         // 检测是否为机构用户，如果是则自动触发机构认证流程
         if (UserTypeUtils.isInstitutionUser(mockUser)) {
@@ -583,6 +604,19 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     }
   }, [triggerInstitutionalAuthFlow]);
 
+  // 保存用户状态到localStorage的辅助函数
+  const saveUserToLocalStorage = useCallback((userData: User | null) => {
+    try {
+      if (userData) {
+        localStorage.setItem('user', JSON.stringify(userData));
+      } else {
+        localStorage.removeItem('user');
+      }
+    } catch (err) {
+      console.error('[UserStateService] 保存用户状态到本地存储失败:', err);
+    }
+  }, []);
+
   // 简化的登出方法
   const logoutHandler = useCallback(async () => {
     setIsLoading(true);
@@ -590,6 +624,14 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     try {
       // 清除用户状态
       setUser(null);
+      // 清除本地存储的用户数据
+      saveUserToLocalStorage(null);
+      // 清除机构认证相关数据
+      localStorage.removeItem('institutionalAuthTriggered');
+      localStorage.removeItem('institutionalAuthUserId');
+      localStorage.removeItem('institutionalAuthTimestamp');
+      localStorage.removeItem('institutionalAuthAudit');
+      
       setWalletState({
         wallets: [],
         activeWallet: null,
@@ -604,16 +646,19 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [saveUserToLocalStorage]);
 
   // 计算用户类型相关状态
   const userType = user?.userType || null;
   const isInstitutionUser = UserTypeUtils.isInstitutionUser(user);
   const isIndividualUser = UserTypeUtils.isIndividualUser(user);
 
+  // 计算认证状态 - 确保用户对象存在且认证状态为AUTHENTICATED
+  const isAuthenticated = !!user && user.authStatus === AUTH_STATUS.AUTHENTICATED;
+
   const value: UserStateContextType = {
     user,
-    isAuthenticated: !!user,
+    isAuthenticated,
     isLoading,
     error,
     userType,
