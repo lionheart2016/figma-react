@@ -249,6 +249,8 @@
       "il": "Israel",
       "za": "South Africa"
     },
+    "searchCountries": "Search countries...",
+    "noResults": "No matching countries found",
     "fileUpload": {
       "title": "Document Upload",
       "subtitle": "Please upload required documents for verification",

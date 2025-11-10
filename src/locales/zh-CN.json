@@ -386,6 +386,8 @@
       "il": "以色列",
       "za": "南非"
     },
+    "searchCountries": "搜索国家...",
+    "noResults": "未找到匹配的国家",
     "fileUpload": {
       "title": "文件上传",
       "subtitle": "请上传验证所需的文件",

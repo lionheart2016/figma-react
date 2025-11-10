@@ -1,11 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '../../contexts/ThemeContext';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
 
 interface CountryOption {
   code: string;
   name: string;
-  // 为了支持中英繁搜索，添加各语言的名称
   searchNames: string[];
 }
 
@@ -27,11 +41,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   label
 }) => {
   const { t } = useTranslation();
-  const { isDarkMode } = useTheme();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const selectRef = useRef<HTMLSelectElement>(null);
+  const [open, setOpen] = useState(false);
   
   // 限制加密货币服务的国家/地区列表（需要排除）
   const restrictedCountries = [
@@ -95,95 +105,96 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
     { code: 'za', name: t('institutionalAuth.countries.za'), searchNames: ['South Africa', '南非', '南非'] },
   ];
 
-  // 过滤掉限制国家，并根据搜索词过滤
-  const filteredCountries = allCountries
-    .filter(country => !restrictedCountries.includes(country.code))
-    .filter(country => {
-      if (!searchTerm) return true;
-      const searchLower = searchTerm.toLowerCase();
-      return country.searchNames.some(name => 
-        name.toLowerCase().includes(searchLower)
-      );
-    });
+  // 过滤掉限制国家
+  const filteredCountries = useMemo(() => {
+    return allCountries.filter(country => !restrictedCountries.includes(country.code));
+  }, [allCountries, restrictedCountries]);
 
-  // 处理点击外部关闭下拉菜单
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowDropdown(false);
+  const selectedCountry = filteredCountries.find(country => country.code === value);
+
+  const handleSelect = (countryCode: string) => {
+    // 创建模拟的change事件
+    const mockEvent = {
+      target: {
+        name: name,
+        value: countryCode
       }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange(e);
-    setShowDropdown(false);
-  };
-
-  const handleDropdownToggle = () => {
-    setShowDropdown(!showDropdown);
+    } as React.ChangeEvent<HTMLSelectElement>;
+    
+    onChange(mockEvent);
+    setOpen(false);
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      <label 
-        className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}
-      >
+    <div className="relative">
+      <label className="block text-sm font-medium mb-2 text-[#1C1C1C]">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       
-      {/* 搜索输入框 */}
-      <input
-        type="text"
-        placeholder={t('institutionalAuth.searchCountries')}
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] mb-2 ${  
-          isDarkMode 
-            ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-            : 'border-[#EDEEF3] bg-white'
-        }`}
-      />
-      
-      {/* 下拉选择器 */}
-      <div className="relative">
-        <select
-          ref={selectRef}
-          name={name}
-          value={value}
-          onChange={handleSelectChange}
-          required={required}
-          className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] appearance-none ${  
-            isDarkMode 
-              ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-              : 'border-[#EDEEF3] bg-white'
-          } ${error ? 'border-red-500' : ''}`}
-          onClick={handleDropdownToggle}
-        >
-          <option value="">{t('institutionalAuth.selectOption')}</option>
-          {filteredCountries.map(country => (
-            <option key={country.code} value={country.code}>
-              {country.name}
-            </option>
-          ))}
-        </select>
-        
-        {/* 下拉箭头 */}
-        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-            <path d="M1 1L6 6L11 1" stroke={isDarkMode ? "#FFFFFF" : "#1C1C1C"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-      </div>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className={cn(
+              "w-full justify-between border-[#EDEEF3] bg-white text-[#1C1C1C] hover:bg-gray-50",
+              error && "border-red-500"
+            )}
+          >
+            {selectedCountry ? (
+              selectedCountry.name
+            ) : (
+              <span className="text-muted-foreground">{t('institutionalAuth.selectOption')}</span>
+            )}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-full p-0" align="start">
+          <Command 
+            shouldFilter={false}
+            filter={(value, search) => {
+              if (!search) return 1; // 如果搜索为空，显示所有选项
+              
+              const searchLower = search.toLowerCase();
+              const valueLower = value.toLowerCase();
+              
+              // 检查value是否包含搜索词
+              if (valueLower.includes(searchLower)) {
+                return 1;
+              }
+              
+              return 0;
+            }}
+          >
+            <CommandInput 
+              placeholder={t('institutionalAuth.searchCountries')}
+              className="h-9"
+            />
+            <CommandList>
+              <CommandEmpty>{t('institutionalAuth.noResults')}</CommandEmpty>
+              <CommandGroup>
+                {filteredCountries.map((country) => (
+                  <CommandItem
+                    key={country.code}
+                    value={`${country.name} ${country.searchNames.join(' ')}`}
+                    onSelect={() => handleSelect(country.code)}
+                    className="flex items-center gap-2"
+                  >
+                    <Check
+                      className={cn(
+                        "h-4 w-4",
+                        value === country.code ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {country.name}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
       
       {error && (
         <p className="text-red-500 text-xs mt-1">{error}</p>

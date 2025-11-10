@@ -15,13 +15,13 @@ let AppRouter: React.FC = () => <div>App Router</div>;
 // 使用React.lazy来动态导入组件
 const LazyLanguageProvider = lazy(() => 
   import('./contexts/LanguageContext').then((module: any) => ({
-    default: module.LanguageProvider
+    default: ({ children }: { children: ReactNode }) => <module.LanguageProvider>{children}</module.LanguageProvider>
   }))
 );
 
 const LazyThemeProvider = lazy(() => 
   import('./contexts/ThemeContext').then((module: any) => ({
-    default: module.ThemeProvider
+    default: ({ children }: { children: ReactNode }) => <module.ThemeProvider>{children}</module.ThemeProvider>
   }))
 );
 

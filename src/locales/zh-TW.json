@@ -320,6 +320,8 @@
       "il": "以色列",
       "za": "南非"
     },
+    "searchCountries": "搜索國家...",
+    "noResults": "未找到匹配的國家",
     "fileUpload": {
       "title": "文件上傳",
       "subtitle": "請上傳驗證所需的文件",
