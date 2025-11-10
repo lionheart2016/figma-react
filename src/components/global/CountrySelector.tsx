@@ -42,6 +42,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
 }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
   
   // 限制加密货币服务的国家/地区列表（需要排除）
   const restrictedCountries = [
@@ -105,10 +106,20 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
     { code: 'za', name: t('institutionalAuth.countries.za'), searchNames: ['South Africa', '南非', '南非'] },
   ];
 
-  // 过滤掉限制国家
+  // 过滤掉限制国家，并根据搜索值过滤
   const filteredCountries = useMemo(() => {
-    return allCountries.filter(country => !restrictedCountries.includes(country.code));
-  }, [allCountries, restrictedCountries]);
+    const baseFiltered = allCountries.filter(country => !restrictedCountries.includes(country.code));
+    
+    if (!searchValue.trim()) {
+      return baseFiltered;
+    }
+    
+    const searchLower = searchValue.toLowerCase();
+    return baseFiltered.filter(country => {
+      const searchText = `${country.name} ${country.searchNames.join(' ')}`.toLowerCase();
+      return searchText.includes(searchLower);
+    });
+  }, [allCountries, restrictedCountries, searchValue]);
 
   const selectedCountry = filteredCountries.find(country => country.code === value);
 
@@ -151,25 +162,12 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command 
-            shouldFilter={false}
-            filter={(value, search) => {
-              if (!search) return 1; // 如果搜索为空，显示所有选项
-              
-              const searchLower = search.toLowerCase();
-              const valueLower = value.toLowerCase();
-              
-              // 检查value是否包含搜索词
-              if (valueLower.includes(searchLower)) {
-                return 1;
-              }
-              
-              return 0;
-            }}
-          >
+          <Command shouldFilter={false}>
             <CommandInput 
               placeholder={t('institutionalAuth.searchCountries')}
               className="h-9"
+              value={searchValue}
+              onValueChange={setSearchValue}
             />
             <CommandList>
               <CommandEmpty>{t('institutionalAuth.noResults')}</CommandEmpty>
@@ -180,6 +178,8 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
                     value={`${country.name} ${country.searchNames.join(' ')}`}
                     onSelect={() => handleSelect(country.code)}
                     className="flex items-center gap-2"
+                    data-country-name={country.name}
+                    data-search-names={country.searchNames.join(',')}
                   >
                     <Check
                       className={cn(
