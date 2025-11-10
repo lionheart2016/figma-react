@@ -18,7 +18,7 @@ const WalletList: React.FC<WalletListProps> = ({
   wallets, 
   activeWallet, 
   onActivateWallet, 
-  onCopyAddress 
+  onCopyAddress
 }) => {
   useTheme(); // 虽然导入但未使用，先保留调用
   /**
@@ -33,6 +33,10 @@ const WalletList: React.FC<WalletListProps> = ({
       .catch((error) => {
         console.error('复制地址失败:', error);
       });
+  };
+  
+  const handleWalletClick = (wallet: Wallet) => {
+    onActivateWallet(wallet);
   };
 
   // 如果没有钱包数据，显示空状态
@@ -66,6 +70,7 @@ const WalletList: React.FC<WalletListProps> = ({
               balance: wallet.balance || '0.00' // 默认余额为0.00
             }}
             isActive={activeWallet?.address.toLowerCase() === wallet.address.toLowerCase()}
+            onClick={() => handleWalletClick(wallet)}
             onActivate={onActivateWallet}
             onCopyAddress={onCopyAddress || handleCopyAddress}
           />

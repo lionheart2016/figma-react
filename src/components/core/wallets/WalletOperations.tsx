@@ -3,22 +3,16 @@ import './styles.css';
 
 interface WalletOperationsProps {
   onConnectExternalWallet: (walletType?: string) => void;
-  onCreateWallet: () => void;
   isConnectingExternal?: boolean;
-  isCreatingWallet?: boolean;
-  hasEmbeddedWallet?: boolean;
 }
 
 /**
  * 钱包操作组件
- * 提供连接外部钱包和创建钱包的功能按钮
+ * 提供连接外部钱包的功能按钮
  */
 const WalletOperations: React.FC<WalletOperationsProps> = ({ 
   onConnectExternalWallet, 
-  onCreateWallet, 
-  isConnectingExternal = false, 
-  isCreatingWallet = false,
-  hasEmbeddedWallet = false
+  isConnectingExternal = false
 }) => {
   useTheme(); // 虽然导入但未使用，先保留调用
 
@@ -39,17 +33,6 @@ const WalletOperations: React.FC<WalletOperationsProps> = ({
           </span>
           {isConnectingExternal ? '连接中...' : '连接外部钱包'}
         </button>
-        
-        {!hasEmbeddedWallet && (
-            <button 
-              className={`wallet-create-button ${isCreatingWallet ? 'wallet-button-loading' : ''}`}
-              onClick={onCreateWallet}
-              disabled={isCreatingWallet}
-            >
-            <span className="wallet-button-icon">💳</span>
-            {isCreatingWallet ? '创建中...' : '创建钱包'}
-          </button>
-        )}
       </div>
     </div>
   );
