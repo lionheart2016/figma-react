@@ -18,12 +18,14 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
 }) => {
   const { t } = useTranslation();
   const [countdown, setCountdown] = useState(0);
+  const [hasSent, setHasSent] = useState(false);
 
-  // 处理重新发送验证码
+  // 处理发送/重新发送验证码
   const handleResend = () => {
     if (countdown === 0) {
       onResend();
       setCountdown(30); // 设置30秒倒计时
+      setHasSent(true); // 标记为已发送过
     }
   };
 
@@ -49,7 +51,12 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
           disabled={countdown > 0 || disabled}
           className="text-[12px] font-semibold text-[#4B5EF5] font-poppins hover:text-[#3D4FD0] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {countdown > 0 ? `${countdown}s` : t('auth.resetPassword.resendCode')}
+          {countdown > 0 
+            ? `${countdown}s` 
+            : hasSent 
+              ? t('auth.resetPassword.resendCode') 
+              : t('auth.resetPassword.sendCode')
+          }
         </button>
       </div>
       <div className="relative">

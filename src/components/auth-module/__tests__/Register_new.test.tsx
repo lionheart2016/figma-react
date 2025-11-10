@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom'; // 导入DOM matchers
-import Register_new from '../Register_new';
+import Register from '../Register.tsx';
 import { ThemeProvider } from '../../../contexts/ThemeContext';
 
 // 模拟依赖
@@ -95,7 +95,7 @@ vi.mock('react-router-dom', () => ({
   BrowserRouter: ({ children }: { children: React.ReactNode }) => <>{children}</>
 }));
 
-describe('Register_new Component', () => {
+describe('Register Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorageMock.clear();
@@ -105,7 +105,7 @@ describe('Register_new Component', () => {
   return render(
     <BrowserRouter>
       <ThemeProvider>
-        <Register_new />
+        <Register />
       </ThemeProvider>
     </BrowserRouter>
   );

@@ -191,17 +191,7 @@
       "verificationCodeLabel": "驗證碼",
       "verificationCodePlaceholder": "請輸入驗證碼",
       "sendCode": "發送",
-      "continueButton": "繼續",
-      "newPasswordLabel": "新密碼",
-      "newPasswordPlaceholder": "請輸入您的新密碼",
-      "confirmPasswordLabel": "確認新密碼",
-      "confirmPasswordPlaceholder": "請確認您的新密碼",
-      "passwordRuleLowercase": "一個小寫字母",
-      "passwordRuleUppercase": "一個大寫字母",
-      "passwordRuleNumber": "一個數字",
-      "passwordRuleLength": "8個字符或更多",
-      "resetButton": "重設",
-      "successMessage": "密碼重設成功"
+      "continueButton": "繼續"
     },
     "emailVerification": {
       "title": "驗證您的電子郵件地址",

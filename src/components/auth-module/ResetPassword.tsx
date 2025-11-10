@@ -69,6 +69,7 @@ const ResetPassword: React.FC = () => {
       // 模拟API调用延迟
       await new Promise(resolve => setTimeout(resolve, 1000));
       
+      // 重置成功后跳转到登录页面
       navigate(ROUTES.RESET_PASSWORD_COMPLETE);
     } catch (error) {
       console.error('重置密码失败:', error);

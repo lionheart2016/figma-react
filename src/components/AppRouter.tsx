@@ -4,12 +4,9 @@ import { useTranslation } from 'react-i18next';
 import Authentication from './auth-module/Authentication';
 import InvestmentTypeSelection from './auth-module/InvestmentTypeSelection';
 import Register from './auth-module/Register';
-import Register_new from './auth-module/Register_new';
 import EmailVerification from './auth-module/EmailVerification';
 import Login from './auth-module/Login';
-import Login_new from './auth-module/Login-new';
 import ResetPassword from './auth-module/ResetPassword';
-import ResetPasswordComplete from './auth-module/ResetPasswordComplete';
 import InstitutionalAuth from './institutional-auth/InstitutionalAuth';
 import ProtectedRoute from './auth-module/ProtectedRoute';
 import Dashboard from './core/dashboard/Dashboard';
@@ -20,6 +17,7 @@ import Settings from './core/settings/Settings';
 import { ROUTES } from '../config/routes';
 import { useUser } from '../services/UserStateService';
 import PageTracker from './global/PageTracker';
+import ResetPasswordComplete from "@/components/auth-module/ResetPasswordComplete.tsx";
 
 // 条件重定向组件 - 根据用户认证状态决定跳转目标
 const ConditionalRedirect: React.FC = () => {
@@ -34,96 +32,80 @@ const ConditionalRedirect: React.FC = () => {
 
 const AppRouter: React.FC = () => {
   const { t } = useTranslation();
-  
+
   return (
     <BrowserRouter>
       <Routes>
         {/* 公开路由 */}
-        <Route 
-          path={ROUTES.AUTHENTICATION} 
+        <Route
+          path={ROUTES.AUTHENTICATION}
           element={
             <PageTracker pageName="认证页面">
               <Authentication />
             </PageTracker>
-          } 
+          }
         />
-        
-        <Route 
-          path={ROUTES.INVESTMENT_SELECTION} 
+
+        <Route
+          path={ROUTES.INVESTMENT_SELECTION}
           element={
             <PageTracker pageName="投资类型选择">
               <InvestmentTypeSelection />
             </PageTracker>
-          } 
+          }
         />
 
-        <Route 
-          path={ROUTES.REGISTER} 
+        <Route
+          path={ROUTES.REGISTER}
           element={
             <PageTracker pageName="注册页面">
               {/* <Register /> */}
               <Register />
             </PageTracker>
-          } 
+          }
         />
-        
-        <Route 
-          path={ROUTES.REGISTER_NEW} 
-          element={
-            <PageTracker pageName="注册页面">
-              {/* <Register /> */}
-              <Register_new />
-            </PageTracker>
-          } 
-        />
-        
-        <Route 
-          path={ROUTES.EMAIL_VERIFICATION} 
+
+
+        <Route
+          path={ROUTES.EMAIL_VERIFICATION}
           element={
             <PageTracker pageName="邮箱验证">
               <EmailVerification />
             </PageTracker>
-          } 
+          }
         />
-        
-        <Route 
-          path={ROUTES.LOGIN} 
+
+        <Route
+          path={ROUTES.LOGIN}
           element={
             <PageTracker pageName="登录页面">
               <Login />
             </PageTracker>
-          } 
+          }
         />
 
-        <Route 
-          path={ROUTES.LOGIN_NEW}
-          element={
-            <PageTracker pageName="登录页面">
-              <Login_new />
-            </PageTracker>
-          } 
-        />
-        
-        <Route 
+
+
+        <Route
           path={ROUTES.RESET_PASSWORD}
           element={
             <PageTracker pageName="重置密码">
               <ResetPassword />
             </PageTracker>
-          } 
+          }
         />
 
-        <Route 
+        <Route
           path={ROUTES.RESET_PASSWORD_COMPLETE}
           element={
             <PageTracker pageName="完成重置密码">
               <ResetPasswordComplete />
             </PageTracker>
-          } 
+          }
         />
-        
+
         {/* 机构认证路由 - 包含所有步骤 */}
-        <Route 
+        <Route
           path={ROUTES.INSTITUTIONAL_AUTH}
           element={
             <PageTracker pageName="机构认证">
@@ -131,7 +113,7 @@ const AppRouter: React.FC = () => {
             </PageTracker>
           }
         />
-        <Route 
+        <Route
           path={ROUTES.INSTITUTIONAL_AUTH_STEP1}
           element={
             <PageTracker pageName="机构认证-步骤1">
@@ -139,7 +121,7 @@ const AppRouter: React.FC = () => {
             </PageTracker>
           }
         />
-        <Route 
+        <Route
           path={ROUTES.INSTITUTIONAL_AUTH_STEP2}
           element={
             <PageTracker pageName="机构认证-步骤2">
@@ -147,7 +129,7 @@ const AppRouter: React.FC = () => {
             </PageTracker>
           }
         />
-        <Route 
+        <Route
           path={ROUTES.INSTITUTIONAL_AUTH_STEP3}
           element={
             <PageTracker pageName="机构认证-步骤3">
@@ -155,7 +137,7 @@ const AppRouter: React.FC = () => {
             </PageTracker>
           }
         />
-        <Route 
+        <Route
           path={ROUTES.INSTITUTIONAL_AUTH_STEP4}
           element={
             <PageTracker pageName="机构认证-步骤4">
@@ -163,7 +145,7 @@ const AppRouter: React.FC = () => {
             </PageTracker>
           }
         />
-        <Route 
+        <Route
           path={ROUTES.INSTITUTIONAL_AUTH_STEP5}
           element={
             <PageTracker pageName="机构认证-步骤5">
@@ -171,75 +153,75 @@ const AppRouter: React.FC = () => {
             </PageTracker>
           }
         />
-        
+
         {/* 需要认证的路由 */}
         <Route element={<ProtectedRoute />}>
-          <Route 
-            path={ROUTES.DASHBOARD} 
+          <Route
+            path={ROUTES.DASHBOARD}
             element={
               <PageTracker pageName="仪表板">
                 <Dashboard />
               </PageTracker>
-            } 
+            }
           />
-          
-          <Route 
-            path={`${ROUTES.TRADE}/*`} 
+
+          <Route
+            path={`${ROUTES.TRADE}/*`}
             element={
               <PageTracker pageName="交易页面">
                 <TradeView />
               </PageTracker>
-            } 
+            }
           />
-          
-          <Route 
-            path={ROUTES.WALLETS} 
+
+          <Route
+            path={ROUTES.WALLETS}
             element={
               <PageTracker pageName="钱包页面">
                 <Wallets />
               </PageTracker>
-            } 
+            }
           />
-          
-          <Route 
-            path={ROUTES.REPORTS} 
+
+          <Route
+            path={ROUTES.REPORTS}
             element={
               <PageTracker pageName="报告页面">
                 <Reports />
               </PageTracker>
-            } 
+            }
           />
-          
-          <Route 
-            path={ROUTES.SETTINGS} 
+
+          <Route
+            path={ROUTES.SETTINGS}
             element={
               <PageTracker pageName="设置页面">
                 <Settings />
               </PageTracker>
-            } 
+            }
           />
         </Route>
-        
+
         {/* 默认路由 - 根据认证状态条件重定向 */}
-        <Route 
-          path={ROUTES.HOME} 
+        <Route
+          path={ROUTES.HOME}
           element={
             <PageTracker pageName="首页">
               <ConditionalRedirect />
             </PageTracker>
-          } 
+          }
         />
-        
+
         {/* 404路由 */}
-        <Route 
-          path="*" 
+        <Route
+          path="*"
           element={
             <PageTracker pageName="404页面">
               <div className="flex items-center justify-center h-screen">
                 <h1 className="text-2xl font-bold">{t('common.pageNotFound')}</h1>
               </div>
             </PageTracker>
-          } 
+          }
         />
       </Routes>
     </BrowserRouter>
