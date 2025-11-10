@@ -38,8 +38,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeMenu, onMenuClick }) => {
     <aside className="sidebar">
       <div className="logo-section">
         <div className="logo">
-          <img src="/alphatoken-logo.svg" alt={t('auth.brand.altText')} />
-          <span className="logo-text">{t('auth.brand.name')}</span>
+          <img src="/alphatoken-logo.svg" />
+          <span className="logo-text">{t('auth.brandname')}</span>
         </div>
         <div className="divider"></div>
       </div>
