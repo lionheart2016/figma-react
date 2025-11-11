@@ -63,7 +63,8 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       setInternalError('');
       // 通知父组件校验状态变化
       if (onValidationChange) {
-        onValidationChange(true);
+        // 修复：只有当密码不为空时才返回true
+        onValidationChange(newValue !== '');
       }
     }
   };
@@ -83,7 +84,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   // 处理失焦事件
   const handleBlur = () => {
     // 如果开启失焦时校验，则执行校验
-    if (validateOnBlur && value) {
+    if (validateOnBlur) {
       const validationError = validatePassword(value);
       setInternalError(validationError);
       // 通知父组件校验状态变化

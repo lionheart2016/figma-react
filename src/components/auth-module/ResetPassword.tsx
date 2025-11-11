@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes';
 import LanguageSwitcher from '../global/LanguageSwitcher';
+import ThemeSwitcher from '../global/ThemeSwitcher';
 import EmailInput from './EmailInput';
 import VerificationCodeInput from './VerificationCodeInput';
 
@@ -90,9 +91,10 @@ const ResetPassword: React.FC = () => {
       />
       
       <div className="relative z-10 w-full max-w-[1440px] h-[900px] flex items-center justify-center">
-        {/* 语言选择器 */}
-        <div className="absolute top-10 right-40">
+        {/* 语言和主题切换器 */}
+        <div className="absolute top-10 right-40 flex items-center space-x-4">
           <LanguageSwitcher />
+          <ThemeSwitcher />
         </div>
 
         {/* 返回按钮 */}
