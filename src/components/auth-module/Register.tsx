@@ -447,7 +447,7 @@ const Register: React.FC = () => {
                 onClick={() => navigate(ROUTES.AUTHENTICATION)}
                 className="text-[#4B5EF5] hover:text-[#3D4FD0] font-medium focus:outline-none focus:underline transition-colors"
               >
-                {t('auth.login')}
+                {t('login')}
               </button>
             </p>
           </div>

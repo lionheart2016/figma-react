@@ -35,12 +35,12 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   const validatePassword = (password: string): string => {
     // 1. 校验密码是否为空
     if (!password || password.trim() === '') {
-      return t('auth.login.validation.passwordRequired');
+      return t('login.validation.passwordRequired');
     }
 
     // 2. 校验密码是否超过8位字符
     if (password.length < 8) {
-      return t('auth.login.validation.passwordTooShort');
+      return t('login.validation.passwordTooShort');
     }
 
     return ''; // 验证通过

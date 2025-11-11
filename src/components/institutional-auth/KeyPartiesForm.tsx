@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../contexts/ThemeContext';
+import EmailInput from '../global/EmailInput';
 
 interface IndividualParty {
   id: string;
@@ -252,19 +253,11 @@ const KeyPartiesForm: React.FC = () => {
         <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
           {t('institutionalAuth.keyParties.email')} *
         </label>
-        <input
-          type="email"
+        <EmailInput
           value={(newParty as IndividualParty).email || ''}
-          onChange={(e) => handleNewPartyChange('email', e.target.value)}
-          className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
-            isDarkMode 
-              ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
-              : 'border-[#EDEEF3] bg-white'
-          } ${errors.email ? 'border-red-500' : ''}`}
+          onChange={(value) => handleNewPartyChange('email', value)}
+          error={errors.email}
         />
-        {errors.email && (
-          <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-        )}
       </div>
 
       <div>

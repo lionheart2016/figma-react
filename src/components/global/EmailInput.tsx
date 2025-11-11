@@ -50,39 +50,39 @@ const EmailInput: React.FC<EmailInputProps> = ({
   const validateEmail = (email: string): string => {
     // 1. 校验邮箱是否为空
     if (!email || email.trim() === '') {
-      return t('auth.login.validation.emailRequired');
+      return t('login.validation.emailRequired');
     }
 
     // 2. 校验整个邮箱地址中是否有且仅有一个@字符
     if ((email.match(/@/g) || []).length !== 1) {
-      return t('auth.login.validation.invalidEmail');
+      return t('login.validation.invalidEmail');
     }
 
     // 3. 校验整个邮箱地址是否不包含emoji符号
     if (/[\u{1F600}-\u{1F6FF}\u{1F300}-\u{1F5FF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F170}-\u{1F251}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE0F}]/gu.test(email)) {
-      return t('auth.login.validation.invalidEmail');
+      return t('login.validation.invalidEmail');
     }
 
     // 4. 校验@字符是否不出现在邮箱地址的开头或结尾
     if (email.startsWith('@') || email.endsWith('@')) {
-      return t('auth.login.validation.invalidEmail');
+      return t('login.validation.invalidEmail');
     }
 
     // 5. 校验邮箱地址中每个.之间是否存在内容，且不包含连续的两个.
     if (email.includes('..')) {
-      return t('auth.login.validation.invalidEmail');
+      return t('login.validation.invalidEmail');
     }
 
     // 6. 校验域名部分的总长度是否不超过255个字符
     const parts = email.split('@');
     const domain = parts[1];
     if (domain.length > 255) {
-      return t('auth.login.validation.invalidEmail');
+      return t('login.validation.invalidEmail');
     }
 
     // 7. 校验邮箱地址是否不以.开头或结尾
     if (email.startsWith('.') || email.endsWith('.')) {
-      return t('auth.login.validation.invalidEmail');
+      return t('login.validation.invalidEmail');
     }
 
     // 检查域名部分的.之间是否有内容
@@ -90,7 +90,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
       const domainParts = domain.split('.');
       for (const part of domainParts) {
         if (part === '') {
-          return t('auth.login.validation.invalidEmail');
+          return t('login.validation.invalidEmail');
         }
       }
     }
@@ -101,7 +101,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
       const usernameParts = username.split('.');
       for (const part of usernameParts) {
         if (part === '') {
-          return t('auth.login.validation.invalidEmail');
+          return t('login.validation.invalidEmail');
         }
       }
     }

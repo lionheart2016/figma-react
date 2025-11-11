@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ROUTES } from '../../config/routes';
 import Layout from './Layout.jsx';
 import { useTheme } from '../../contexts/ThemeContext';
+import CountrySelector from '../global/CountrySelector';
 
 // 定义步骤接口
 interface Step {
@@ -17,6 +18,8 @@ interface Step {
 const Authentication: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [nationality, setNationality] = useState<string>('');
+  const [nationalityError, setNationalityError] = useState<string>('');
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { isDarkMode } = useTheme();
@@ -50,6 +53,14 @@ const Authentication: React.FC = () => {
   const [loginError, setLoginError] = useState<string>('');
 
   const handleNextStep = async (): Promise<void> => {
+    // 第二步（个人信息）验证
+    if (currentStep === 2) {
+      if (!nationality) {
+        setNationalityError(t('auth.authentication.nationalityRequired') || 'Nationality is required');
+        return;
+      }
+    }
+    
     if (currentStep < steps.length && currentStepData) {
       setIsLoading(true);
       
@@ -151,14 +162,22 @@ const Authentication: React.FC = () => {
             </div>
             
             <div>
-              <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{t('auth.authentication.nationality')}</label>
-              <select className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' : 'border-[#EDEEF3] bg-white'}`}>
-                <option value="">{t('auth.authentication.selectNationality')}</option>
-                <option value="us">United States</option>
-                <option value="uk">United Kingdom</option>
-                <option value="cn">China</option>
-                <option value="jp">Japan</option>
-              </select>
+              {/* 移除重复的label，因为CountrySelector组件已经包含了label */}
+              <div className={isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}>
+                <CountrySelector
+                  name="nationality"
+                  value={nationality}
+                  onChange={(e) => {
+                    setNationality(e.target.value);
+                    if (nationalityError) {
+                      setNationalityError('');
+                    }
+                  }}
+                  error={nationalityError}
+                  required={true}
+                  label={t('auth.authentication.nationality')}
+                />
+              </div>
             </div>
           </div>
         );

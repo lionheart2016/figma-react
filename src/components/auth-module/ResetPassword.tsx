@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes';
 import LanguageSwitcher from '../global/LanguageSwitcher';
 import ThemeSwitcher from '../global/ThemeSwitcher';
-import EmailInput from './EmailInput';
+import EmailInput from '../global/EmailInput';
 import VerificationCodeInput from './VerificationCodeInput';
 
 

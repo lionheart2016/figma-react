@@ -26,7 +26,7 @@ vi.mock('react-i18next', () => ({
       const translations: Record<string, string> = {
         'auth.welcome': 'Welcome to Alphatoken',
         'auth.email': 'Email',
-        'auth.login': 'Login',
+        'login': 'Login',
         'auth.register.emailPlaceholder': 'Enter your email address',
         'auth.register.registerButton': 'Create Account',
         'auth.register.hasAccount': 'Already have an account?',
