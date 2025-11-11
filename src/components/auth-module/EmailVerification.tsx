@@ -6,6 +6,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { isMobile, isDesktop } from '../../utils/deviceDetection';
 import { getEmailProvider } from '../../utils/emailProvider';
 import VerifyHelpModal from './VerifyHelpModal';
+import Layout from './Layout';
 
 const EmailVerification: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -228,50 +229,24 @@ const EmailVerification: React.FC = () => {
 
   return (
     <>
-    <div className="flex min-h-screen bg-[#0D0D0D]">
-      {/* 左侧品牌展示区域 */}
-        {/* 品牌展示内容 */}
-        <img 
-          src="/brand-delivery-bg.png" 
-          alt="Brand background" 
-          className="brand-bg-image flex lg:block w-[475px] h-screen  w-full h-full object-cover"
-        />
-      
-      {/* 右侧表单区域 */}
-      <div className="flex-1 flex flex-col items-center py-10 px-6">
-        {/* 返回按钮 */}
-        <div className="self-start ml-[167px] mt-4">
-          <button 
-            onClick={handleBack}
-            className="flex items-center space-x-2 text-[#F8F9FC]"
-          >
-            <img src="/arrow-left.svg" alt={t('common.back')} className="w-5 h-5 rotate-180" />
-            <span className="font-semibold text-sm">{t('common.back')}</span>
-          </button>
-        </div>
-        
-        {/* 页面标题 */}
-        <h1 className="mt-8 text-3xl font-bold text-[#F8F9FC] tracking-tight">
-          {t('auth.emailVerification.title') || 'Verify your email address'}
-        </h1>
-        
-        {/* 验证码提示文本 */}
-        <p className="mt-8 text-base font-semibold text-[#F8F9FC]">
-          {t('auth.emailVerification.enterCode', { expiry: formatTimer(verificationExpiryTimer) }) || `Please enter the email verification code, Valid for ${formatTimer(verificationExpiryTimer)}`}
-        </p>
-        
+      <Layout
+        title={t('auth.emailVerification.title') || 'Verify your email address'}
+        subtitle={t('auth.emailVerification.enterCode', { expiry: formatTimer(verificationExpiryTimer) }) || `Please enter the email verification code, Valid for ${formatTimer(verificationExpiryTimer)}`}
+        showBackButton={true}
+        onBack={handleBack}
+      >
         {/* 邮箱信息和前往邮件按钮区域 */}
-        <div className="flex items-center mt-4 space-x-4">
+        <div className="flex items-center justify-center mt-4 space-x-4">
           <div className="flex items-center">
             <img src="/email-icon.svg" alt="Email" className="w-5 h-5 mr-2" />
-            <span className="text-sm text-[#F8F9FC]">{userEmail}</span>
+            <span className={`text-sm ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>{userEmail}</span>
           </div>
           
           <span className="text-[#B9BCC5]">|</span>
           
           <button 
             onClick={handleGoToMail}
-            className="flex items-center text-sm text-[#F8F9FC] hover:underline"
+            className="flex items-center text-sm text-[#4B5EF5] hover:underline"
           >
             <img src="/arrow-down.svg" alt={t('auth.emailVerification.goToMail')} className="w-4 h-4 mr-2" />
             {t('auth.emailVerification.goToMail') || 'Go to Mail'}
@@ -279,34 +254,34 @@ const EmailVerification: React.FC = () => {
         </div>
         
         {/* 验证码输入区域 */}
-      <div className="flex space-x-6 mt-8">
-        {code.map((digit, index) => (
-          <input
-            key={index}
-            ref={el => inputRefs.current[index] = el}
-            type="text"
-            inputMode="numeric"
-            maxLength={1}
-            value={digit}
-            onChange={(e) => handleInputChange(index, e.target.value)}
-            onKeyDown={(e) => handleKeyDown(index, e)}
-            onPaste={handlePaste}
-            className={`w-[60px] h-[60px] text-center text-lg font-semibold border-2 rounded-[10px] focus:outline-none ${error ? 'border-red-500' : index === 0 ? 'border-[#4B5EF5] shadow-[0px_0px_0px_4px_rgba(31,50,214,0.15)] bg-white text-black' : 'border-[#EDEEF3] bg-white text-black'}`}
-            style={{ 
-              fontSize: '24px',
-              lineHeight: '1.2'
-            }}
-          />
-        ))}
-      </div>
+        <div className="flex space-x-6 mt-8 justify-center">
+          {code.map((digit, index) => (
+            <input
+              key={index}
+              ref={el => inputRefs.current[index] = el}
+              type="text"
+              inputMode="numeric"
+              maxLength={1}
+              value={digit}
+              onChange={(e) => handleInputChange(index, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(index, e)}
+              onPaste={handlePaste}
+              className={`w-[60px] h-[60px] text-center text-lg font-semibold border-2 rounded-[10px] focus:outline-none ${error ? 'border-red-500' : index === 0 ? 'border-[#4B5EF5] shadow-[0px_0px_0px_4px_rgba(31,50,214,0.15)] bg-white' : 'border-[#EDEEF3] bg-white'} ${isDarkMode ? 'text-white' : 'text-black'}`}
+              style={{ 
+                fontSize: '24px',
+                lineHeight: '1.2'
+              }}
+            />
+          ))}
+        </div>
 
         {/* 错误信息 */}
         {error && (
-          <p className="text-red-500 text-sm mt-4">{error}</p>
+          <p className="text-red-500 text-sm mt-4 text-center">{error}</p>
         )}
         
         {/* 分隔线 */}
-        <div className="w-[480px] border-t border-[#575757] my-6"></div>
+        <div className="w-full max-w-md border-t border-[#575757] my-6"></div>
         
         {/* 帮助链接区域 */}
         <div className="text-center">
@@ -332,24 +307,23 @@ const EmailVerification: React.FC = () => {
         <button
           onClick={handleVerify}
           disabled={isLoading || code.some(digit => digit === '')}
-          className={`w-[390px] h-[40px] rounded-[6px] font-semibold text-sm mt-8 ${isLoading || code.some(digit => digit === '') ? 'bg-[#545965] text-[#B9BCC5] cursor-not-allowed' : 'bg-[#4B5EF5] text-white hover:bg-[#3A4BD4] active:bg-[#2A3AB3]'}`}
+          className={`w-full max-w-md h-[40px] rounded-[6px] font-semibold text-sm mt-8 ${isLoading || code.some(digit => digit === '') ? 'bg-[#545965] text-[#B9BCC5] cursor-not-allowed' : 'bg-[#4B5EF5] text-white hover:bg-[#3A4BD4] active:bg-[#2A3AB3]'}`}
         >
           {isLoading ? (t('auth.emailVerification.verifying') || 'Verifying...') : (t('auth.emailVerification.continue') || 'Continue')}
         </button>
-      </div>
-    </div>
-    
-    {/* 帮助弹窗 */}
-    {showHelpModal && (
-      <VerifyHelpModal
-        onClose={handleCloseHelpModal}
-        onContactSupport={handleContactSupport}
-        onResendCode={handleResend}
-        canResend={canResend}
-        resendTimer={resendTimer}
-        formatTimer={formatTimer}
-      />
-    )}
+      </Layout>
+      
+      {/* 帮助弹窗 */}
+      {showHelpModal && (
+        <VerifyHelpModal
+          onClose={handleCloseHelpModal}
+          onContactSupport={handleContactSupport}
+          onResendCode={handleResend}
+          canResend={canResend}
+          resendTimer={resendTimer}
+          formatTimer={formatTimer}
+        />
+      )}
     </>
   );
 };

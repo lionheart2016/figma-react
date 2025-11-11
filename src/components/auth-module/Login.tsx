@@ -38,6 +38,27 @@ const Login_new: React.FC = () => {
   const [showEmailNotRegisteredModal, setShowEmailNotRegisteredModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  // 组件挂载后验证默认邮箱地址
+  React.useEffect(() => {
+    // 验证默认邮箱地址
+    const validateDefaultEmail = () => {
+      const email = formData.email;
+      if (email && email.trim() !== '') {
+        // 使用与EmailInput组件相同的验证逻辑
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const isValid = emailRegex.test(email) && 
+                      !email.startsWith('@') && 
+                      !email.endsWith('@') && 
+                      !email.includes('..') && 
+                      !email.startsWith('.') && 
+                      !email.endsWith('.');
+        setIsEmailValid(isValid);
+      }
+    };
+
+    validateDefaultEmail();
+  }, []);
+
   // 处理邮箱输入变化
   const handleEmailChange = (value: string) => {
     setFormData(prev => ({ ...prev, email: value }));
@@ -331,7 +352,7 @@ const Login_new: React.FC = () => {
   };
 
   const handleRegister = () => {
-    navigate(ROUTES.REGISTER);
+    navigate(ROUTES.INVESTMENT_SELECTION);
   };
 
   // 处理邮箱未注册模态框关闭
