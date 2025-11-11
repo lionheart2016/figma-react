@@ -21,7 +21,7 @@ interface Product {
   description: string;
   assetType: string;
   liquidity: string;
-  network: string;
+  network: string[];
   image?: string;
   backgroundImage?: string;
 }
@@ -34,8 +34,8 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onViewProduct }) => {
   const { t } = useTranslation();
   const { isDarkMode } = useTheme();
-  const [selectedNetwork, setSelectedNetwork] = useState<string>(product.network || 'ethereum');
-  const [showNetworkDropdown, setShowNetworkDropdown] = useState<boolean>(false);
+  // 从支持的网络数组中选择第一个作为默认网络
+  // 移除不必要的状态变量
 
   // 支持的网络列表
   const networks: Network[] = [
@@ -47,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewProduct }) => 
     { id: 'bnb', name: 'BNB Chain', icon: '🟡', color: 'from-yellow-500 to-amber-500' }
   ];
 
-  const selectedNetworkData = networks.find(network => network.id === selectedNetwork);
+
 
   return (
     <div className={`rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-all duration-300 group ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C] hover:border-blue-900/50' : 'bg-white border-gray-100 hover:border-blue-100'}`}>
@@ -65,55 +65,32 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onViewProduct }) => 
             </div>
           </div>
           
-          {/* 网络图标 */}
-          <div className="relative">
-            <button
-              onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
-              className={`flex items-center space-x-2 px-3 py-2 border rounded-lg transition-colors duration-200 ${isDarkMode ? 'border-[#2C2C2C] bg-[#1A1A1A] hover:border-[#3C3C3C]' : 'border-gray-200 bg-white hover:border-gray-300'}`}
-            >
-              {/* 网络图标 */}
-              <div className={`w-6 h-6 bg-gradient-to-br ${selectedNetworkData?.color} rounded-full flex items-center justify-center text-white text-xs font-bold`}>
-                {selectedNetworkData?.icon || '🔷'}
-              </div>
+          {/* 网络图标 - 按顺序堆叠展示 */}
+          <div className="flex items-center space-x-0 relative">
+            {/* 只显示产品支持的网络图标，最多显示3个，多余的显示数量提示 */}
+            {product.network.slice(0, 3).map((networkId, index) => {
+              const networkData = networks.find(network => network.id === networkId);
+              if (!networkData) return null;
               
-              {/* 下拉箭头 */}
-              <svg 
-                className={`w-4 h-4 transition-transform duration-200 ${showNetworkDropdown ? 'rotate-180' : ''} ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            
-            {/* 网络选择下拉菜单 */}
-            {showNetworkDropdown && (
-              <div className={`absolute top-full right-0 mt-2 w-48 border rounded-lg shadow-lg z-10 ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-white border border-gray-200'}`}>
-                <div className="py-1">
-                  {networks.map((network) => (
-                    <button
-                      key={network.id}
-                      onClick={() => {
-                        setSelectedNetwork(network.id);
-                        setShowNetworkDropdown(false);
-                      }}
-                      className={`w-full flex items-center space-x-3 px-4 py-2 text-left transition-colors duration-150 ${isDarkMode 
-                        ? selectedNetwork === network.id 
-                          ? 'bg-blue-900/20 text-blue-400' 
-                          : 'text-white hover:bg-[#2C2C2C]' 
-                        : selectedNetwork === network.id 
-                          ? 'bg-blue-50 text-blue-600' 
-                          : 'text-gray-700 hover:bg-gray-50'
-                      }`}
-                    >
-                      <div className={`w-6 h-6 bg-gradient-to-br ${network.color} rounded-full flex items-center justify-center text-white text-xs font-bold`}>
-                        {network.icon}
-                      </div>
-                      <span className="text-sm font-medium">{network.name}</span>
-                    </button>
-                  ))}
+              return (
+                <div 
+                  key={networkId}
+                  className={`w-6 h-6 bg-gradient-to-br ${networkData.color} rounded-full flex items-center justify-center text-white text-xs font-bold z-10`}
+                  style={{ marginLeft: index > 0 ? '-8px' : '0' }}
+                  title={networkData.name}
+                >
+                  {networkData.icon}
                 </div>
+              );
+            })}
+            
+            {/* 如果网络数量超过3个，显示多余的数量 */}
+            {product.network.length > 3 && (
+              <div 
+                className={`w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center text-white text-xs font-bold z-10`}
+                style={{ marginLeft: '-8px' }}
+              >
+                +{product.network.length - 3}
               </div>
             )}
           </div>
@@ -209,7 +186,7 @@ export const mockProducts: Product[] = [
     description: 'AlphaToken是一个去中心化金融平台的核心代币，旨在为用户提供更高效、安全的交易体验。该代币支持多种DeFi应用场景，包括流动性挖矿、质押奖励等功能。',
     assetType: 'Token',
     liquidity: '高',
-    network: 'ethereum'
+    network: ['ethereum', 'arbitrum', 'optimism']
   },
   {
     id: 2,
@@ -223,7 +200,7 @@ export const mockProducts: Product[] = [
     description: 'GoldPeak是一种与黄金挂钩的稳定币，为用户提供传统资产与区块链技术相结合的投资机会。每枚代币都由实物黄金背书，确保价值稳定。',
     assetType: 'Token',
     liquidity: '中',
-    network: 'solana'
+    network: ['solana', 'polygon']
   },
   {
     id: 3,
@@ -237,7 +214,7 @@ export const mockProducts: Product[] = [
     description: 'Solana是一个高性能的区块链平台，专为去中心化应用和市场设计。其创新的历史证明机制使其能够处理高吞吐量的交易，同时保持较低的费用。',
     assetType: 'Token',
     liquidity: '高',
-    network: 'solana'
+    network: ['solana']
   },
   {
     id: 4,
@@ -251,7 +228,7 @@ export const mockProducts: Product[] = [
     description: 'ArtBlock是一个专注于生成艺术NFT的平台，每一件作品都是算法生成的独特艺术品。收藏者可以拥有这些独特的数字艺术作品，并在市场上进行交易。',
     assetType: 'NFT',
     liquidity: '中',
-    network: 'ethereum'
+    network: ['ethereum', 'polygon', 'bnb']
   }
 ];
 

@@ -7,6 +7,7 @@ import Register from './auth-module/Register';
 import EmailVerification from './auth-module/EmailVerification';
 import Login from './auth-module/Login';
 import ResetPassword from './auth-module/ResetPassword';
+import TestProductCard from './TestProductCard';
 import InstitutionalAuth from './institutional-auth/InstitutionalAuth';
 import ProtectedRoute from './auth-module/ProtectedRoute';
 import Dashboard from './core/dashboard/Dashboard';
@@ -100,6 +101,16 @@ const AppRouter: React.FC = () => {
           element={
             <PageTracker pageName="完成重置密码">
               <ResetPasswordComplete />
+            </PageTracker>
+          }
+        />
+        
+        {/* 测试路由 - 用于展示ProductCard组件 */}
+        <Route
+          path="/test-product-card"
+          element={
+            <PageTracker pageName="ProductCard测试">
+              <TestProductCard />
             </PageTracker>
           }
         />
