@@ -41,14 +41,13 @@
     "testCode": "测试验证码"
   },
   "auth": {
-    "login": "登录",
+
     "signup": "注册",
     "email": "邮箱",
     "password": "密码",
     "confirmPassword": "确认密码",
     "forgotPassword": "忘记密码？",
     "continueWith": "继续使用",
-    "register": "注册",
     "or": "或",
     "welcome": "欢迎来到Alphatoken",
     "createAccount": "创建您的账户",
@@ -213,12 +212,8 @@
       "notReceivedTitle": "没有收到验证码？",
       "notReceivedMessage": "如果您没有收到验证码，请检查您的垃圾邮件文件夹或请求新的验证码。如果问题仍然存在，请联系我们的客户支持团队。",
       "contactSupport": "联系客户服务"
-    },
-    "auth": {
-      "layout": {
-        "back": "返回"
-      }
     }
+
   },
   "institutionalAuth": {
     "title": "机构认证",

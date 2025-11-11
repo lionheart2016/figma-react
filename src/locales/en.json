@@ -71,48 +71,10 @@
       "incompleteCode": "Please enter a complete 6-digit verification code",
       "verificationFailed": "Verification failed. Please check your code and try again.",
       "resendFailed": "Failed to resend verification code",
-      "codeExpired": "Verification code has expired. Please request a new one.",
       "notReceivedTitle": "Not Receiving Verification Code?",
       "notReceivedMessage": "If you haven't received the verification code, please check your spam folder or request a new one. If the issue persists, contact our customer support team.",
       "contactSupport": "Contact Customer Service",
       "codeExpired": "Verification code has expired, please resend"
-    },
-    "login": {
-      "welcomeBack": "Welcome Back",
-      "signInToAccount": "Sign in to your account",
-      "signIn": "Sign In",
-      "forgotPassword": "Forgot Password?",
-      "dontHaveAccount": "Don't have an account?",
-      "orContinueWith": "or continue with",
-      "loginError": "Login error",
-      "loginFailed": "Login failed. Please check your credentials and try again.",
-      "captchaRequired": "CAPTCHA verification required",
-      "captchaRequiredMessage": "Due to multiple failed login attempts, please complete the CAPTCHA verification to continue.",
-      "captchaVerification": "CAPTCHA Verification",
-      "captchaVerificationDesc": "Please verify that you are not a robot",
-      "captchaVerify": "Verify",
-      "captchaVerifying": "Verifying...",
-      "captchaVerified": "CAPTCHA verification successful",
-      "captchaFailed": "CAPTCHA verification failed",
-      "captchaFailedMessage": "CAPTCHA verification failed. Please try again.",
-      "captchaHelp": "If you have trouble with the CAPTCHA, please contact customer support.",
-      "validation": {
-        "emailRequired": "Email address is required",
-        "invalidEmail": "Please enter a valid email address",
-        "passwordRequired": "Password is required",
-        "passwordTooShort": "Password must be at least 6 characters long"
-      },
-      "errors": {
-        "emailNotRegistered": "Email address is not registered",
-        "invalidCredentials": "Invalid email or password",
-        "accountSuspended": "Account has been suspended. Please contact support.",
-        "captchaRequired": "CAPTCHA verification is required",
-        "captchaInvalid": "CAPTCHA verification failed",
-        "tooManyAttempts": "Too many login attempts. Please try again later."
-      },
-      "emailNotRegisteredTitle": "This email address is not registered",
-      "emailNotRegisteredMessage": "Click the button to register",
-      "registerButton": "Register"
     },
     "resetPassword": {
       "title": "Reset login Password",

@@ -49,7 +49,6 @@
     "testCode": "測試驗證碼"
   },
   "auth": {
-    "login": "登錄",
     "signup": "註冊",
     "email": "電子郵件",
     "password": "密碼",
