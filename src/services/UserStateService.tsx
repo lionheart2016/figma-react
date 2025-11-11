@@ -552,16 +552,14 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
   }, [user]);
 
   // 简化的邮箱验证方法
-  const verifyEmail = useCallback(async (_email: string, code: string) => {
+  const verifyEmail = useCallback(async (_email: string, password: string) => {
     setError(null);
     setIsLoading(true);
     
     try {
-      // 模拟验证码验证过程
-      console.log(`[UserStateService] 验证邮箱验证码: ${code}`);
       
       // 模拟验证成功
-      if (code === '894575') {
+      if (password === '12345678') {
         // 创建模拟用户数据
         const mockUser: User = {
           id: 'mock-user-id',

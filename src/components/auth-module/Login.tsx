@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import EmailInput from '../global/EmailInput';
 import PasswordInput from './PasswordInput';
 import EmailNotRegisteredModal from './EmailNotRegisteredModal';
+import { useUser } from '../../services/UserStateService';
 
 interface FormData {
   email: string;
@@ -26,7 +27,7 @@ const Login_new: React.FC = () => {
   const { isDarkMode } = useTheme();
   const [formData, setFormData] = useState<FormData>({
     email: 'test-1143@privy.io',
-    password: ''
+    password: '12345678'
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,6 +38,7 @@ const Login_new: React.FC = () => {
   const [captchaToken, setCaptchaToken] = useState<string>('');
   const [showEmailNotRegisteredModal, setShowEmailNotRegisteredModal] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { verifyEmail } = useUser();
 
   // 组件挂载后验证默认邮箱地址
   React.useEffect(() => {
@@ -118,6 +120,7 @@ const Login_new: React.FC = () => {
 
   // 处理登录成功，重置失败计数
   const handleLoginSuccess = () => {
+
     if (loginFailCount > 0) {
       setLoginFailCount(0);
       setShowCaptcha(false);
@@ -141,8 +144,8 @@ const Login_new: React.FC = () => {
 
   // 模拟后端登录验证（包含各种失败场景）
   const simulateBackendLogin = async (email: string, password: string, captchaToken?: string): Promise<boolean> => {
-    // 模拟网络延迟
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // 验证邮箱地址
+    await verifyEmail(email, password);
 
     // 登录成功（剩余概率）
     return true;
@@ -281,10 +284,6 @@ const Login_new: React.FC = () => {
       if (loginSuccess) {
         // 登录成功
         handleLoginSuccess();
-        
-        // 保存用户信息到localStorage
-        localStorage.setItem('userEmail', formData.email);
-        localStorage.setItem('isLoggedIn', 'true');
 
         const isInstitutionalUser = localStorage.getItem('institutionalAuthTriggered');
           if (isInstitutionalUser === 'true') {
