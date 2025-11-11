@@ -143,6 +143,9 @@ const Login_new: React.FC = () => {
   const simulateBackendLogin = async (email: string, password: string, captchaToken?: string): Promise<boolean> => {
     // 模拟网络延迟
     await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // 登录成功（剩余概率）
+    return true;
     
     // 模拟各种失败场景
     const random = Math.random();
@@ -172,8 +175,7 @@ const Login_new: React.FC = () => {
       throw new Error('CAPTCHA_INVALID');
     }
     
-    // 登录成功（剩余概率）
-    return true;
+    
   };
 
   const validateForm = (): boolean => {
@@ -283,19 +285,31 @@ const Login_new: React.FC = () => {
         // 保存用户信息到localStorage
         localStorage.setItem('userEmail', formData.email);
         localStorage.setItem('isLoggedIn', 'true');
+
+        const isInstitutionalUser = localStorage.getItem('institutionalAuthTriggered');
+          if (isInstitutionalUser === 'true') {
+            const userId = localStorage.getItem('institutionalAuthUserId') || 'unknown';
+            const timestamp = localStorage.getItem('institutionalAuthTimestamp') || new Date().toISOString();
+            
+            console.log(`🔍 [登录流程] ${timestamp} - 检测到机构用户 ${userId}，自动导航至机构认证页面`);
+            navigate(ROUTES.INSTITUTIONAL_AUTH);
+          } else {
+            console.log('🔍 [登录流程] - 普通用户登录成功，导航至交易页面');
+            navigate(ROUTES.TRADE);
+          }
         
         // 登录成功后导航到仪表盘或首页
-        navigate(ROUTES.DASHBOARD);
+        // navigate(ROUTES.DASHBOARD);
         
-        toast.success(t('auth.login.loginSuccess'), {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        // toast.success(t('auth.login.loginSuccess'), {
+        //   position: "top-right",
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        // });
       }
     } catch (error) {
       // 处理登录失败

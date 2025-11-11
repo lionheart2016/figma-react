@@ -93,7 +93,8 @@ const EmailVerification: React.FC = () => {
 
       // 如果所有输入框都有值，自动验证
       if (newCode.every(digit => digit !== '') && index === 5) {
-        handleVerify();
+        // 使用最新的newCode进行验证，避免状态更新异步性问题
+        handleVerifyWithCode(newCode);
       }
     }
   };
@@ -126,17 +127,16 @@ const EmailVerification: React.FC = () => {
         inputRefs.current[5]?.focus();
       }
       
-      // 自动验证
+      // 自动验证（使用最新的newCode，避免状态更新异步性问题）
       setTimeout(() => {
-        handleVerify();
+        handleVerifyWithCode(newCode);
       }, 100);
     }
   };
 
-  // 验证验证码
-  const handleVerify = async (): Promise<void> => {
-    const verificationCode = code.join('');
-    
+  // 验证验证码（使用传入的验证码数组）
+  const handleVerifyWithCode = async (codeArray: string[]): Promise<void> => {
+    const verificationCode = codeArray.join('');
     if (verificationCode.length !== 6) {
       setError(t('auth.emailVerification.incompleteCode'));
       return;
@@ -156,6 +156,11 @@ const EmailVerification: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // 验证验证码（使用当前状态）
+  const handleVerify = async (): Promise<void> => {
+    return handleVerifyWithCode(code);
   };
 
   // 重新发送验证码
