@@ -6,7 +6,9 @@ import EmailInput from '../global/EmailInput';
 interface IndividualParty {
   id: string;
   firstName: string;
+  middleName: string;
   lastName: string;
+  dateOfBirth: string;
   email: string;
   phone: string;
   idNumber: string;
@@ -73,7 +75,9 @@ const KeyPartiesForm: React.FC = () => {
       return {
         id: Math.random().toString(36).substr(2, 9),
         firstName: '',
+        middleName: '',
         lastName: '',
+        dateOfBirth: '',
         email: '',
         phone: '',
         idNumber: '',
@@ -232,6 +236,22 @@ const KeyPartiesForm: React.FC = () => {
 
       <div>
         <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
+          中间名（选填）
+        </label>
+        <input
+          type="text"
+          value={(newParty as IndividualParty).middleName || ''}
+          onChange={(e) => handleNewPartyChange('middleName', e.target.value)}
+          className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
+            isDarkMode 
+              ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
+              : 'border-[#EDEEF3] bg-white'
+          }`}
+        />
+      </div>
+
+      <div>
+        <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
           {t('institutionalAuth.keyParties.lastName')} *
         </label>
         <input
@@ -247,6 +267,22 @@ const KeyPartiesForm: React.FC = () => {
         {errors.lastName && (
           <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
         )}
+      </div>
+
+      <div>
+        <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-[#1C1C1C]'}`}>
+          出生日期
+        </label>
+        <input
+          type="date"
+          value={(newParty as IndividualParty).dateOfBirth || ''}
+          onChange={(e) => handleNewPartyChange('dateOfBirth', e.target.value)}
+          className={`w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#4B5EF5] ${
+            isDarkMode 
+              ? 'border-[#2C2C2C] bg-[#1A1A1A] text-white' 
+              : 'border-[#EDEEF3] bg-white'
+          }`}
+        />
       </div>
 
       <div>
