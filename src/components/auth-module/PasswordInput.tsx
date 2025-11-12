@@ -63,8 +63,9 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       setInternalError('');
       // 通知父组件校验状态变化
       if (onValidationChange) {
-        // 修复：只有当密码不为空时才返回true
-        onValidationChange(newValue !== '');
+        // 修复：无论validateOnChange设置如何，都应该进行完整的密码验证
+        const validationError = validatePassword(newValue);
+        onValidationChange(validationError === '');
       }
     }
   };

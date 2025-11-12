@@ -40,7 +40,7 @@ const Login_new: React.FC = () => {
   const navigate = useNavigate();
   const { verifyEmail } = useUser();
 
-  // 组件挂载后验证默认邮箱地址
+  // 组件挂载后验证默认邮箱地址和密码
   React.useEffect(() => {
     // 验证默认邮箱地址
     const validateDefaultEmail = () => {
@@ -58,7 +58,18 @@ const Login_new: React.FC = () => {
       }
     };
 
+    // 验证默认密码
+    const validateDefaultPassword = () => {
+      const password = formData.password;
+      if (password && password.trim() !== '') {
+        // 使用与PasswordInput组件相同的验证逻辑（至少8位字符）
+        const isValid = password.length >= 8;
+        setIsPasswordValid(isValid);
+      }
+    };
+
     validateDefaultEmail();
+    validateDefaultPassword();
   }, []);
 
   // 处理邮箱输入变化
