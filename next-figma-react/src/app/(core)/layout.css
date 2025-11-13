@@ -1,0 +1,52 @@
+/* Core Layout Styles */
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #F8FAFF;
+}
+
+.layout-content {
+  flex: 1;
+  margin-left: 240px; /* Sidebar width */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layout-main-content {
+  flex: 1;
+  margin-top: 64px; /* Header height */
+  padding: 1.5rem;
+  overflow-y: auto;
+  width: 100%;
+}
+
+/* 确保内容区域能够自适应宽度并撑满剩余空间 */
+.layout-main-content > div {
+  width: 100%;
+  max-width: 72rem; /* max-w-6xl equivalent */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 暗黑主题支持 */
+.dark-theme .layout-container {
+  background-color: #0A0A0A;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .layout-content {
+    margin-left: 60px; /* 窄屏模式下的Sidebar宽度 */
+  }
+  
+  .layout-main-content {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .layout-content {
+    margin-left: 220px; /* 平板模式下的Sidebar宽度 */
+  }
+}

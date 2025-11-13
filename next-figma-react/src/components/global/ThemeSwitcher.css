@@ -1,0 +1,54 @@
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  margin-left: 8px;
+}
+
+.theme-switcher:hover {
+  border-color: #007bff;
+  background-color: #f8f9fa;
+  transform: scale(1.05);
+}
+
+.theme-icon {
+  transition: transform 0.3s ease;
+}
+
+.theme-icon.dark {
+  transform: rotate(0deg);
+}
+
+.theme-icon.light {
+  transform: rotate(0deg);
+}
+
+/* 暗黑主题下的样式 */
+.dark-theme .theme-switcher {
+  background: #1a1a1a;
+  border-color: #333333;
+  color: #ffffff;
+}
+
+.dark-theme .theme-switcher:hover {
+  border-color: #4B5EF5;
+  background-color: #2a2a2a;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .theme-switcher {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    margin-left: 6px;
+  }
+}
