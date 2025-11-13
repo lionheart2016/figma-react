@@ -1,0 +1,304 @@
+/* Poppins字体导入 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 基于Figma设计稿的色彩变量系统 */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    /* 卡片和弹出层 */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* 主色调 - Alphatoken Blue */
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+
+    /* 次要颜色 */
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    /* 静音和强调 */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    /* 状态颜色 */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* 边框和输入框 */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+
+    /* 圆角半径 */
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* 暗黑模式变量 */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Poppins', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  html {
+    font-family: 'Poppins', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* 高对比度文本不透明度 */
+  .text-high-emphasis {
+    opacity: 0.87;
+  }
+  
+  .text-medium-emphasis {
+    opacity: 0.60;
+  }
+  
+  .text-disabled {
+    opacity: 0.38;
+  }
+}
+
+@layer components {
+  /* 基础组件样式 */
+  .btn {
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary {
+    background-color: hsl(var(--primary));
+  }
+
+  .btn-primary:hover {
+    background-color: hsl(var(--primary) / 0.9);
+  }
+
+  .btn-secondary {
+    background-color: #f3f4f6;
+    color: #111827;
+  }
+
+  .btn-secondary:hover {
+    background-color: #e5e7eb;
+  }
+
+  .btn-outline {
+    border: 1px solid hsl(var(--primary));
+    background-color: transparent;
+    color: hsl(var(--primary));
+  }
+
+  .btn-outline:hover {
+    background-color: hsl(var(--primary));
+    color: white;
+  }
+
+  .input {
+    height: 3rem;
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    background-color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .input:focus {
+    border-color: hsl(var(--primary));
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+  }
+
+  .card {
+    background-color: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .help-text {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+
+  .error-text {
+    font-size: 0.75rem;
+    color: #ef4444;
+  }
+
+  .success-text {
+    font-size: 0.75rem;
+    color: #10b981;
+  }
+
+  .loading {
+    animation: spin 1s linear infinite;
+  }
+
+  .skeleton {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    background-color: #e5e7eb;
+    border-radius: 0.25rem;
+  }
+}
+
+@layer utilities {
+  /* ========== 暗黑主题工具类 ========== */
+  .dark-theme {
+    .btn-secondary {
+      border: 1px solid #374151;
+      background-color: #1f2937;
+      color: #f3f4f6;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #374151;
+    }
+    
+    .card {
+      background-color: #1f2937;
+      border-color: #374151;
+    }
+    
+    .input-field {
+      border: 1px solid #374151;
+      background-color: #1f2937;
+      color: #f3f4f6;
+    }
+    
+    .input-field::placeholder {
+      color: #9ca3af;
+    }
+    
+    .nav-link {
+      color: #d1d5db;
+    }
+    
+    .nav-link:hover {
+      background-color: #1f2937;
+      color: #f3f4f6;
+    }
+    
+    .tag-primary {
+      background-color: hsl(var(--primary) / 0.2);
+      color: hsl(var(--primary) / 0.8);
+    }
+    
+    .tag-success {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+    
+    .tag-warning {
+      background-color: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+    }
+    
+    .tag-error {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+  }
+
+  /* ========== 动画工具类 ========== */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  /* ========== 文本工具类 ========== */
+  .text-gradient {
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ========== 阴影工具类 ========== */
+  .shadow-soft {
+    box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
+  }
+  
+  .shadow-glow {
+    box-shadow: 0 0 0 1px rgba(75, 94, 245, 0.1), 0 4px 16px -4px rgba(75, 94, 245, 0.25);
+  }
+}

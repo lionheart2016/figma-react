@@ -1,0 +1,246 @@
+/* Sidebar Component Styles */
+.sidebar {
+  width: 240px;
+  background-color: #FFFFFF;
+  border-right: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 40; /* 降低z-index，确保在header之下 */
+  transition: width 0.3s ease-in-out, background-color 0.3s ease, border-color 0.3s ease; /* 添加过渡动画 */
+}
+
+.logo-section {
+  padding: 24px 16px 16px;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F32D6;
+}
+
+.divider {
+  height: 1px;
+  background-color: #E2E8F0;
+  margin: 16px 0;
+  transition: background-color 0.3s ease;
+}
+
+.menu {
+  padding: 0 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.menu-item-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1F32D6;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.menu-item.active .menu-item-bg {
+  opacity: 1;
+}
+
+.menu-icon {
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+}
+
+.menu-label {
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1;
+  transition: color 0.2s;
+}
+
+.menu-item:not(.active) .menu-label {
+  color: #64748B;
+}
+
+.menu-item.active .menu-label {
+  color: #FFFFFF;
+}
+
+.menu-item:hover:not(.active) {
+    background-color: #F1F5F9;
+  }
+
+/* Main Layout Styles - 确保主内容区域不与侧边栏重叠 */
+.main-layout {
+  margin-left: 240px; /* 为固定侧边栏留出空间 */
+  margin-top: 64px; /* 为固定header留出空间 */
+  min-height: calc(100vh - 64px); /* 减去header高度 */
+  background-color: #F8FAFF;
+  transition: margin-left 0.3s ease-in-out, background-color 0.3s ease; /* 添加过渡动画 */
+}
+
+/* 暗黑主题下的Main Layout */
+.dark-theme .main-layout {
+  background-color: #0A0A0A;
+}
+
+/* ========== 暗黑主题样式 ========== */
+.dark-theme .sidebar {
+  background-color: #121212;
+  border-right: 1px solid #2A2A2A;
+}
+
+.dark-theme .divider {
+  background-color: #2A2A2A;
+}
+
+.dark-theme .logo-text {
+  color: #FFFFFF;
+}
+
+.dark-theme .menu-item:not(.active) .menu-label {
+  color: #9CA3AF;
+}
+
+.dark-theme .menu-item:hover:not(.active) {
+  background-color: #1C1C1C;
+}
+
+/* 暗色模式下确保图标颜色正确 */
+.dark-theme .menu-item:not(.active) .menu-icon path {
+  fill: #9CA3AF;
+}
+
+.dark-theme .menu-item:not(.active) .menu-icon circle,
+.dark-theme .menu-item:not(.active) .menu-icon rect {
+  stroke: #9CA3AF;
+}
+
+/* Header Styles - 确保导航栏在正确的层级 */
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 240px; /* 与sidebar宽度一致 */
+  z-index: 50; /* 确保导航栏在侧边栏之上但低于其他重要元素 */
+  height: 64px; /* 固定高度 */
+  background-color: #FFFFFF;
+  transition: left 0.3s ease-in-out, background-color 0.3s ease, border-color 0.3s ease; /* 添加过渡动画 */
+  border-bottom: 1px solid #F0F2F5;
+}
+
+/* 暗黑主题下的Header样式 */
+.dark-theme header {
+  background-color: #1A1A1A;
+  border-bottom: 1px solid #2A2A2A;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* 保持侧边栏始终显示，不自动隐藏 */
+  .sidebar {
+    width: 60px; /* 窄屏模式下变窄 */
+    /* 移除transform: translateX(-100%); */
+    z-index: 100; /* 保持较高的z-index */
+  }
+  
+  .main-layout {
+    margin-left: 60px; /* 窄屏模式下左边距调整为60px */
+    margin-top: 64px;
+    min-height: calc(100vh - 64px);
+  }
+  
+  header {
+    left: 60px; /* 窄屏模式下header左边距调整为60px */
+    z-index: 50;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #F0F2F5;
+  }
+  
+  .dark-theme header {
+    background-color: #1A1A1A;
+    border-bottom: 1px solid #2A2A2A;
+  }
+  
+  /* 窄屏环境下隐藏文字内容，只显示图标 */
+  .logo-text {
+    display: none;
+  }
+  
+  .menu-label {
+    display: none;
+  }
+  
+  .logo {
+    justify-content: center;
+    gap: 0;
+  }
+  
+  .menu-item {
+    justify-content: center;
+    gap: 0;
+    padding: 12px;
+  }
+  
+  .logo-section {
+    padding: 20px 8px 16px;
+  }
+  
+  .menu {
+    padding: 0 4px;
+  }
+}
+
+/* 平板设备适配 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+  }
+  
+  .main-layout {
+    margin-left: 220px;
+  }
+  
+  header {
+    left: 220px;
+  }
+  
+  .dark-theme header {
+    background-color: #1A1A1A;
+    border-bottom: 1px solid #2A2A2A;
+  }
+  
+  .dark-theme .sidebar {
+    background-color: #121212;
+    border-right: 1px solid #2A2A2A;
+  }
+}
