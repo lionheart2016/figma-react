@@ -566,7 +566,12 @@
       "passwordMismatch": "Passwords do not match",
       "termsRequired": "You must agree to the terms of service",
       "registrationFailed": "Registration failed"
-    }
+    },
+    "acceptTerms": "Accept Terms",
+    "acceptTermsMessage": "Please accept the terms of service and privacy policy to continue with registration.",
+    "accountExists": "Account Already Exists",
+    "accountExistsMessage": "An account with this email address already exists. Would you like to sign in instead?",
+    "registrationError": "Registration error"
   },
   "layout": {
     "back": "back",

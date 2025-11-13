@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@alicloud/cloudauth-intl20220809": "^3.14.1",
     "@next/font": "14.2.3",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",

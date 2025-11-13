@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+import { useI18n } from '@/hooks/useI18n';
 import { useTheme } from '@/contexts/ThemeContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,7 +20,7 @@ interface FormErrors {
 }
 
 const Register: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useI18n();
   const { isDarkMode } = useTheme();
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -155,29 +155,29 @@ const Register: React.FC = () => {
       
       // 规则1: 整个邮箱地址必须包含且仅包含一个@字符
       if ((email.match(/@/g) || []).length !== 1) {
-        newErrors.email = "请输入有效的邮箱地址";
+        newErrors.email = t('auth.register.validation.invalidEmail');
       }
       // 规则2: 邮箱地址中不得包含任何emoji符号
       else if (/[\u{1F600}-\u{1F6FF}\u{1F300}-\u{1F5FF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F170}-\u{1F251}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE0F}]/gu.test(email)) {
-        newErrors.email = "请输入有效的邮箱地址";
+        newErrors.email = t('auth.register.validation.invalidEmail');
       }
       // 规则3: @字符不能位于邮箱地址的开头或结尾位置
       else if (email.startsWith('@') || email.endsWith('@')) {
-        newErrors.email = "请输入有效的邮箱地址";
+        newErrors.email = t('auth.register.validation.invalidEmail');
       }
       // 规则4: 邮箱地址中不允许出现连续的两个.，且每个.之间必须存在有效内容
       else if (email.includes('..')) {
-        newErrors.email = "请输入有效的邮箱地址";
+        newErrors.email = t('auth.register.validation.invalidEmail');
       }
       // 规则5: 邮箱地址的域名部分总长度不得超过255个字符
       else {
         const domainPart = email.split('@')[1];
         if (domainPart.length > 255) {
-          newErrors.email = "请输入有效的邮箱地址";
+          newErrors.email = t('auth.register.validation.invalidEmail');
         }
         // 规则6: 邮箱地址不能以.开头或结尾
         else if (email.startsWith('.') || email.endsWith('.')) {
-          newErrors.email = "请输入有效的邮箱地址";
+          newErrors.email = t('auth.register.validation.invalidEmail');
         }
       }
     }
@@ -264,10 +264,9 @@ const Register: React.FC = () => {
   };
 
   return (
-    <>
-
-
-        <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <form onSubmit={handleSubmit} className="space-y-6 w-full">
           {/* 邮箱输入 */}
           <div className="relative">
             <label 
@@ -325,11 +324,11 @@ const Register: React.FC = () => {
               )}
             </div>
             
-            {/* 邮箱后缀建议列表 - 移到输入框容器外部，确保正确定位 */}
+            {/* 邮箱后缀建议列表 */}
             {showEmailSuggestions && filteredSuggestions.length > 0 && (
               <div
                 ref={suggestionsRef}
-                className={`absolute top-full left-0 right-0 z-50 mt-0.5 border rounded-lg shadow-lg max-h-60 overflow-y-auto ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-white border-[#EDEEF3]'} origin-top`}
+                className={`absolute top-full left-0 right-0 z-50 mt-1 border rounded-lg shadow-lg max-h-60 overflow-y-auto ${isDarkMode ? 'bg-[#1A1A1A] border-[#2C2C2C]' : 'bg-white border-[#EDEEF3]'}`}
                 style={{
                   width: '100%',
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
@@ -372,8 +371,8 @@ const Register: React.FC = () => {
                 onClick={() => setFormData(prev => ({ ...prev, agreeToTerms: !prev.agreeToTerms }))}
                 className={`w-5 h-5 rounded border flex items-center justify-center transition-all duration-200 ${
                   formData.agreeToTerms
-                    ? `border-[#4B5EF5] bg-[#4B5EF5]`
-                    : `border-${isDarkMode ? '[#2C2C2C]' : '[#EDEEF3]'}`
+                    ? 'border-[#4B5EF5] bg-[#4B5EF5]'
+                    : isDarkMode ? 'border-[#2C2C2C]' : 'border-[#EDEEF3]'
                 }`}
               >
                 {formData.agreeToTerms && (
@@ -398,16 +397,16 @@ const Register: React.FC = () => {
               <a href="#" className="text-[#4B5EF5] hover:underline">{t('auth.register.privacyPolicy')}</a>
             </label>
           </div>
-          {/* {errors.agreeToTerms && (
+          {errors.agreeToTerms && (
             <p className="text-sm text-red-500">{errors.agreeToTerms}</p>
-          )} */}
+          )}
 
           {/* 提交按钮 */}
           <button
             type="submit"
-            disabled={isLoading || !formData.email.trim()}
+            disabled={isLoading || !formData.email.trim() || !formData.agreeToTerms}
             className={`w-full py-3 px-6 rounded-lg font-semibold text-sm transition-all duration-200 ${isDarkMode ? 'text-[#EDEEF3]' : 'text-white'}
-              ${isLoading || !formData.email.trim()
+              ${isLoading || !formData.email.trim() || !formData.agreeToTerms
                 ? 'bg-[#73798B] bg-opacity-70 cursor-not-allowed'
                 : 'bg-[#4B5EF5] hover:bg-[#3A4BD4] active:bg-[#2A3AB3]'
               }`}
@@ -448,27 +447,26 @@ const Register: React.FC = () => {
         
         <ToastContainer />
 
-      
       {/* 账号已存在弹窗 */}
       {showAccountExistsModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-sm w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">账号已存在</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('auth.register.accountExists')}</h3>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              该邮箱地址已被注册，是否要登录？
+              {t('auth.register.accountExistsMessage')}
             </p>
             <div className="flex space-x-3">
               <button
                 onClick={handleAccountExistsCancel}
                 className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
               >
-                取消
+                {t('common.cancel')}
               </button>
               <button
                 onClick={handleAccountExistsConfirm}
                 className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
-                登录
+                {t('login')}
               </button>
             </div>
           </div>
@@ -479,28 +477,29 @@ const Register: React.FC = () => {
       {showTermsAcceptanceModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-sm w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">接受条款</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('auth.register.acceptTerms')}</h3>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              请接受服务条款和隐私政策以继续注册。
+              {t('auth.register.acceptTermsMessage')}
             </p>
             <div className="flex space-x-3">
               <button
                 onClick={handleTermsDecline}
                 className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
               >
-                拒绝
+                {t('common.decline')}
               </button>
               <button
                 onClick={handleTermsAccept}
                 className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
-                接受
+                {t('common.accept')}
               </button>
             </div>
           </div>
         </div>
       )}
-      </>
+      </div>
+    </div>
   );
 };
 

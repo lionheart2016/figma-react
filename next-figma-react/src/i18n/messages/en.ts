@@ -30,7 +30,40 @@ const messages = {
     sending: 'Sending...',
     sendCode: 'Send Code',
     resendCode: 'Resend',
-    loggingIn: 'Signing In...'
+    loggingIn: 'Signing In...',
+    register: {
+      title: 'Create Your Account',
+      subtitle: 'Enter your details to get started',
+      emailLabel: 'Email Address',
+      emailPlaceholder: 'Enter your email address',
+      passwordLabel: 'Password',
+      passwordPlaceholder: 'Create a password',
+      confirmPasswordLabel: 'Confirm Password',
+      confirmPasswordPlaceholder: 'Confirm your password',
+      registerButton: 'Create Account',
+      hasAccount: 'Already have an account?',
+      signIn: 'Sign in',
+      registrationFailed: 'Registration failed',
+      agreeToTerms: 'I agree to the',
+      termsOfService: 'Terms of Service',
+      and: 'and',
+      privacyPolicy: 'Privacy Policy',
+      validation: {
+        emailRequired: 'Email is required',
+        emailInvalid: 'Please enter a valid email address',
+        passwordRequired: 'Password is required',
+        passwordMinLength: 'Password must be at least 8 characters',
+        confirmPasswordRequired: 'Please confirm your password',
+        passwordMismatch: 'Passwords do not match',
+        termsRequired: 'You must agree to the terms of service',
+        registrationFailed: 'Registration failed'
+      },
+      acceptTerms: 'Accept Terms',
+      acceptTermsMessage: 'Please accept the terms of service and privacy policy to continue with registration.',
+      accountExists: 'Account Already Exists',
+      accountExistsMessage: 'An account with this email address already exists. Would you like to sign in instead?',
+      registrationError: 'Registration error'
+    }
   },
   wallet: {
     title: 'Smart Wallet',
