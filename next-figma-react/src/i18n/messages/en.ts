@@ -16,6 +16,7 @@ const messages = {
     password: 'Password',
     verificationCode: 'Verification Code',
     welcome: 'Welcome back! Please sign in to your account.',
+    introduction: 'Welcome to Alphatoken',
     forgotPassword: 'Forgot your password?',
     rememberMe: 'Remember me',
     enterEmail: 'Please enter your email address',

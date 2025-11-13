@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import Layout from '@/components/auth/Layout';
-import CountrySelector from '@/components/auth/CountrySelector';
+import CountrySelector from "@/components/global/CountrySelector";
 import { useTheme } from '../../../contexts/ThemeContext';
 
 // 定义步骤接口
@@ -218,12 +217,7 @@ const Authentication: React.FC = () => {
   };
 
   return (
-    <Layout
-      title={currentStepData?.title || ''}
-      subtitle={currentStepData?.description || ''}
-      showBackButton={true}
-      onBack={handleBack}
-    >
+      <>
       {/* 进度指示器 */}
       <div className="flex justify-center mb-8">
         <div className="flex items-center space-x-2">
@@ -256,7 +250,7 @@ const Authentication: React.FC = () => {
             : currentStepData?.buttonText || ''
         }
       </button>
-    </Layout>
+      </>
   );
 };
 

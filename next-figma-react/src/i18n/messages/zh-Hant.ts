@@ -16,6 +16,7 @@ const messages = {
     password: '密碼',
     verificationCode: '驗證碼',
     welcome: '歡迎回來！請登入您的帳號。',
+    introduction: '歡迎來到 Alphatoken',
     forgotPassword: '忘記密碼？',
     rememberMe: '記住我',
     enterEmail: '請輸入電子郵件地址',

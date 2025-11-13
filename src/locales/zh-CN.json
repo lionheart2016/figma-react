@@ -38,36 +38,17 @@
     "loggingIn": "登录中...",
     "changeEmail": "更换邮箱",
     "testAccount": "测试账号",
-    "testCode": "测试验证码",
-    "welcomeBack": "欢迎回来",
-    "signInToAccount": "登录您的账户",
-    "forgotPassword": "忘记密码？",
-    "captchaRequired": "需要CAPTCHA验证",
-    "captchaVerified": "CAPTCHA验证成功",
-    "captchaVerification": "CAPTCHA验证",
-    "captchaVerificationDesc": "请验证您不是机器人",
-    "captchaVerify": "验证",
-    "captchaFailed": "CAPTCHA验证失败",
-    "failCount": "失败次数",
-    "captchaHelp": "如果您在CAPTCHA验证方面遇到问题，请联系客户支持。",
-    "signIn": "登录",
-    "dontHaveAccount": "还没有账户？",
-    "register": "注册",
-    "validation": {
-      "emailRequired": "请输入邮箱地址",
-      "invalidEmail": "请输入有效的邮箱地址",
-      "passwordRequired": "请输入密码",
-      "passwordTooShort": "密码长度至少为6个字符"
-    }
+    "testCode": "测试验证码"
   },
   "auth": {
-
+    "login": "登录",
     "signup": "注册",
     "email": "邮箱",
     "password": "密码",
     "confirmPassword": "确认密码",
     "forgotPassword": "忘记密码？",
     "continueWith": "继续使用",
+    "register": "注册",
     "or": "或",
     "welcome": "欢迎来到Alphatoken",
     "createAccount": "创建您的账户",
@@ -232,8 +213,12 @@
       "notReceivedTitle": "没有收到验证码？",
       "notReceivedMessage": "如果您没有收到验证码，请检查您的垃圾邮件文件夹或请求新的验证码。如果问题仍然存在，请联系我们的客户支持团队。",
       "contactSupport": "联系客户服务"
+    },
+    "auth": {
+      "layout": {
+        "back": "返回"
+      }
     }
-
   },
   "institutionalAuth": {
     "title": "机构认证",
@@ -399,19 +384,7 @@
       "addressLine1": "地址行1",
       "addressLine1Placeholder": "请输入地址行1",
       "addressLine2": "地址行2",
-      "addressLine2Placeholder": "请输入地址行2",
-      "registeredCountry": "国家",
-      "registeredCountryPlaceholder": "请选择国家",
-      "registeredState": "省/州",
-      "registeredStatePlaceholder": "请输入省/州",
-      "registeredCity": "城市",
-      "registeredCityPlaceholder": "请输入城市",
-      "registeredPostalCode": "邮政编码",
-      "registeredPostalCodePlaceholder": "请输入邮政编码",
-      "registeredAddressLine1": "地址行1",
-      "registeredAddressLine1Placeholder": "请输入地址行1",
-      "registeredAddressLine2": "地址行2",
-      "registeredAddressLine2Placeholder": "请输入地址行2"
+      "addressLine2Placeholder": "请输入地址行2"
     },
     "selectCountry": "选择国家",
     "countries": {

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useShowButton } from '../_components/showBackButtonContext';
 
 
 const EmailVerification: React.FC = () => {
@@ -19,9 +20,19 @@ const EmailVerification: React.FC = () => {
   const [currentVerificationId, setCurrentVerificationId] = useState<string>(''); // 当前验证码ID
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
+  const { setShowButton } = useShowButton();
+
 
   // 获取用户邮箱
   const userEmail = localStorage.getItem('userEmail') || t('auth.emailVerification.yourEmail');
+
+  // 确保email-verification页面显示返回按钮
+  useEffect(() => {
+    setShowButton(true);
+    return () => {
+      // 组件卸载时，让下一个页面根据路由自动设置按钮状态
+    };
+  }, [setShowButton]);
   
   // 重发倒计时逻辑
   useEffect(() => {
@@ -233,8 +244,18 @@ const EmailVerification: React.FC = () => {
 
   return (
     <>
+        {/* 标题和倒计时区域 */}
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold mb-2 text-[#1C1C1C] dark:text-white">
+            {t('auth.emailVerification.title') || 'Verify your email address'}
+          </h1>
+          <p className="text-sm text-[#575757] dark:text-gray-300">
+            {t('auth.emailVerification.enterCode', { expiry: formatTimer(verificationExpiryTimer) }) || `Please enter the email verification code, Valid for ${formatTimer(verificationExpiryTimer)}`}
+          </p>
+        </div>
+
         {/* 邮箱信息和前往邮件按钮区域 */}
-        <div className="flex items-center justify-center mt-4 space-x-4">
+        <div className="flex items-center mt-4 space-x-4">
           <div className="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -259,7 +280,7 @@ const EmailVerification: React.FC = () => {
         </div>
         
         {/* 验证码输入区域 */}
-        <div className="flex space-x-6 mt-8 justify-center">
+        <div className="flex space-x-6 mt-8">
           {code.map((digit, index) => (
             <input
               key={index}
@@ -289,7 +310,6 @@ const EmailVerification: React.FC = () => {
         <div className="w-full max-w-md border-t border-[#575757] my-6"></div>
         
         {/* 帮助链接区域 */}
-        <div className="text-center">
           <p className="text-sm font-semibold text-[#4B5EF5]">
             <button
               onClick={handleShowHelpModal}
@@ -306,7 +326,6 @@ const EmailVerification: React.FC = () => {
               {canResend ? (t('auth.emailVerification.resendCode') || 'Resend') : `${t('auth.emailVerification.resendIn') || 'Resend in'} ${formatTimer(resendTimer)}`}
             </button>
           </p>
-        </div>
 
         {/* 继续按钮 */}
         <button
@@ -320,7 +339,7 @@ const EmailVerification: React.FC = () => {
       
       {/* 帮助弹窗 */}
       {showHelpModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-sm w-full mx-4">
             <h3 className="text-lg font-semibold mb-4">
               {t('auth.emailVerification.notReceivingCode') || 'Not receiving code?'}
