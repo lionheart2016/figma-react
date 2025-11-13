@@ -1,0 +1,1653 @@
+/* 钱包组件样式文件 */
+
+/* 钱包容器 */
+.wallets-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: calc(100vh - 80px);
+  position: relative;
+}
+
+.wallets-container h1 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Tab导航样式 */
+.wallet-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0;
+}
+
+.wallet-tabs .tab-button {
+  background: transparent;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.wallet-tabs .tab-button:hover {
+  color: #374151;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.wallet-tabs .tab-button.active {
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.wallet-tabs .tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #1e40af;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Tab内容样式 */
+.wallet-tabs-content {
+  padding: 10px 0;
+}
+
+.wallet-tab-content {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 资产总览样式 */
+.wallet-assets-overview h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.total-assets {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.total-assets-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.total-assets-label {
+  font-size: 16px;
+  color: #64748b;
+}
+
+.assets-distribution h4 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.assets-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+}
+
+/* 活动历史组件样式 */
+.activity-history {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 头部样式 */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-left h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  color: #1f2937;
+}
+
+.transaction-count {
+  color: #6b7280;
+  font-size: 14px;
+  background: #f3f4f6;
+  padding: 4px 12px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 筛选按钮样式 */
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background: #ffffff;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  border-color: #1e40af;
+  color: #1e40af;
+}
+
+.filter-btn.active {
+  background: #1e40af;
+  color: white;
+  border-color: #1e40af;
+}
+
+.filter-btn.active:hover {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+}
+
+/* 刷新按钮样式 */
+.refresh-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  border-color: #1e40af;
+  color: #1e40af;
+}
+
+.refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 表格容器样式 */
+.transactions-table-container {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+/* 表头样式 */
+.transactions-table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr 1.5fr 1.2fr 1fr;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+  min-height: 50px;
+}
+
+.table-cell {
+  display: flex;
+  align-items: center;
+  min-height: 24px;
+  overflow: hidden;
+}
+
+.sortable-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.sortable-header:hover {
+  color: #1e40af;
+}
+
+/* 交易列表样式 */
+.transactions-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 交易项样式 */
+.transaction-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr 1.5fr 1.2fr 1fr;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+  min-height: 60px;
+}
+
+.transaction-item:hover {
+  background-color: #f9fafb;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+/* 链接样式 */
+.hash-link,
+.block-link,
+.address-link {
+  color: #1e40af;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  word-break: break-all;
+}
+
+.hash-link:hover,
+.block-link:hover,
+.address-link:hover {
+  color: #1e3a8a;
+  text-decoration: underline;
+}
+
+/* 地址容器样式 */
+.address-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+/* 方向指示器样式 */
+.direction-indicator {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.direction-indicator.out {
+  background-color: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+}
+
+.direction-indicator.in {
+  background-color: rgba(22, 163, 74, 0.1);
+  color: #16a34a;
+}
+
+/* 方法标签样式 */
+.method-badge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.method-badge.transfer {
+  background-color: rgba(30, 64, 175, 0.1);
+  color: #1e40af;
+}
+
+.method-badge.execute {
+  background-color: rgba(126, 34, 206, 0.1);
+  color: #7e22ce;
+}
+
+/* 金额样式 */
+.amount-value {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.amount-value.sent {
+  color: #dc2626;
+}
+
+.amount-value.received {
+  color: #16a34a;
+}
+
+.amount-value.error {
+  color: #dc2626;
+  font-style: italic;
+}
+
+/* 费用样式 */
+.fee-value {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* 表格页脚样式 */
+.table-footer {
+  padding: 12px 16px;
+  text-align: center;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+/* 状态样式 */
+.loading-state,
+.error-state,
+.empty-state,
+.no-wallet-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  flex: 1;
+  min-height: 300px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.loading-state p,
+.error-state p,
+.empty-state p {
+  margin: 0 0 16px 0;
+  color: #374151;
+  font-size: 16px;
+}
+
+.empty-state small {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* 加载图标动画 */
+.loading-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  animation: spin 1s linear infinite;
+  color: #1e40af;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 错误重试按钮样式 */
+.error-retry-button {
+  padding: 10px 24px;
+  background: #1e40af;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.error-retry-button:hover {
+  background: #1e3a8a;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .transactions-table-header,
+  .transaction-item {
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  }
+  
+  .table-cell.amount-col,
+  .table-cell.fee-col {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .history-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .header-left {
+    justify-content: center;
+  }
+  
+  .header-controls {
+    justify-content: center;
+  }
+  
+  .filter-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .transactions-table-header,
+  .transaction-item {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  }
+  
+  .table-cell.from-col,
+  .table-cell.to-col,
+  .table-cell.amount-col,
+  .table-cell.fee-col {
+    display: none;
+  }
+  
+  .transaction-item {
+    padding: 10px;
+    gap: 4px;
+  }
+  
+  .transactions-table-header {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .transactions-table-header,
+  .transaction-item {
+    grid-template-columns: 1fr 1fr;
+    font-size: 12px;
+  }
+  
+  .table-cell.method-col,
+  .table-cell.block-col,
+  .table-cell.from-col,
+  .table-cell.to-col,
+  .table-cell.amount-col,
+  .table-cell.fee-col {
+    display: none;
+  }
+}
+
+/* 暗黑模式适配 */
+.dark .activity-history {
+  color: #f9fafb;
+}
+
+.dark .header-left h3 {
+  color: #f9fafb;
+}
+
+.dark .transaction-count {
+  color: #d1d5db;
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.dark .filter-btn {
+  background: #1f2937;
+  color: #d1d5db;
+  border-color: #374151;
+}
+
+.dark .filter-btn:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.dark .filter-btn.active {
+  background: #4f46e5;
+  color: white;
+  border-color: #4f46e5;
+}
+
+.dark .filter-btn.active:hover {
+  background: #4338ca;
+  border-color: #4338ca;
+}
+
+.dark .refresh-btn {
+  background: #1f2937;
+  color: #d1d5db;
+  border-color: #374151;
+}
+
+.dark .refresh-btn:hover:not(:disabled) {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.dark .transactions-table-container {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.dark .transactions-table-header {
+  background: #111827;
+  border-bottom-color: #374151;
+  color: #f3f4f6;
+}
+
+.dark .sortable-header:hover {
+  color: #4f46e5;
+}
+
+.dark .transaction-item {
+  border-bottom-color: #374151;
+}
+
+.dark .transaction-item:hover {
+  background-color: #111827;
+}
+
+.dark .hash-link,
+.dark .block-link,
+.dark .address-link {
+  color: #4f46e5;
+}
+
+.dark .hash-link:hover,
+.dark .block-link:hover,
+.dark .address-link:hover {
+  color: #4338ca;
+  text-decoration: underline;
+}
+
+.dark .direction-indicator.out {
+  background-color: rgba(220, 38, 38, 0.2);
+  color: #ef4444;
+}
+
+.dark .direction-indicator.in {
+  background-color: rgba(22, 163, 74, 0.2);
+  color: #22c55e;
+}
+
+.dark .method-badge.transfer {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: #4f46e5;
+}
+
+.dark .method-badge.execute {
+  background-color: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+}
+
+.dark .fee-value {
+  color: #9ca3af;
+}
+
+.dark .table-footer {
+  background: #111827;
+  border-top-color: #374151;
+}
+
+.dark .loading-state,
+.dark .error-state,
+.dark .empty-state,
+.dark .no-wallet-message {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.dark .loading-state p,
+.dark .error-state p,
+.dark .empty-state p {
+  color: #f3f4f6;
+}
+
+.dark .empty-state small {
+  color: #9ca3af;
+}
+
+.dark .loading-icon {
+  color: #4f46e5;
+}
+
+.dark .error-retry-button {
+  background: #4f46e5;
+}
+
+.dark .error-retry-button:hover {
+  background: #4338ca;
+}
+
+.dark .activities-retry-button {
+  background: #3b82f6;
+}
+
+.dark .activities-retry-button:hover {
+  background: #2563eb;
+}
+
+/* 右侧操作面板样式 */
+.side-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  transition: opacity 0.3s ease;
+}
+
+.wallet-side-panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.wallet-side-panel.open {
+  right: 0;
+}
+
+.side-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.side-panel-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: #efefef;
+  color: #374151;
+}
+
+.side-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.wallet-details-section {
+  margin-bottom: 30px;
+}
+
+.wallet-address-display label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.address-container {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.copy-button {
+  margin-left: 12px;
+  padding: 6px 12px;
+  background: #1e40af;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.copy-button:hover {
+  background: #1e3a8a;
+}
+
+/* 钱包操作面板样式 */
+.wallet-actions-panel h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.action-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.action-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.action-button:hover:not(.disabled) {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.action-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.coming-soon {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .wallet-side-panel {
+    width: 100%;
+    right: -100%;
+  }
+  
+  .wallet-tabs {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  
+  .activities-filter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .action-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 加载状态样式 */
+.wallets-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.wallets-loading-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.wallets-loading-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: inherit;
+}
+
+/* 错误消息样式 */
+.wallets-error-message {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+}
+
+.wallets-error-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(239, 68, 68);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.wallets-error-icon {
+  font-size: 1.1rem;
+}
+
+/* 钱包操作区域样式 */
+.wallet-operations-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.wallet-operations-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wallet-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.wallet-connect-button, 
+.wallet-create-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 200px;
+}
+
+.wallet-connect-button {
+  background-color: #4B5EF5;
+  color: white;
+}
+
+.wallet-connect-button:hover:not(:disabled) {
+  background-color: #3A4BE5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(75, 94, 245, 0.3);
+}
+
+.wallet-create-button {
+  background-color: white;
+  color: #4B5EF5;
+  border: 1px solid #E5E7EB;
+}
+
+.wallet-create-button:hover:not(:disabled) {
+  border-color: #4B5EF5;
+  background-color: #F9FAFF;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(75, 94, 245, 0.15);
+}
+
+.wallet-connect-button:disabled, 
+.wallet-create-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.wallet-button-loading {
+  pointer-events: none;
+}
+
+.wallet-button-icon {
+  font-size: 1.1rem;
+}
+
+/* 钱包列表样式 */
+.wallet-list-container {
+  margin-top: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme .wallet-list-container {
+  background: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.wallet-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.wallet-list-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wallet-list-count {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.wallet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.wallet-list-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #F9FAFF;
+  border-radius: 16px;
+  border: 1px dashed #E5E7EB;
+  grid-column: 1 / -1;
+}
+
+.wallet-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.wallet-empty-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.wallet-empty-text {
+  color: #6c757d;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* 钱包卡片样式 */
+.wallet-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+}
+
+.wallet-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: #D1D5DB;
+}
+
+.wallet-card-active {
+  border-color: #4B5EF5;
+  box-shadow: 0 4px 15px rgba(75, 94, 245, 0.15);
+  background-color: #F9FAFF;
+}
+
+.wallet-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.wallet-type-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(75, 94, 245, 0.1);
+  font-size: 1rem;
+}
+
+.wallet-status {
+  font-size: 0.85rem;
+}
+
+.wallet-active-indicator {
+  color: #10B981;
+}
+
+.wallet-inactive-indicator {
+  color: #6c757d;
+}
+
+.wallet-card-body {
+  margin-bottom: 1rem;
+}
+
+.wallet-name {
+  margin-bottom: 0.75rem;
+}
+
+.wallet-name-text {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.wallet-address {
+  margin-bottom: 1rem;
+}
+
+.wallet-address-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+.wallet-address-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background-color: #F9FAFF;
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+}
+
+.wallet-address-text {
+  color: inherit;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.wallet-copy-button {
+  background: none;
+  border: none;
+  color: #4B5EF5;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.wallet-copy-button:hover {
+  background-color: rgba(75, 94, 245, 0.1);
+}
+
+.wallet-details {
+  margin-bottom: 1rem;
+}
+
+.wallet-details-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.wallet-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.wallet-detail-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.wallet-detail-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: inherit;
+}
+
+.wallet-type-embedded {
+  color: #0056b3;
+}
+
+.wallet-type-external {
+  color: #2e7d32;
+}
+
+.wallet-balance {
+  padding: 0.75rem;
+  background-color: #F9FAFF;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.wallet-balance-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.wallet-card-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.wallet-action-button {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.wallet-action-button-active {
+  background-color: white;
+  color: #4B5EF5;
+  border: 1px solid #4B5EF5;
+}
+
+.wallet-action-button-active:hover {
+  background-color: #F9FAFF;
+}
+
+.wallet-action-button-inactive {
+  background-color: #4B5EF5;
+  color: white;
+  border: 1px solid #4B5EF5;
+}
+
+.wallet-action-button-inactive:hover {
+  background-color: #3A4BE5;
+}
+
+/* 暗黑主题样式适配 */
+.dark-theme .wallet-operations-section {
+  background-color: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .wallets-container {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+.dark-theme .wallet-tabs .tab-button {
+  color: #94a3b8;
+}
+
+.dark-theme .wallet-tabs .tab-button:hover {
+  color: #e2e8f0;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .wallet-tabs .tab-button.active {
+  color: #3b82f6;
+}
+
+.dark-theme .wallet-tabs .tab-button.active::after {
+  background-color: #3b82f6;
+}
+
+.dark-theme .wallet-tab-content,
+.dark-theme .wallet-card,
+.dark-theme .total-assets {
+  background: #1e293b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .total-assets-value {
+  color: #f8fafc;
+}
+
+.dark-theme .total-assets-label,
+.dark-theme .assets-empty-state,
+.dark-theme .activities-empty-state {
+  color: #cbd5e1;
+}
+
+.dark-theme .filter-controls .activity-filter-select {
+  background: #334155;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+.dark-theme .wallet-side-panel {
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+.dark-theme .side-panel-header {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.dark-theme .close-button {
+  color: #94a3b8;
+}
+
+.dark-theme .close-button:hover {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.dark-theme .address-container {
+  background: #334155;
+  color: #f8fafc;
+}
+
+.dark-theme .copy-button {
+  background: #3b82f6;
+}
+
+.dark-theme .copy-button:hover {
+  background: #2563eb;
+}
+
+.dark-theme .action-button {
+  background: #334155;
+  border-color: #475569;
+}
+
+.dark-theme .action-button:hover:not(.disabled) {
+  background: #475569;
+}
+
+.dark-theme .wallet-create-button {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #a5b4fc;
+}
+
+.dark-theme .wallet-create-button:hover:not(:disabled) {
+  border-color: #4B5EF5;
+  background-color: rgba(75, 94, 245, 0.1);
+}
+
+.dark-theme .wallet-list-header {
+  border-bottom-color: #374151;
+}
+
+.dark-theme .wallet-list-count {
+  color: #9ca3af;
+}
+
+.dark-theme .wallet-list-empty {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+.dark-theme .wallet-empty-text {
+  color: #9ca3af;
+}
+
+.dark-theme .wallet-card {
+  background-color: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .wallet-card:hover {
+  border-color: #4b5563;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .wallet-card-active {
+  background-color: rgba(75, 94, 245, 0.1);
+  border-color: #4B5EF5;
+  box-shadow: 0 4px 15px rgba(75, 94, 245, 0.2);
+}
+
+.dark-theme .wallet-type-badge {
+  background-color: rgba(75, 94, 245, 0.2);
+}
+
+.dark-theme .wallet-inactive-indicator {
+  color: #9ca3af;
+}
+
+.dark-theme .wallet-address-label {
+  color: #9ca3af;
+}
+
+.dark-theme .wallet-address-container {
+  background-color: rgba(75, 94, 245, 0.1);
+}
+
+.dark-theme .wallet-copy-button:hover {
+  background-color: rgba(75, 94, 245, 0.2);
+}
+
+.dark-theme .wallet-detail-label {
+  color: #9ca3af;
+}
+
+.dark-theme .wallet-balance {
+  background-color: rgba(75, 94, 245, 0.1);
+}
+
+.dark-theme .wallet-action-button-active {
+  background-color: #1f2937;
+  color: #a5b4fc;
+  border-color: #4B5EF5;
+}
+
+.dark-theme .wallet-action-button-active:hover {
+  background-color: rgba(75, 94, 245, 0.1);
+}
+
+.dark-theme .wallets-error-message {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .wallets-container {
+    padding: 1rem;
+  }
+  
+  .wallet-buttons-container {
+    flex-direction: column;
+  }
+  
+  .wallet-connect-button, 
+  .wallet-create-button {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .wallet-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wallet-details-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wallet-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.wallet-action-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: #ffffff;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wallet-action-button:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.wallet-action-button.active {
+  background-color: #667eea;
+  color: #ffffff;
+  border-color: #667eea;
+}
+
+/* 模态框样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.modal-close-button:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 钱包连接选项样式 */
+.wallet-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wallet-option-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  color: #212529;
+}
+
+.wallet-option-button:hover {
+  border-color: #667eea;
+  background-color: #f8f9ff;
+  transform: translateY(-1px);
+}
+
+.wallet-option-button .wallet-icon {
+  font-size: 1.5rem;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.wallet-option-button .wallet-info {
+  flex: 1;
+}
+
+.wallet-option-button .wallet-name {
+  font-weight: 500;
+  display: block;
+}
+
+.wallet-option-button .wallet-description {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .wallet-operations .button-group {
+    flex-direction: column;
+  }
+  
+  .wallet-operations button {
+    width: 100%;
+  }
+  
+  .wallet-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    max-width: 100%;
+  }
+}
+
+/* 加载状态样式 */
+.loading-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 错误消息样式 */
+.error-message {
+  padding: 1rem;
+  background-color: #fee;
+  color: #c33;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}

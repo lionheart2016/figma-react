@@ -31,7 +31,40 @@ const messages = {
     sending: '发送中...',
     sendCode: '发送验证码',
     resendCode: '重新发送',
-    loggingIn: '登录中...'
+    loggingIn: '登录中...',
+    register: {
+      title: '创建您的账户',
+      subtitle: '输入您的详细信息开始使用',
+      emailLabel: '邮箱地址',
+      emailPlaceholder: '请输入邮箱地址',
+      passwordLabel: '密码',
+      passwordPlaceholder: '创建密码',
+      confirmPasswordLabel: '确认密码',
+      confirmPasswordPlaceholder: '确认您的密码',
+      registerButton: '创建账户',
+      hasAccount: '已有账户？',
+      signIn: '登录',
+      registrationFailed: '注册失败',
+      agreeToTerms: '我同意',
+      termsOfService: '服务条款',
+      and: '和',
+      privacyPolicy: '隐私政策',
+      validation: {
+        emailRequired: '邮箱是必填项',
+        emailInvalid: '请输入有效的邮箱地址',
+        passwordRequired: '密码是必填项',
+        passwordMinLength: '密码至少需要8个字符',
+        confirmPasswordRequired: '请确认您的密码',
+        passwordMismatch: '密码不匹配',
+        termsRequired: '您必须同意服务条款',
+        registrationFailed: '注册失败'
+      },
+      acceptTerms: '接受条款',
+      acceptTermsMessage: '请接受服务条款和隐私政策以继续注册。',
+      accountExists: '账户已存在',
+      accountExistsMessage: '此邮箱地址的账户已存在。您想要登录吗？',
+      registrationError: '注册错误'
+    }
   },
   wallet: {
     title: '智能钱包',

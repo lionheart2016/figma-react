@@ -145,7 +145,12 @@
         "passwordMismatch": "密码不匹配",
         "termsRequired": "您必须同意服务条款",
         "registrationFailed": "注册失败"
-      }
+      },
+      "acceptTerms": "接受条款",
+      "acceptTermsMessage": "请接受服务条款和隐私政策以继续注册。",
+      "accountExists": "账户已存在",
+      "accountExistsMessage": "此邮箱地址的账户已存在。您是否要登录？",
+      "registrationError": "注册错误"
     },
     "layout": {
       "back": "返回",

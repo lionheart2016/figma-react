@@ -31,7 +31,40 @@ const messages = {
     sending: '發送中...',
     sendCode: '發送驗證碼',
     resendCode: '重新發送',
-    loggingIn: '登入中...'
+    loggingIn: '登入中...',
+    register: {
+      title: '創建您的帳戶',
+      subtitle: '輸入您的詳細資訊開始使用',
+      emailLabel: '電子郵件地址',
+      emailPlaceholder: '請輸入電子郵件地址',
+      passwordLabel: '密碼',
+      passwordPlaceholder: '創建密碼',
+      confirmPasswordLabel: '確認密碼',
+      confirmPasswordPlaceholder: '確認您的密碼',
+      registerButton: '創建帳戶',
+      hasAccount: '已有帳戶？',
+      signIn: '登入',
+      registrationFailed: '註冊失敗',
+      agreeToTerms: '我同意',
+      termsOfService: '服務條款',
+      and: '和',
+      privacyPolicy: '隱私政策',
+      validation: {
+        emailRequired: '電子郵件是必填項',
+        emailInvalid: '請輸入有效的電子郵件地址',
+        passwordRequired: '密碼是必填項',
+        passwordMinLength: '密碼至少需要8個字符',
+        confirmPasswordRequired: '請確認您的密碼',
+        passwordMismatch: '密碼不匹配',
+        termsRequired: '您必須同意服務條款',
+        registrationFailed: '註冊失敗'
+      },
+      acceptTerms: '接受條款',
+      acceptTermsMessage: '請接受服務條款和隱私政策以繼續註冊。',
+      accountExists: '帳戶已存在',
+      accountExistsMessage: '此電子郵件地址的帳戶已存在。您想要登入嗎？',
+      registrationError: '註冊錯誤'
+    }
   },
   wallet: {
     title: '智慧錢包',

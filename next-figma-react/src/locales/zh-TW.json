@@ -144,7 +144,12 @@
         "passwordMismatch": "兩次輸入的密碼不一致",
         "termsRequired": "您必須同意服務條款",
         "registrationFailed": "註冊失敗"
-      }
+      },
+      "acceptTerms": "接受條款",
+      "acceptTermsMessage": "請接受服務條款和隱私政策以繼續註冊。",
+      "accountExists": "賬戶已存在",
+      "accountExistsMessage": "此郵箱地址的賬戶已存在。您是否要登錄？",
+      "registrationError": "註冊錯誤"
     },
     "layout": {
       "back": "返回",
